@@ -45,7 +45,7 @@ class TestFeature extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.large(
         onPressed: () {
-          ref.watch(postJobControllerProvider.notifier).postJob(jobTitle: 'jobTitle');
+          //ref.watch(postJobControllerProvider.notifier).postJob(jobTitle: 'jobTitle');
           // ref.watch(authControllerProvider.notifier).login(
           //       email: 'desmond@gmail.com',
           //       password: '12345678',

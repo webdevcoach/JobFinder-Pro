@@ -9,7 +9,6 @@ import 'package:jobhunt_pro/model/apply_job.dart';
 import 'package:jobhunt_pro/model/employee.dart';
 import 'package:jobhunt_pro/model/employer.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
-
 import 'appwrite_injects.dart';
 
 final databaseAPIProvider = Provider((ref) {
@@ -29,6 +28,7 @@ abstract class DataBaseInterface {
   FutureEither<Document> applyJob({required ApplyJob applyJob});
   Future<Document> getEmployeeProfile({required String id});
   Future<Document> getEmployerProfile({required String id});
+  Future<List<Document>> getPostedJobs();
 }
 
 class DatabaseAPI implements DataBaseInterface {
@@ -113,4 +113,15 @@ class DatabaseAPI implements DataBaseInterface {
     );
     return details;
   }
+  
+  @override
+  Future<List<Document>> getPostedJobs()async {
+   final jobs = await _databases.listDocuments(
+    databaseId: AppWriteConstant.jobDatabaseId, 
+    collectionId: AppWriteConstant.postedJobCollectionId,
+    queries: ['time']
+    );
+  return jobs.documents;
+  }
+
 }

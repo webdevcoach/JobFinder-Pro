@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/auth_api.dart';
+import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
+import 'package:jobhunt_pro/core/file_url.dart';
 import 'package:jobhunt_pro/features/authentication/screens/home.dart';
 import 'package:jobhunt_pro/model/employee.dart';
 import 'package:jobhunt_pro/model/employer.dart';
@@ -12,8 +16,10 @@ final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
   return AuthController(
       authAPI: ref.watch(authApiProvider),
-      databaseAPI: ref.watch(databaseAPIProvider));
+      databaseAPI: ref.watch(databaseAPIProvider),
+      storageAPI: ref.watch(storageAPIProvider));
 });
+
 final currentUserProvider = FutureProvider((ref) async {
   final user = ref.watch(authApiProvider);
   return await user.getAccountInfo();
@@ -34,12 +40,18 @@ final currentEmployeeDetailsProvider = FutureProvider((ref) async {
       .employeeProfile(id: '646d15cadab0402ea029');
   return userDetails;
 });
+
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI;
   final DatabaseAPI _databaseAPI;
-  AuthController({required AuthAPI authAPI, required DatabaseAPI databaseAPI})
-      : _authAPI = authAPI,
+  final StorageAPI _storageAPI;
+  AuthController({
+    required AuthAPI authAPI,
+    required DatabaseAPI databaseAPI,
+    required StorageAPI storageAPI,
+  })  : _authAPI = authAPI,
         _databaseAPI = databaseAPI,
+        _storageAPI = storageAPI,
         super(false);
 
   void employerSignUp({
@@ -51,9 +63,13 @@ class AuthController extends StateNotifier<bool> {
     required String facebook,
     required String about,
     required String password,
+    required File file,
     required BuildContext context,
   }) async {
     state = true;
+     var nav = Navigator.of(context);
+    String uploadedFileId = await _storageAPI.uploadFile(file: file, isCv: false);
+    String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId);
     Employer employer = Employer(
       companyName: companyName,
       websiteLink: websiteLink,
@@ -62,10 +78,9 @@ class AuthController extends StateNotifier<bool> {
       linkedIn: linkedIn,
       facebook: facebook,
       about: about,
-      logoUrl: 'logoUrl',
+      logoUrl: fileUrl,
       id: '',
     );
-    var nav = Navigator.of(context);
     final res = await _authAPI.employerSignUp(email: email, password: password);
     state = false;
     res.fold((l) {
