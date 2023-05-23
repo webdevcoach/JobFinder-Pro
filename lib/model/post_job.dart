@@ -79,7 +79,6 @@ class PostJob {
       'location': location,
       'jobType': jobType,
       'time': time.millisecondsSinceEpoch,
-      'jobId': jobId,
       'isOpened': isOpened,
       'companyId': companyId,
       'appliedCandidates': appliedCandidates,
