@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 
 
 class Employer {
@@ -9,6 +12,7 @@ class Employer {
   final String facebook;
   final String about;
   final String logoUrl;
+  final String id;
   Employer({
     required this.companyName,
     required this.websiteLink,
@@ -18,6 +22,7 @@ class Employer {
     required this.facebook,
     required this.about,
     required this.logoUrl,
+    required this.id,
   });
 
   Employer copyWith({
@@ -29,6 +34,7 @@ class Employer {
     String? facebook,
     String? about,
     String? logoUrl,
+    String? id,
   }) {
     return Employer(
       companyName: companyName ?? this.companyName,
@@ -39,6 +45,7 @@ class Employer {
       facebook: facebook ?? this.facebook,
       about: about ?? this.about,
       logoUrl: logoUrl ?? this.logoUrl,
+      id: id ?? this.id,
     );
   }
 
@@ -52,6 +59,7 @@ class Employer {
       'facebook': facebook,
       'about': about,
       'logoUrl': logoUrl,
+
     };
   }
 
@@ -65,12 +73,13 @@ class Employer {
       facebook: map['facebook'] as String,
       about: map['about'] as String,
       logoUrl: map['logoUrl'] as String,
+      id: map['\$id'] as String,
     );
   }
 
   @override
   String toString() {
-    return 'Employer(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about, logoUrl: $logoUrl)';
+    return 'Employer(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about, logoUrl: $logoUrl, id: $id)';
   }
 
   @override
@@ -85,7 +94,8 @@ class Employer {
       other.linkedIn == linkedIn &&
       other.facebook == facebook &&
       other.about == about &&
-      other.logoUrl == logoUrl;
+      other.logoUrl == logoUrl &&
+      other.id == id;
   }
 
   @override
@@ -97,6 +107,9 @@ class Employer {
       linkedIn.hashCode ^
       facebook.hashCode ^
       about.hashCode ^
-      logoUrl.hashCode;
+      logoUrl.hashCode ^
+      id.hashCode;
   }
+
+
 }

@@ -10,6 +10,7 @@ class Employee {
   final List<String> techStacks;
   final String about;
   final String profilePicture;
+  final String id;
   Employee({
     required this.name,
     required this.email,
@@ -17,6 +18,7 @@ class Employee {
     required this.techStacks,
     required this.about,
     required this.profilePicture,
+    required this.id,
   });
 
   Employee copyWith({
@@ -26,6 +28,7 @@ class Employee {
     List<String>? techStacks,
     String? about,
     String? profilePicture,
+    String? id,
   }) {
     return Employee(
       name: name ?? this.name,
@@ -34,6 +37,7 @@ class Employee {
       techStacks: techStacks ?? this.techStacks,
       about: about ?? this.about,
       profilePicture: profilePicture ?? this.profilePicture,
+      id: id ?? this.id,
     );
   }
 
@@ -45,6 +49,7 @@ class Employee {
       'techStacks': techStacks,
       'about': about,
       'profilePicture': profilePicture,
+      
     };
   }
 
@@ -52,17 +57,18 @@ class Employee {
     return Employee(
       name: map['name'] as String,
       email: map['email'] as String,
-      skills: List<String>.from(map['skills']),
-      techStacks: List<String>.from(map['techStacks']),
+      skills: List<String>.from(map['skills'] ),
+      techStacks: List<String>.from(map['techStacks'] ),
       about: map['about'] as String,
       profilePicture: map['profilePicture'] as String,
+      id: map['\$id'] as String,
     );
   }
 
 
   @override
   String toString() {
-    return 'Employee(name: $name, email: $email, skills: $skills, techStacks: $techStacks, about: $about, profilePicture: $profilePicture)';
+    return 'Employee(name: $name, email: $email, skills: $skills, techStacks: $techStacks, about: $about, profilePicture: $profilePicture, id: $id)';
   }
 
   @override
@@ -76,7 +82,8 @@ class Employee {
       listEquals(other.skills, skills) &&
       listEquals(other.techStacks, techStacks) &&
       other.about == about &&
-      other.profilePicture == profilePicture;
+      other.profilePicture == profilePicture &&
+      other.id == id;
   }
 
   @override
@@ -86,6 +93,11 @@ class Employee {
       skills.hashCode ^
       techStacks.hashCode ^
       about.hashCode ^
-      profilePicture.hashCode;
+      profilePicture.hashCode ^
+      id.hashCode;
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory Employee.fromJson(String source) => Employee.fromMap(json.decode(source) as Map<String, dynamic>);
 }

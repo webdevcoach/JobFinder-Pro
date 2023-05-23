@@ -11,6 +11,17 @@ final authControllerProvider =
       authAPI: ref.watch(authApiProvider),
       databaseAPI: ref.watch(databaseAPIProvider));
 });
+final currentUserProvider = FutureProvider((ref) async {
+  final user = ref.watch(authApiProvider);
+  return await user.getAccountInfo();
+});
+
+final currentEmployerDetailsProvider = FutureProvider((ref) async {
+  final userId = ref.watch(currentUserProvider).value!;
+  final userDetails =
+      await ref.watch(authControllerProvider.notifier).employerProfile(id: userId.$id);
+  return userDetails;
+});
 
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI;
@@ -26,18 +37,21 @@ class AuthController extends StateNotifier<bool> {
     required String email,
     required String twitter,
     required String linkedIn,
+    required String facebook,
+    required String about,
     required String password,
   }) async {
     state = true;
     Employer employer = Employer(
       companyName: companyName,
-      websiteLink: 'websiteLink',
-      email: 'email',
-      twitter: 'twitter',
-      linkedIn: 'linkedIn',
-      facebook: 'facebook',
-      about: 'about',
+      websiteLink: websiteLink,
+      email: email,
+      twitter: twitter,
+      linkedIn: linkedIn,
+      facebook: facebook,
+      about: about,
       logoUrl: 'logoUrl',
+      id: '',
     );
     final res = await _authAPI.employerSignUp(email: email, password: password);
     state = false;
@@ -65,12 +79,13 @@ class AuthController extends StateNotifier<bool> {
       techStacks: [],
       about: '',
       profilePicture: '',
+      id: '',
     );
     final res = await _authAPI.employeeSignUp(email: email, password: password);
     state = false;
     res.fold((l) => null, (r) async {
       final databaseRes =
-          await _databaseAPI.saveEmployeeDetails(employee: employee,id: r.$id);
+          await _databaseAPI.saveEmployeeDetails(employee: employee, id: r.$id);
       databaseRes.fold((l) {
         //error alert
       }, (r) {
@@ -97,5 +112,10 @@ class AuthController extends StateNotifier<bool> {
         _ => '',
       };
     });
+  }
+
+  Future<Employer> employerProfile({required String id}) async {
+    final details = await _databaseAPI.getEmployerProfile(id: id);
+    return Employer.fromMap(details.data);
   }
 }

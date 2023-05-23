@@ -25,10 +25,10 @@ abstract class DataBaseInterface {
     required Employee employee,
     required String id,
   });
-  FutureEither<Document> postJob({required PostJob postJob});
+  FutureEither<Document> postJob({required PostJob jobDetails});
   FutureEither<Document> applyJob({required ApplyJob applyJob});
-  FutureEither<Document> getEmployeeProfile({required Employee employee});
-  FutureEither<Document> getEmployerProfile({required Employer employer});
+  Future<Document> getEmployeeProfile({required String id});
+  Future<Document> getEmployerProfile({required String id});
 }
 
 class DatabaseAPI implements DataBaseInterface {
@@ -42,16 +42,16 @@ class DatabaseAPI implements DataBaseInterface {
   }
 
   @override
-  FutureEither<Document> postJob({required PostJob postJob}) async {
+  FutureEither<Document> postJob({required PostJob jobDetails}) async {
     try {
       final post = await _databases.createDocument(
         databaseId: AppWriteConstant.jobDatabaseId,
         collectionId: AppWriteConstant.postedJobCollectionId,
         documentId: ID.unique(),
-        data: postJob.toMap(),
+        data: jobDetails.toMap(),
       );
       return right(post);
-    }  on AppwriteException catch (e) {
+    } on AppwriteException catch (e) {
       return left(Failure(e.message!));
     }
   }
@@ -93,15 +93,24 @@ class DatabaseAPI implements DataBaseInterface {
   }
 
   @override
-  FutureEither<Document> getEmployeeProfile(
-      {required Employee employee}) async {
-    // TODO: implement getEmployerProfile
-    throw UnimplementedError();
+  Future<Document> getEmployeeProfile({
+    required String id,
+  }) async {
+    final details = await _databases.getDocument(
+      databaseId: AppWriteConstant.usersDatabaseId,
+      collectionId: AppWriteConstant.employeesCollectionId,
+      documentId: id,
+    );
+    return details;
   }
 
   @override
-  FutureEither<Document> getEmployerProfile({required Employer employer}) {
-    // TODO: implement getEmployerProfile
-    throw UnimplementedError();
+  Future<Document> getEmployerProfile({required String id})async {
+   final details = await _databases.getDocument(
+      databaseId: AppWriteConstant.usersDatabaseId,
+      collectionId: AppWriteConstant.employersCollectionId,
+      documentId: id,
+    );
+    return details;
   }
 }

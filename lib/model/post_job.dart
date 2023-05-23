@@ -12,7 +12,7 @@ class PostJob {
   final String jobType;
   final DateTime time;
   final String jobId;
-  final bool openOrClosed;
+  final bool isOpened;
   final String companyId;
   final List<String> appliedCandidates;
   final double salary;
@@ -27,7 +27,7 @@ class PostJob {
     required this.jobType,
     required this.time,
     required this.jobId,
-    required this.openOrClosed,
+    required this.isOpened,
     required this.companyId,
     required this.appliedCandidates,
     required this.salary,
@@ -35,16 +35,7 @@ class PostJob {
     required this.requirement,
     required this.benefits,
   });
-  //Job title
-  //Remote/Onsite/hybrid'
-  //description
-  //location
-  //Full time, internship, contract
-  // responsibilities
-  // requirement
-  // qualification
-  //Salary
-  //benefits
+ 
 
   PostJob copyWith({
     String? jobTitle,
@@ -54,7 +45,7 @@ class PostJob {
     String? jobType,
     DateTime? time,
     String? jobId,
-    bool? openOrClosed,
+    bool? isOpened,
     String? companyId,
     List<String>? appliedCandidates,
     double? salary,
@@ -70,7 +61,7 @@ class PostJob {
       jobType: jobType ?? this.jobType,
       time: time ?? this.time,
       jobId: jobId ?? this.jobId,
-      openOrClosed: openOrClosed ?? this.openOrClosed,
+      isOpened: isOpened ?? this.isOpened,
       companyId: companyId ?? this.companyId,
       appliedCandidates: appliedCandidates ?? this.appliedCandidates,
       salary: salary ?? this.salary,
@@ -89,7 +80,7 @@ class PostJob {
       'jobType': jobType,
       'time': time.millisecondsSinceEpoch,
       'jobId': jobId,
-      'openOrClosed': openOrClosed,
+      'isOpened': isOpened,
       'companyId': companyId,
       'appliedCandidates': appliedCandidates,
       'salary': salary,
@@ -108,7 +99,7 @@ class PostJob {
       jobType: map['jobType'] as String,
       time: DateTime.fromMillisecondsSinceEpoch(map['time'] as int),
       jobId: map['jobId'] as String,
-      openOrClosed: map['openOrClosed'] as bool,
+      isOpened: map['isOpened'] as bool,
       companyId: map['companyId'] as String,
       appliedCandidates: List<String>.from(map['appliedCandidates'] ),
       salary: map['salary'] as double,
@@ -120,7 +111,7 @@ class PostJob {
 
   @override
   String toString() {
-    return 'PostJob(jobTitle: $jobTitle, workingMode: $workingMode, description: $description, location: $location, jobType: $jobType, time: $time, jobId: $jobId, openOrClosed: $openOrClosed, companyId: $companyId, appliedCandidates: $appliedCandidates, salary: $salary, responsibilities: $responsibilities, requirement: $requirement, benefits: $benefits)';
+    return 'PostJob(jobTitle: $jobTitle, workingMode: $workingMode, description: $description, location: $location, jobType: $jobType, time: $time, jobId: $jobId, isOpened: $isOpened, companyId: $companyId, appliedCandidates: $appliedCandidates, salary: $salary, responsibilities: $responsibilities, requirement: $requirement, benefits: $benefits)';
   }
 
   @override
@@ -136,7 +127,7 @@ class PostJob {
       other.jobType == jobType &&
       other.time == time &&
       other.jobId == jobId &&
-      other.openOrClosed == openOrClosed &&
+      other.isOpened == isOpened &&
       other.companyId == companyId &&
       listEquals(other.appliedCandidates, appliedCandidates) &&
       other.salary == salary &&
@@ -154,7 +145,7 @@ class PostJob {
       jobType.hashCode ^
       time.hashCode ^
       jobId.hashCode ^
-      openOrClosed.hashCode ^
+      isOpened.hashCode ^
       companyId.hashCode ^
       appliedCandidates.hashCode ^
       salary.hashCode ^
@@ -163,7 +154,6 @@ class PostJob {
       benefits.hashCode;
   }
 
-  String toJson() => json.encode(toMap());
 
-  factory PostJob.fromJson(String source) => PostJob.fromMap(json.decode(source) as Map<String, dynamic>);
+
 }
