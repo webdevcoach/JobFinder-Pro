@@ -6,6 +6,7 @@ class AppWriteConstant {
   static String employersCollectionId = '646a198dc56e9e2138cb';
   static String employeesCollectionId = '646a197961e2be7f8f18';
   static String postedJobCollectionId = '646c004211dbb9fdff8d';
+  static String appliedJobCollectionId = '646d508f4480e56c99e3';
   static String profileBucketId = '646d4249e341cea8de82';
- static String cVBucketId =  '646d41f0d12ecbc86c43';
+  static String cVBucketId = '646d41f0d12ecbc86c43';
 }

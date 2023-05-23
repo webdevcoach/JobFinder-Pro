@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/auth_api.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
-import 'package:jobhunt_pro/core/file_url.dart';
+import 'package:jobhunt_pro/core/resuables/file_url.dart';
 import 'package:jobhunt_pro/features/authentication/screens/home.dart';
 import 'package:jobhunt_pro/model/employee.dart';
 import 'package:jobhunt_pro/model/employer.dart';

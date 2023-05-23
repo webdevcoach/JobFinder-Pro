@@ -36,9 +36,18 @@ class DatabaseAPI implements DataBaseInterface {
 
   DatabaseAPI({required Databases databases}) : _databases = databases;
   @override
-  FutureEither<Document> applyJob({required ApplyJob applyJob}) {
-    // TODO: implement applyJob
-    throw UnimplementedError();
+  FutureEither<Document> applyJob({required ApplyJob applyJob}) async{
+    try {
+      final post = await _databases.createDocument(
+        databaseId: AppWriteConstant.jobDatabaseId,
+        collectionId: AppWriteConstant.appliedJobCollectionId,
+        documentId: ID.unique(),
+        data: applyJob.toMap(),
+      );
+      return right(post);
+    } on AppwriteException catch (e) {
+      return left(Failure(e.message!));
+    }
   }
 
   @override
