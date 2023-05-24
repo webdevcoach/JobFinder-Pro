@@ -69,7 +69,7 @@ class AuthController extends StateNotifier<bool> {
     state = true;
      var nav = Navigator.of(context);
     String uploadedFileId = await _storageAPI.uploadFile(file: file, isCv: false);
-    String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId);
+    String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId,isCv: false);
     Employer employer = Employer(
       companyName: companyName,
       websiteLink: websiteLink,

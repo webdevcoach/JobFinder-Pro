@@ -15,7 +15,7 @@ enum ApplyJobState {
   loading,
 }
 
-final applyJobProvider = StateNotifierProvider<ApplyJobController, ApplyJobState>((ref) {
+final applyJobControllerProvider = StateNotifierProvider<ApplyJobController, ApplyJobState>((ref) {
   return  ApplyJobController(databaseAPI: ref.watch(databaseAPIProvider), storageAPI: ref.watch(storageAPIProvider));
 });
 class ApplyJobController extends StateNotifier<ApplyJobState> {
@@ -38,8 +38,8 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
   }) async {
     state = ApplyJobState.loading;
     String fileId = await _storageAPI.uploadFile(file: cv, isCv: true);
-    String cvUrl = FileUrl.fileUrl(fileId: fileId);
-   final employee = ref.watch(currentEmployeeDetailsProvider).value!;
+    String cvUrl = FileUrl.fileUrl(fileId: fileId, isCv: true);
+  final employee = ref.watch(currentEmployeeDetailsProvider).value!;
     ApplyJob applicantInfo = ApplyJob(
         applicantId: employee.id,
         coverLetter: coverLetter,

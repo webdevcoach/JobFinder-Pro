@@ -49,8 +49,8 @@ class TestFeature extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.large(
         onPressed: () async {
          // final image = await PickFile.pickPdf();
-         // final url = await ref.watch(storageAPIProvider).uploadFile(file: image, isCv: true);
-        // ref.watch(applyJobControllerProvider.notifier).applyJob(context: context, cv: image);
+        // final url = await ref.watch(storageAPIProvider).uploadFile(file: image, isCv: true);
+        //ref.watch(applyJobControllerProvider.notifier).applyJob(context: context, cv: image);
         //  debugPrint(url);
         //   debugPrint(image.uri.data.toString());
         //   debugPrint(image.path);
