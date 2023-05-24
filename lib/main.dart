@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/core/resuables/pick_image.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 
+import 'apis/cloud_storage_api.dart';
+import 'features/apply_job/controller/apply_job_conntroller.dart';
 import 'features/post_job/controller/post_job_controller.dart';
 
 void main() {
@@ -35,16 +38,22 @@ class TestFeature extends ConsumerWidget {
         backgroundColor: Colors.purple,
         title: const Text('TESTING THIS'),
       ),
-      body: Center(
-        child: ref.watch(currentEmployeeDetailsProvider).when(
-            data: (user) {
-              return Text(user.name);
-            },
-            error: (e, t) => Text(e.toString()),
-            loading: () => const Text('Loading')),
-      ),
+      // body: Center(
+      //   child: ref.watch(currentEmployeeDetailsProvider).when(
+      //       data: (user) {
+      //         return Text(user.name);
+      //       },
+      //       error: (e, t) => Text(e.toString()),
+      //       loading: () => const Text('Loading')),
+      // ),
       floatingActionButton: FloatingActionButton.large(
-        onPressed: () {
+        onPressed: () async {
+         // final image = await PickFile.pickPdf();
+         // final url = await ref.watch(storageAPIProvider).uploadFile(file: image, isCv: true);
+        // ref.watch(applyJobControllerProvider.notifier).applyJob(context: context, cv: image);
+        //  debugPrint(url);
+        //   debugPrint(image.uri.data.toString());
+        //   debugPrint(image.path);
           //ref.watch(postJobControllerProvider.notifier).postJob(jobTitle: 'jobTitle');
           // ref.watch(authControllerProvider.notifier).login(
           //       email: 'desmond@gmail.com',
