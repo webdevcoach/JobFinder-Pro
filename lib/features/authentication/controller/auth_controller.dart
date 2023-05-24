@@ -7,8 +7,8 @@ import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/core/resuables/file_url.dart';
 import 'package:jobhunt_pro/features/authentication/screens/home.dart';
-import 'package:jobhunt_pro/model/employee.dart';
-import 'package:jobhunt_pro/model/employer.dart';
+import 'package:jobhunt_pro/model/applicant.dart';
+import 'package:jobhunt_pro/model/recruiter.dart';
 
 import '../screens/second_home.dart';
 
@@ -25,19 +25,19 @@ final currentUserProvider = FutureProvider((ref) async {
   return await user.getAccountInfo();
 });
 
-final currentEmployerDetailsProvider = FutureProvider((ref) async {
+final currentRecruiterDetailsProvider = FutureProvider((ref) async {
   final userId = ref.watch(currentUserProvider).value!;
   final userDetails = await ref
       .watch(authControllerProvider.notifier)
-      .employerProfile(id: userId.$id);
+      .recruiterProfile(id: userId.$id);
   return userDetails;
 });
 
-final currentEmployeeDetailsProvider = FutureProvider((ref) async {
+final currentApplicantDetailsProvider = FutureProvider((ref) async {
   final userId = ref.watch(currentUserProvider).value!;
   final userDetails = await ref
       .watch(authControllerProvider.notifier)
-      .employeeProfile(id: '646d15cadab0402ea029');
+      .applicantProfile(id: '646d15cadab0402ea029');
   return userDetails;
 });
 
@@ -54,7 +54,7 @@ class AuthController extends StateNotifier<bool> {
         _storageAPI = storageAPI,
         super(false);
 
-  void employerSignUp({
+  void recruiterSignUp({
     required String companyName,
     required String websiteLink,
     required String email,
@@ -70,7 +70,7 @@ class AuthController extends StateNotifier<bool> {
      var nav = Navigator.of(context);
     String uploadedFileId = await _storageAPI.uploadFile(file: file, isCv: false);
     String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId,isCv: false);
-    Employer employer = Employer(
+    Recruiter recruiter = Recruiter(
       companyName: companyName,
       websiteLink: websiteLink,
       email: email,
@@ -81,13 +81,13 @@ class AuthController extends StateNotifier<bool> {
       logoUrl: fileUrl,
       id: '',
     );
-    final res = await _authAPI.employerSignUp(email: email, password: password);
+    final res = await _authAPI.recruiterSignUp(email: email, password: password);
     state = false;
     res.fold((l) {
       print(l.errorMsg);
     }, (r) async {
       final databaseRes =
-          await _databaseAPI.saveEmployerDetails(employer: employer, id: r.$id);
+          await _databaseAPI.saveRecruiterDetails(recruiter: recruiter, id: r.$id);
       databaseRes.fold((l) {
         print(l.errorMsg);
       }, (r) {
@@ -97,14 +97,14 @@ class AuthController extends StateNotifier<bool> {
     });
   }
 
-  void employeeSignUp({
+  void applicantSignUp({
     required String name,
     required String email,
     required String password,
     required BuildContext context,
   }) async {
     state = true;
-    Employee employee = Employee(
+    Applicant applicant = Applicant(
       name: name,
       email: email,
       skills: [],
@@ -114,13 +114,13 @@ class AuthController extends StateNotifier<bool> {
       id: '',
     );
     var nav = Navigator.of(context);
-    final res = await _authAPI.employeeSignUp(email: email, password: password);
+    final res = await _authAPI.applicantSignUp(email: email, password: password);
     state = false;
     res.fold((l) {
       print(l.errorMsg);
     }, (r) async {
       final databaseRes =
-          await _databaseAPI.saveEmployeeDetails(employee: employee, id: r.$id);
+          await _databaseAPI.saveApplicantDetails(applicant: applicant, id: r.$id);
       databaseRes.fold((l) {
         print(l.errorMsg);
       }, (r) {
@@ -143,10 +143,10 @@ class AuthController extends StateNotifier<bool> {
     }, (r) async {
       final accountInfo = await _authAPI.getAccountInfo();
       return switch (accountInfo.name) {
-        'employee' => nav.push(MaterialPageRoute(
-            builder: (context) => const HomePage())), //home page of employee
-        'employer' => nav.push(MaterialPageRoute(
-            builder: (context) => const EHomePage())), //home page of employer
+        'Applicant' => nav.push(MaterialPageRoute(
+            builder: (context) => const HomePage())), //home page of Applicant
+        'Recruiter' => nav.push(MaterialPageRoute(
+            builder: (context) => const EHomePage())), //home page of Recruiter
         _ => const Scaffold(
             body: Center(
               child: Text("Unexpected Error, I have no idea🤣🤣"),
@@ -156,13 +156,13 @@ class AuthController extends StateNotifier<bool> {
     });
   }
 
-  Future<Employer> employerProfile({required String id}) async {
-    final details = await _databaseAPI.getEmployerProfile(id: id);
-    return Employer.fromMap(details.data);
+  Future<Recruiter> recruiterProfile({required String id}) async {
+    final details = await _databaseAPI.getRecruiterProfile(id: id);
+    return Recruiter.fromMap(details.data);
   }
 
-  Future<Employee> employeeProfile({required String id}) async {
-    final details = await _databaseAPI.getEmployeeProfile(id: id);
-    return Employee.fromMap(details.data);
+  Future<Applicant> applicantProfile({required String id}) async {
+    final details = await _databaseAPI.getApplicantProfile(id: id);
+    return Applicant.fromMap(details.data);
   }
 }

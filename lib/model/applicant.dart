@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 
-class Employee {
+class Applicant {
   final String name;
   final String email;
   final List<String> skills;
@@ -11,7 +11,7 @@ class Employee {
   final String about;
   final String profilePicture;
   final String id;
-  Employee({
+  Applicant({
     required this.name,
     required this.email,
     required this.skills,
@@ -21,7 +21,7 @@ class Employee {
     required this.id,
   });
 
-  Employee copyWith({
+  Applicant copyWith({
     String? name,
     String? email,
     List<String>? skills,
@@ -30,7 +30,7 @@ class Employee {
     String? profilePicture,
     String? id,
   }) {
-    return Employee(
+    return Applicant(
       name: name ?? this.name,
       email: email ?? this.email,
       skills: skills ?? this.skills,
@@ -53,8 +53,8 @@ class Employee {
     };
   }
 
-  factory Employee.fromMap(Map<String, dynamic> map) {
-    return Employee(
+  factory Applicant.fromMap(Map<String, dynamic> map) {
+    return Applicant(
       name: map['name'] as String,
       email: map['email'] as String,
       skills: List<String>.from(map['skills'] ),
@@ -68,11 +68,11 @@ class Employee {
 
   @override
   String toString() {
-    return 'Employee(name: $name, email: $email, skills: $skills, techStacks: $techStacks, about: $about, profilePicture: $profilePicture, id: $id)';
+    return 'Applicant(name: $name, email: $email, skills: $skills, techStacks: $techStacks, about: $about, profilePicture: $profilePicture, id: $id)';
   }
 
   @override
-  bool operator ==(covariant Employee other) {
+  bool operator ==(covariant Applicant other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
   
@@ -99,5 +99,5 @@ class Employee {
 
   String toJson() => json.encode(toMap());
 
-  factory Employee.fromJson(String source) => Employee.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Applicant.fromJson(String source) => Applicant.fromMap(json.decode(source) as Map<String, dynamic>);
 }

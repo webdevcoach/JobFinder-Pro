@@ -38,7 +38,7 @@ class PostJobController extends StateNotifier<JobState> {
     required WidgetRef ref,
   }) async {
     state = JobState.loading;
-    final employer = ref.watch(currentEmployerDetailsProvider).value!;
+    final employer = ref.watch(currentRecruiterDetailsProvider).value!;
     PostJob jobDetails = PostJob(
       jobTitle: jobTitle,
       workingMode: workingMode,

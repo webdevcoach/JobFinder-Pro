@@ -11,11 +11,11 @@ final authApiProvider = Provider((ref) {
 });
 
 abstract class AuthInterface {
-  FutureEither<model.User> employerSignUp({
+  FutureEither<model.User> recruiterSignUp({
     required String email,
     required String password,
   });
-  FutureEither<model.User> employeeSignUp({
+  FutureEither<model.User> applicantSignUp({
     required String email,
     required String password,
   });
@@ -29,7 +29,7 @@ class AuthAPI implements AuthInterface {
   final Account _account;
   AuthAPI({required Account account}) : _account = account;
   @override
-  FutureEither<model.User> employeeSignUp({
+  FutureEither<model.User> applicantSignUp({
     required String email,
     required String password,
   }) async {
@@ -48,7 +48,7 @@ class AuthAPI implements AuthInterface {
   Future<model.User> getAccountInfo() async => await _account.get();
 
   @override
-  FutureEither<model.User> employerSignUp({
+  FutureEither<model.User> recruiterSignUp({
     required String email,
     required String password,
   }) async {

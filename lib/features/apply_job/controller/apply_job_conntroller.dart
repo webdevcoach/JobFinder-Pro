@@ -39,7 +39,7 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     state = ApplyJobState.loading;
     String fileId = await _storageAPI.uploadFile(file: cv, isCv: true);
     String cvUrl = FileUrl.fileUrl(fileId: fileId, isCv: true);
-  final employee = ref.watch(currentEmployeeDetailsProvider).value!;
+  final employee = ref.watch(currentApplicantDetailsProvider).value!;
     ApplyJob applicantInfo = ApplyJob(
         applicantId: employee.id,
         coverLetter: coverLetter,

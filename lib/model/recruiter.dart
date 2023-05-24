@@ -3,7 +3,7 @@ import 'dart:convert';
 
 
 
-class Employer {
+class Recruiter {
   final String companyName;
   final String websiteLink;
   final String email;
@@ -13,7 +13,7 @@ class Employer {
   final String about;
   final String logoUrl;
   final String id;
-  Employer({
+  Recruiter({
     required this.companyName,
     required this.websiteLink,
     required this.email,
@@ -25,7 +25,7 @@ class Employer {
     required this.id,
   });
 
-  Employer copyWith({
+  Recruiter copyWith({
     String? companyName,
     String? websiteLink,
     String? email,
@@ -36,7 +36,7 @@ class Employer {
     String? logoUrl,
     String? id,
   }) {
-    return Employer(
+    return Recruiter(
       companyName: companyName ?? this.companyName,
       websiteLink: websiteLink ?? this.websiteLink,
       email: email ?? this.email,
@@ -63,8 +63,8 @@ class Employer {
     };
   }
 
-  factory Employer.fromMap(Map<String, dynamic> map) {
-    return Employer(
+  factory Recruiter.fromMap(Map<String, dynamic> map) {
+    return Recruiter(
       companyName: map['companyName'] as String,
       websiteLink: map['websiteLink'] as String,
       email: map['email'] as String,
@@ -79,11 +79,11 @@ class Employer {
 
   @override
   String toString() {
-    return 'Employer(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about, logoUrl: $logoUrl, id: $id)';
+    return 'Recruiter(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about, logoUrl: $logoUrl, id: $id)';
   }
 
   @override
-  bool operator ==(covariant Employer other) {
+  bool operator ==(covariant Recruiter other) {
     if (identical(this, other)) return true;
   
     return 
