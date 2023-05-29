@@ -33,7 +33,7 @@ class MyApp extends ConsumerWidget {
                 if (user != null) {
                   return switch (user.name) {
                     'applicant' => const ApplicantHomeView(),
-                    'recruiter' => const PageNavigator(),
+                    'recruiter' => const RecruiterPageNavigator(),
                     _ => const LoginView(),
                   };
                 }

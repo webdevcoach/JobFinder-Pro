@@ -5,14 +5,14 @@ import '../../post_job/views/post_jobs_screen/jobs_screen.dart';
 import '../../post_job/views/recruiter_profile/recruiter_profile_screen.dart';
 import 'recruiter_home.dart';
 
-class PageNavigator extends StatefulWidget {
-  const PageNavigator({super.key});
+class RecruiterPageNavigator extends StatefulWidget {
+  const RecruiterPageNavigator({super.key});
 
   @override
-  PageNavigatorState createState() => PageNavigatorState();
+  RecruiterPageNavigatorState createState() => RecruiterPageNavigatorState();
 }
 
-class PageNavigatorState extends State<PageNavigator> {
+class RecruiterPageNavigatorState extends State<RecruiterPageNavigator> {
   int _selectedIndex = 1;
 
   static List<Widget> pages = [

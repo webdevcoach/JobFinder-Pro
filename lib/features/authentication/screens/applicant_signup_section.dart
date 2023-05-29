@@ -47,6 +47,14 @@ class _SignUpViewState extends ConsumerState<ApplicantSignupSection> {
         );
   }
 
+  bool showObscureText = true;
+
+  void showHidePassword() {
+    setState(() {
+      showObscureText = !showObscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider);
@@ -58,7 +66,6 @@ class _SignUpViewState extends ConsumerState<ApplicantSignupSection> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  // textfield 1
                   CustomAuthField(
                     controller: emailController,
                     hintText: 'Email',
@@ -66,16 +73,14 @@ class _SignUpViewState extends ConsumerState<ApplicantSignupSection> {
                   CustomAuthField(
                     controller: passwordController,
                     hintText: 'Password',
-                    showObscureText: false,
+                    showObscureText: showObscureText,
                     isPasswordField: true,
+                    showPasswordFunc: showHidePassword,
                   ),
                   const SizedBox(height: 5),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: ElevatedButton(
-                      onPressed: onSignUp,
-                      child: const Text('Done'),
-                    ),
+                  ElevatedButton(
+                    onPressed: onSignUp,
+                    child: const Text('Done'),
                   ),
                   // ElevatedButton(
                   //     onPressed: pickImage2,

@@ -37,10 +37,9 @@ class _SignupViewState extends State<SignupView> {
         .copyWith(fontSize: 27, fontWeight: FontWeight.w700);
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Center(
+        body: Center(
+          child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(

@@ -6,13 +6,15 @@ class CustomAuthField extends StatelessWidget {
   final String hintText;
   final bool showObscureText;
   final bool isPasswordField;
+  final void Function()? showPasswordFunc;
 
   const CustomAuthField(
       {super.key,
       required this.controller,
       required this.hintText,
       this.showObscureText = false,
-      this.isPasswordField = false});
+      this.isPasswordField = false,
+      this.showPasswordFunc});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,16 @@ class CustomAuthField extends StatelessWidget {
         obscureText: showObscureText,
         controller: controller,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail),
-          suffixIcon: isPasswordField
-              ? Icon(showObscureText
-                  ? Icons.remove_red_eye
-                  : Icons.panorama_fish_eye)
-              : null,
+          prefixIcon: Icon(isPasswordField ? Icons.lock : Icons.mail),
+          suffixIcon: IconButton(
+            splashColor: Colors.transparent,
+            onPressed: showPasswordFunc,
+            icon: isPasswordField
+                ? Icon(showObscureText
+                    ? Icons.visibility_rounded
+                    : Icons.visibility_off_rounded)
+                : const SizedBox(),
+          ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(

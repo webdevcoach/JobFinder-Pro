@@ -37,52 +37,54 @@ class _LoginViewState extends State<LoginView> {
     return SafeArea(
       child: Scaffold(
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Login to your account',
-                style: txtStyle,
-              ),
-              const SizedBox(height: 30),
-              Row(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text("Applicant"),
-                      leading: Radio(
-                        value: true,
-                        groupValue: applicantLoginSelected,
-                        onChanged: (bool? val) {
-                          setSelectedRadio();
-                        },
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Login to your account',
+                  style: txtStyle,
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: const Text("Applicant"),
+                        leading: Radio(
+                          value: true,
+                          groupValue: applicantLoginSelected,
+                          onChanged: (bool? val) {
+                            setSelectedRadio();
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text("Recruiter"),
-                      leading: Radio(
-                        value: false,
-                        groupValue: applicantLoginSelected,
-                        onChanged: (bool? val) {
-                          setSelectedRadio();
-                        },
+                    Expanded(
+                      child: ListTile(
+                        title: const Text("Recruiter"),
+                        leading: Radio(
+                          value: false,
+                          groupValue: applicantLoginSelected,
+                          onChanged: (bool? val) {
+                            setSelectedRadio();
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              applicantLoginSelected
-                  ? const ApplicantLoginSection()
-                  : const RecruiterLoginSection(),
-              RegistrationMiniInfo(
-                  route: SignupView.route(),
-                  left: 'Don\'t have an account?',
-                  right: 'Sign up'),
-            ],
+                  ],
+                ),
+                applicantLoginSelected
+                    ? const ApplicantLoginSection()
+                    : const RecruiterLoginSection(),
+                RegistrationMiniInfo(
+                    route: SignupView.route(),
+                    left: 'Don\'t have an account?',
+                    right: 'Sign up'),
+              ],
+            ),
           ),
         ),
       ),
