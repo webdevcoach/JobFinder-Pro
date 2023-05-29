@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
@@ -30,14 +31,17 @@ class PostJobController extends StateNotifier<JobState> {
     required String description,
     required String location,
     required String jobType,
-    required double salary,
+    required String salary,
     required List<String> responsibilities,
     required List<String> requirement,
     required List<String> benefits,
     required WidgetRef ref,
+    required DateTime deadline,
+    required BuildContext context,
   }) async {
     state = JobState.loading;
     final recruiter = ref.watch(currentRecruiterDetailsProvider).value;
+    final nav = Navigator.of(context);
     if (recruiter != null) {
       PostJob jobDetails = PostJob(
         jobTitle: jobTitle,
@@ -54,6 +58,7 @@ class PostJobController extends StateNotifier<JobState> {
         responsibilities: responsibilities,
         requirement: requirement,
         benefits: benefits,
+        deadline: deadline
       );
       final job = await _databaseAPI.postJob(jobDetails: jobDetails);
       state = JobState.initialState;
@@ -63,6 +68,7 @@ class PostJobController extends StateNotifier<JobState> {
       }, (r) {
         //success
         print(r.data);
+        nav.pop();
       });
     } else {
       print('error occured');
