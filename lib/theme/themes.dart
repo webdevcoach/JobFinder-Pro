@@ -2,6 +2,27 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
+MaterialColor convertColor(int colorValue) {
+  final colorString = colorValue.toRadixString(16).padLeft(8, '0');
+  final alpha = int.parse(colorString.substring(0, 2), radix: 16);
+  final red = int.parse(colorString.substring(2, 4), radix: 16);
+  final green = int.parse(colorString.substring(4, 6), radix: 16);
+  final blue = int.parse(colorString.substring(6, 8), radix: 16);
+
+  return MaterialColor(colorValue, <int, Color>{
+    50: Color.fromRGBO(red, green, blue, 0.1),
+    100: Color.fromRGBO(red, green, blue, 0.2),
+    200: Color.fromRGBO(red, green, blue, 0.3),
+    300: Color.fromRGBO(red, green, blue, 0.4),
+    400: Color.fromRGBO(red, green, blue, 0.5),
+    500: Color.fromRGBO(red, green, blue, 0.6),
+    600: Color.fromRGBO(red, green, blue, 0.7),
+    700: Color.fromRGBO(red, green, blue, 0.8),
+    800: Color.fromRGBO(red, green, blue, 0.9),
+    900: Color.fromRGBO(red, green, blue, 1.0),
+  });
+}
+
 class AppTheme {
   static TextTheme lightTextTheme = const TextTheme(
     displayLarge: TextStyle(
@@ -41,6 +62,7 @@ class AppTheme {
       // ),
       indicatorColor: AppColors.primaryColor,
       primaryColor: AppColors.primaryColor,
+      primarySwatch: convertColor(0XFF2555D0),
       useMaterial3: false,
       // AppColors.primaryColor: AppColors.primaryColor,
       brightness: Brightness.light,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/core/extensions/sort_job_by_date.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 
@@ -18,13 +19,18 @@ class ActiveJobsView extends ConsumerWidget {
             const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 30),
         child: activeJobs.when(
           data: (data) {
+            final activeJobs = data.sortByDate();
+
             return ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: data.length,
               separatorBuilder: (context, index) => const SizedBox(height: 15),
               itemBuilder: (BuildContext context, int index) {
-                return JobCard(title: data[index].jobTitle);
+                return JobCard(
+                  title: activeJobs[index].jobTitle,
+                  jobPostedDate: activeJobs[index].time,
+                );
               },
             );
           },

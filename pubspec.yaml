@@ -21,6 +21,7 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 dependencies:
   appwrite: ^9.0.0
+  collection: ^1.17.1
   cupertino_icons: ^1.0.2
   file_picker: ^5.3.1
   flutter:
@@ -30,6 +31,7 @@ dependencies:
   fpdart: ^0.6.0
   iconly: ^1.0.1
   image_picker: ^0.8.7+5
+  timeago: ^3.4.0
   uuid: ^3.0.7
 
 dev_dependencies:

@@ -1,6 +1,7 @@
-import 'dart:math';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../../theme/colors.dart';
 import '../posted_job_detail_view.dart';
@@ -8,7 +9,12 @@ import 'photo_pile.dart';
 
 class JobCard extends StatelessWidget {
   final String title;
-  const JobCard({super.key, required this.title});
+  final DateTime jobPostedDate;
+  const JobCard({
+    Key? key,
+    required this.title,
+    required this.jobPostedDate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +62,7 @@ class JobCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text('${(Random().nextInt(10) + 1).toString()} hours ago',
+                    Text(timeago.format(jobPostedDate),
                         style: textStyle.copyWith(
                             fontSize: 11, color: Colors.grey))
                   ],
