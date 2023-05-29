@@ -43,20 +43,22 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
   WorkType _seletectedWorkType = WorkType.fullTime;
   WorkMode _seletectedWorkMode = WorkMode.onSite;
   List<String> perksAndBenefits = [];
+  DateTime deadline = DateTime.now();
 
   void _postJob() {
     ref.watch(postJobControllerProvider.notifier).postJob(
-          jobTitle: jobTitleController.text,
-          workingMode: _seletectedWorkMode.text,
-          description: descriptionController.text,
-          location: locationController.text,
-          jobType: _seletectedWorkType.text,
-          salary: double.parse(salaryController.text),
-          responsibilities: responsibilitiesController.text.sentenceToList(),
-          requirement: requirementController.text.sentenceToList(),
-          benefits: perksAndBenefits,
-          ref: ref,
-        );
+        jobTitle: jobTitleController.text,
+        workingMode: _seletectedWorkMode.text,
+        description: descriptionController.text,
+        location: locationController.text,
+        jobType: _seletectedWorkType.text,
+        salary: salaryController.text,
+        responsibilities: responsibilitiesController.text.sentenceToList(),
+        requirement: requirementController.text.sentenceToList(),
+        benefits: perksAndBenefits,
+        ref: ref,
+        context: context,
+        deadline: deadline);
   }
 
   Widget _perksChips(String chipName) {
@@ -83,117 +85,139 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
   @override
   Widget build(BuildContext context) {
     final txtStyle = Theme.of(context).textTheme.displayMedium;
+    final jobState = ref.watch(postJobControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Post A Job'),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CustomTextBold(text: 'Title'),
-              CustomTextField(controller: jobTitleController),
-              const CustomTextBold(text: 'Description'),
-              CustomTextField(
-                  controller: descriptionController, enableMaxlines: true),
-              const CustomTextBold(text: 'Work Type'),
-              RadioListTile<WorkType>(
-                contentPadding: const EdgeInsets.all(5),
-                title: CustomText(text: WorkType.fullTime.text),
-                value: WorkType.fullTime,
-                groupValue: _seletectedWorkType,
-                onChanged: (WorkType? value) {
-                  setState(() {
-                    _seletectedWorkType = value!;
-                  });
-                },
+        child: jobState == JobState.loading
+            ? const Center(
+                child: CircularProgressIndicator.adaptive(),
+              )
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CustomTextBold(text: 'Title'),
+                    CustomTextField(controller: jobTitleController),
+                    const CustomTextBold(text: 'Description'),
+                    CustomTextField(
+                        controller: descriptionController,
+                        enableMaxlines: true),
+                    const CustomTextBold(text: 'Work Type'),
+                    RadioListTile<WorkType>(
+                      contentPadding: const EdgeInsets.all(5),
+                      title: CustomText(text: WorkType.fullTime.text),
+                      value: WorkType.fullTime,
+                      groupValue: _seletectedWorkType,
+                      onChanged: (WorkType? value) {
+                        setState(() {
+                          _seletectedWorkType = value!;
+                        });
+                      },
+                    ),
+                    RadioListTile<WorkType>(
+                      contentPadding: const EdgeInsets.all(5),
+                      title: CustomText(text: WorkType.partTime.text),
+                      value: WorkType.partTime,
+                      groupValue: _seletectedWorkType,
+                      onChanged: (WorkType? value) {
+                        setState(() {
+                          _seletectedWorkType = value!;
+                        });
+                      },
+                    ),
+                    RadioListTile<WorkType>(
+                      contentPadding: const EdgeInsets.all(5),
+                      title: CustomText(text: WorkType.contract.text),
+                      value: WorkType.contract,
+                      groupValue: _seletectedWorkType,
+                      onChanged: (WorkType? value) {
+                        setState(() {
+                          _seletectedWorkType = value!;
+                        });
+                      },
+                    ),
+                    const CustomTextBold(text: 'Work Mode'),
+                    RadioListTile<WorkMode>(
+                      contentPadding: const EdgeInsets.all(5),
+                      title: CustomText(text: WorkMode.onSite.text),
+                      value: WorkMode.onSite,
+                      groupValue: _seletectedWorkMode,
+                      onChanged: (WorkMode? value) {
+                        setState(() {
+                          _seletectedWorkMode = value!;
+                        });
+                      },
+                    ),
+                    RadioListTile<WorkMode>(
+                      contentPadding: const EdgeInsets.all(5),
+                      title: CustomText(text: WorkMode.remote.text),
+                      value: WorkMode.remote,
+                      groupValue: _seletectedWorkMode,
+                      onChanged: (WorkMode? value) {
+                        setState(() {
+                          _seletectedWorkMode = value!;
+                        });
+                      },
+                    ),
+                    RadioListTile<WorkMode>(
+                      contentPadding: const EdgeInsets.all(5),
+                      title: CustomText(text: WorkMode.hybrid.text),
+                      value: WorkMode.hybrid,
+                      groupValue: _seletectedWorkMode,
+                      onChanged: (WorkMode? value) {
+                        setState(() {
+                          _seletectedWorkMode = value!;
+                        });
+                      },
+                    ),
+                    const CustomTextBold(text: 'Location'),
+                    CustomTextField(controller: locationController),
+                    const CustomTextBold(text: 'Salary'),
+                    CustomTextField(controller: salaryController),
+                    const CustomTextBold(text: 'Requirements'),
+                    CustomTextField(
+                        controller: requirementController,
+                        enableMaxlines: true),
+                    const CustomTextBold(text: 'Responsibilties'),
+                    CustomTextField(
+                        controller: responsibilitiesController,
+                        enableMaxlines: true),
+                    const CustomTextBold(text: 'Perks & Benefits'),
+                    TextButton(
+                        onPressed: () async {
+                          final DateTime? date = await showDatePicker(
+                              context: context,
+                              initialDate: deadline,
+                              firstDate: DateTime(2023, 1),
+                              lastDate: DateTime(2050));
+                          if (date != null) {
+                            setState(() {
+                              deadline = date;
+                            });
+                          }
+                        },
+                        child: Text('Deadline: ${deadline.toString()}')),
+                    Wrap(
+                      spacing: 8.0,
+                      runSpacing: 10,
+                      children: <Widget>[
+                        _perksChips('Medical/Health Insurance'),
+                        _perksChips('Paid Sick Leave'),
+                        _perksChips('Performance Bonus'),
+                        _perksChips('Transportation Allowance'),
+                        _perksChips('Skill development'),
+                        _perksChips('Equity package'),
+                        _perksChips('Maternity / paternity leave'),
+                        _perksChips('Paid holiday,'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              RadioListTile<WorkType>(
-                contentPadding: const EdgeInsets.all(5),
-                title: CustomText(text: WorkType.partTime.text),
-                value: WorkType.partTime,
-                groupValue: _seletectedWorkType,
-                onChanged: (WorkType? value) {
-                  setState(() {
-                    _seletectedWorkType = value!;
-                  });
-                },
-              ),
-              RadioListTile<WorkType>(
-                contentPadding: const EdgeInsets.all(5),
-                title: CustomText(text: WorkType.contract.text),
-                value: WorkType.contract,
-                groupValue: _seletectedWorkType,
-                onChanged: (WorkType? value) {
-                  setState(() {
-                    _seletectedWorkType = value!;
-                  });
-                },
-              ),
-              const CustomTextBold(text: 'Work Mode'),
-              RadioListTile<WorkMode>(
-                contentPadding: const EdgeInsets.all(5),
-                title: CustomText(text: WorkMode.onSite.text),
-                value: WorkMode.onSite,
-                groupValue: _seletectedWorkMode,
-                onChanged: (WorkMode? value) {
-                  setState(() {
-                    _seletectedWorkMode = value!;
-                  });
-                },
-              ),
-              RadioListTile<WorkMode>(
-                contentPadding: const EdgeInsets.all(5),
-                title: CustomText(text: WorkMode.remote.text),
-                value: WorkMode.remote,
-                groupValue: _seletectedWorkMode,
-                onChanged: (WorkMode? value) {
-                  setState(() {
-                    _seletectedWorkMode = value!;
-                  });
-                },
-              ),
-              RadioListTile<WorkMode>(
-                contentPadding: const EdgeInsets.all(5),
-                title: CustomText(text: WorkMode.hybrid.text),
-                value: WorkMode.hybrid,
-                groupValue: _seletectedWorkMode,
-                onChanged: (WorkMode? value) {
-                  setState(() {
-                    _seletectedWorkMode = value!;
-                  });
-                },
-              ),
-              const CustomTextBold(text: 'Location'),
-              CustomTextField(controller: locationController),
-              const CustomTextBold(text: 'Salary'),
-              CustomTextField(controller: salaryController),
-              const CustomTextBold(text: 'Requirements'),
-              CustomTextField(
-                  controller: requirementController, enableMaxlines: true),
-              const CustomTextBold(text: 'Responsibilties'),
-              CustomTextField(
-                  controller: responsibilitiesController, enableMaxlines: true),
-              const CustomTextBold(text: 'Perks & Benefits'),
-              Wrap(
-                spacing: 8.0,
-                runSpacing: 10,
-                children: <Widget>[
-                  _perksChips('Medical/Health Insurance'),
-                  _perksChips('Paid Sick Leave'),
-                  _perksChips('Performance Bonus'),
-                  _perksChips('Transportation Allowance'),
-                  _perksChips('Skill development'),
-                  _perksChips('Equity package'),
-                  _perksChips('Maternity / paternity leave'),
-                  _perksChips('Paid holiday,'),
-                ],
-              ),
-            ],
-          ),
-        ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25),
@@ -272,7 +296,7 @@ class CustomTextField extends StatelessWidget {
             color: Colors.grey,
           ),
         ),
-        hintText: 'hintText',
+        //hintText: 'hintText',
         hintStyle: const TextStyle(
           fontSize: 18,
         ),

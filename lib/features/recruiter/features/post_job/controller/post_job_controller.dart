@@ -51,7 +51,7 @@ class PostJobController extends StateNotifier<JobState> {
         jobType: jobType,
         time: DateTime.now(),
         jobId: '',
-        isOpened: false,
+        isOpened: true,
         companyId: recruiter.id,
         appliedCandidates: [],
         salary: salary,

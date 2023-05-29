@@ -27,10 +27,13 @@ class ActiveJobsView extends ConsumerWidget {
               itemCount: data.length,
               separatorBuilder: (context, index) => const SizedBox(height: 15),
               itemBuilder: (BuildContext context, int index) {
-                return JobCard(
-                  title: activeJobs[index].jobTitle,
-                  jobPostedDate: activeJobs[index].time,
-                );
+                final job = activeJobs[index];
+                return job.isOpened
+                    ? JobCard(
+                        title: job.jobTitle,
+                        jobPostedDate: job.time,
+                      )
+                    : const SizedBox.shrink();
               },
             );
           },

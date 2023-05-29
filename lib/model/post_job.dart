@@ -49,7 +49,7 @@ class PostJob {
     bool? isOpened,
     String? companyId,
     List<String>? appliedCandidates,
-    String ? salary,
+    String? salary,
     List<String>? responsibilities,
     List<String>? requirement,
     List<String>? benefits,
@@ -82,7 +82,6 @@ class PostJob {
       'location': location,
       'jobType': jobType,
       'time': time.millisecondsSinceEpoch,
-      'jobId': jobId,
       'isOpened': isOpened,
       'companyId': companyId,
       'appliedCandidates': appliedCandidates,
@@ -102,7 +101,7 @@ class PostJob {
       location: map['location'] as String,
       jobType: map['jobType'] as String,
       time: DateTime.fromMillisecondsSinceEpoch(map['time'] as int),
-      jobId: map['jobId'] as String,
+      jobId: map['\$id'] as String,
       isOpened: map['isOpened'] as bool,
       companyId: map['companyId'] as String,
       appliedCandidates: List<String>.from(map['appliedCandidates'] ?? []),
@@ -123,45 +122,45 @@ class PostJob {
   bool operator ==(covariant PostJob other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
-  
-    return 
-      other.jobTitle == jobTitle &&
-      other.workingMode == workingMode &&
-      other.description == description &&
-      other.location == location &&
-      other.jobType == jobType &&
-      other.time == time &&
-      other.jobId == jobId &&
-      other.isOpened == isOpened &&
-      other.companyId == companyId &&
-      listEquals(other.appliedCandidates, appliedCandidates) &&
-      other.salary == salary &&
-      listEquals(other.responsibilities, responsibilities) &&
-      listEquals(other.requirement, requirement) &&
-      listEquals(other.benefits, benefits) &&
-      other.deadline == deadline;
+
+    return other.jobTitle == jobTitle &&
+        other.workingMode == workingMode &&
+        other.description == description &&
+        other.location == location &&
+        other.jobType == jobType &&
+        other.time == time &&
+        other.jobId == jobId &&
+        other.isOpened == isOpened &&
+        other.companyId == companyId &&
+        listEquals(other.appliedCandidates, appliedCandidates) &&
+        other.salary == salary &&
+        listEquals(other.responsibilities, responsibilities) &&
+        listEquals(other.requirement, requirement) &&
+        listEquals(other.benefits, benefits) &&
+        other.deadline == deadline;
   }
 
   @override
   int get hashCode {
     return jobTitle.hashCode ^
-      workingMode.hashCode ^
-      description.hashCode ^
-      location.hashCode ^
-      jobType.hashCode ^
-      time.hashCode ^
-      jobId.hashCode ^
-      isOpened.hashCode ^
-      companyId.hashCode ^
-      appliedCandidates.hashCode ^
-      salary.hashCode ^
-      responsibilities.hashCode ^
-      requirement.hashCode ^
-      benefits.hashCode ^
-      deadline.hashCode;
+        workingMode.hashCode ^
+        description.hashCode ^
+        location.hashCode ^
+        jobType.hashCode ^
+        time.hashCode ^
+        jobId.hashCode ^
+        isOpened.hashCode ^
+        companyId.hashCode ^
+        appliedCandidates.hashCode ^
+        salary.hashCode ^
+        responsibilities.hashCode ^
+        requirement.hashCode ^
+        benefits.hashCode ^
+        deadline.hashCode;
   }
 
   String toJson() => json.encode(toMap());
 
-  factory PostJob.fromJson(String source) => PostJob.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PostJob.fromJson(String source) =>
+      PostJob.fromMap(json.decode(source) as Map<String, dynamic>);
 }

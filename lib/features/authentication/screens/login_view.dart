@@ -35,12 +35,14 @@ class _LoginViewState extends State<LoginView> {
         .displayMedium!
         .copyWith(fontSize: 27, fontWeight: FontWeight.w700);
     return SafeArea(
+      top: false,
       child: Scaffold(
         body: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(height: 80),
                 Text(
                   'Login to your account',
                   style: txtStyle,
