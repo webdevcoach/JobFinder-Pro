@@ -1,7 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
-
 
 class Recruiter {
   final String companyName;
@@ -11,7 +8,7 @@ class Recruiter {
   final String linkedIn;
   final String facebook;
   final String about;
-  final String logoUrl;
+  // final String logoUrl;
   final String id;
   Recruiter({
     required this.companyName,
@@ -21,7 +18,7 @@ class Recruiter {
     required this.linkedIn,
     required this.facebook,
     required this.about,
-    required this.logoUrl,
+    // required this.logoUrl,
     required this.id,
   });
 
@@ -44,7 +41,7 @@ class Recruiter {
       linkedIn: linkedIn ?? this.linkedIn,
       facebook: facebook ?? this.facebook,
       about: about ?? this.about,
-      logoUrl: logoUrl ?? this.logoUrl,
+      // logoUrl: logoUrl ?? this.logoUrl,
       id: id ?? this.id,
     );
   }
@@ -58,8 +55,7 @@ class Recruiter {
       'linkedIn': linkedIn,
       'facebook': facebook,
       'about': about,
-      'logoUrl': logoUrl,
-
+      // 'logoUrl': logoUrl,
     };
   }
 
@@ -72,44 +68,46 @@ class Recruiter {
       linkedIn: map['linkedIn'] as String,
       facebook: map['facebook'] as String,
       about: map['about'] as String,
-      logoUrl: map['logoUrl'] as String,
+      // logoUrl: map['logoUrl'] as String,
       id: map['\$id'] as String,
     );
   }
 
   @override
   String toString() {
-    return 'Recruiter(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about, logoUrl: $logoUrl, id: $id)';
+    return 'Recruiter(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about,  id: $id,)';
   }
+
+  //   @override
+  // String toString() {
+  //   return 'Recruiter(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about, logoUrl: $logoUrl, id: $id,)';
+  // }
 
   @override
   bool operator ==(covariant Recruiter other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.companyName == companyName &&
-      other.websiteLink == websiteLink &&
-      other.email == email &&
-      other.twitter == twitter &&
-      other.linkedIn == linkedIn &&
-      other.facebook == facebook &&
-      other.about == about &&
-      other.logoUrl == logoUrl &&
-      other.id == id;
+
+    return other.companyName == companyName &&
+        other.websiteLink == websiteLink &&
+        other.email == email &&
+        other.twitter == twitter &&
+        other.linkedIn == linkedIn &&
+        other.facebook == facebook &&
+        other.about == about &&
+        // other.logoUrl == logoUrl &&
+        other.id == id;
   }
 
   @override
   int get hashCode {
     return companyName.hashCode ^
-      websiteLink.hashCode ^
-      email.hashCode ^
-      twitter.hashCode ^
-      linkedIn.hashCode ^
-      facebook.hashCode ^
-      about.hashCode ^
-      logoUrl.hashCode ^
-      id.hashCode;
+        websiteLink.hashCode ^
+        email.hashCode ^
+        twitter.hashCode ^
+        linkedIn.hashCode ^
+        facebook.hashCode ^
+        about.hashCode ^
+        // logoUrl.hashCode ^
+        id.hashCode;
   }
-
-
 }

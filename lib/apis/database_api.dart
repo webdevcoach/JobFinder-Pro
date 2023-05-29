@@ -36,7 +36,7 @@ class DatabaseAPI implements DataBaseInterface {
 
   DatabaseAPI({required Databases databases}) : _databases = databases;
   @override
-  FutureEither<Document> applyJob({required ApplyJob applyJob}) async{
+  FutureEither<Document> applyJob({required ApplyJob applyJob}) async {
     try {
       final post = await _databases.createDocument(
         databaseId: AppWriteConstant.jobDatabaseId,
@@ -114,23 +114,23 @@ class DatabaseAPI implements DataBaseInterface {
   }
 
   @override
-  Future<Document> getRecruiterProfile({required String id})async {
-   final details = await _databases.getDocument(
+  Future<Document> getRecruiterProfile({required String id}) async {
+    final details = await _databases.getDocument(
       databaseId: AppWriteConstant.usersDatabaseId,
       collectionId: AppWriteConstant.recruiterCollectionId,
       documentId: id,
     );
     return details;
   }
-  
-  @override
-  Future<List<Document>> getPostedJobs()async {
-   final jobs = await _databases.listDocuments(
-    databaseId: AppWriteConstant.jobDatabaseId, 
-    collectionId: AppWriteConstant.postedJobCollectionId,
-    queries: ['time']
-    );
-  return jobs.documents;
-  }
 
+  @override
+  Future<List<Document>> getPostedJobs() async {
+    final jobs = await _databases.listDocuments(
+      databaseId: AppWriteConstant.jobDatabaseId,
+      collectionId: AppWriteConstant.postedJobCollectionId,
+
+      // queries: ['time']
+    );
+    return jobs.documents;
+  }
 }

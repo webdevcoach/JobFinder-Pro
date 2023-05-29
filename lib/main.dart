@@ -1,87 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jobhunt_pro/core/resuables/pick_image.dart';
-import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
+import 'package:jobhunt_pro/features/applicant/features/home/views/recruiter_home.dart';
+import 'package:jobhunt_pro/features/authentication/screens/login_view.dart';
+import 'package:jobhunt_pro/features/recruiter/features/home/views/page_navigator.dart';
+import 'package:jobhunt_pro/theme/themes.dart';
 
-import 'apis/cloud_storage_api.dart';
-import 'features/apply_job/controller/apply_job_conntroller.dart';
-import 'features/post_job/controller/post_job_controller.dart';
+import 'features/authentication/controller/auth_controller.dart';
+import 'features/authentication/screens/signup_view.dart';
+import 'features/recruiter/features/post_job/views/post_jobs_screen/post_a_job_view.dart';
+import 'features/recruiter/features/post_job/views/post_jobs_screen/posted_job_detail_view.dart';
+import 'features/recruiter/features/post_job/views/view_applicants/view_applicants_view.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final light = AppTheme.light();
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const TestFeature(),
-    );
-  }
-}
+        debugShowCheckedModeBanner: false,
+        title: 'Jobfinder-Pro',
+        theme: light,
 
-class TestFeature extends ConsumerWidget {
-  const TestFeature({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purple,
-        title: const Text('TESTING THIS'),
-      ),
-      // body: Center(
-      //   child: ref.watch(currentEmployeeDetailsProvider).when(
-      //       data: (user) {
-      //         return Text(user.name);
-      //       },
-      //       error: (e, t) => Text(e.toString()),
-      //       loading: () => const Text('Loading')),
-      // ),
-      floatingActionButton: FloatingActionButton.large(
-        onPressed: () async {
-         // final image = await PickFile.pickPdf();
-        // final url = await ref.watch(storageAPIProvider).uploadFile(file: image, isCv: true);
-        //ref.watch(applyJobControllerProvider.notifier).applyJob(context: context, cv: image);
-        //  debugPrint(url);
-        //   debugPrint(image.uri.data.toString());
-        //   debugPrint(image.path);
-          //ref.watch(postJobControllerProvider.notifier).postJob(jobTitle: 'jobTitle');
-          // ref.watch(authControllerProvider.notifier).login(
-          //       email: 'desmond@gmail.com',
-          //       password: '12345678',
-          //       context: context,
-          //     );
-
-          // .employerSignUp(
-          //       companyName: 'Intelli Kode',
-          //       websiteLink: 'ww.hello.com',
-          //       email: 'hello@gmail.com',
-          //       twitter: 'https://twitter.com/home',
-          //       linkedIn: 'https://twitter.com/home',
-          //       facebook: 'https://twitter.com/home',
-          //       about: 'We are indie hackers',
-          //       password: '123456789',
-          //       context: context
-          //     );
-
-          // .employeeSignUp(
-          //     name: 'Desmond',
-          //     email: 'desmond@gmail.com',
-          //     password: '12345678',
-          //     context: context,
-          //     );
-        },
-        child: const Icon(Icons.foggy),
-      ),
-    );
+        // home: const LoginView(),
+        home: ref.watch(currentUserAccountProvider).when(
+              data: (user) {
+                if (user != null) {
+                  return switch (user.name) {
+                    'applicant' => const ApplicantHomeView(),
+                    'recruiter' => const PageNavigator(),
+                    _ => const LoginView(),
+                  };
+                }
+                return const SignupView();
+              },
+              error: (error, st) => Text(error.toString()),
+              loading: () => const Center(child: CircularProgressIndicator()),
+            ),
+        routes: {
+          PostedJobDetailView.routeName: (ctx) => const PostedJobDetailView(),
+          PostAJobView.routeName: (ctx) => const PostAJobView(),
+          ViewApplicantsView.routeName: (ctx) => const ViewApplicantsView()
+        });
   }
 }

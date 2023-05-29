@@ -49,7 +49,6 @@ class Applicant {
       'techStacks': techStacks,
       'about': about,
       'profilePicture': profilePicture,
-      
     };
   }
 
@@ -57,14 +56,13 @@ class Applicant {
     return Applicant(
       name: map['name'] as String,
       email: map['email'] as String,
-      skills: List<String>.from(map['skills'] ),
-      techStacks: List<String>.from(map['techStacks'] ),
+      skills: List<String>.from(map['skills']),
+      techStacks: List<String>.from(map['techStacks']),
       about: map['about'] as String,
       profilePicture: map['profilePicture'] as String,
       id: map['\$id'] as String,
     );
   }
-
 
   @override
   String toString() {
@@ -75,29 +73,29 @@ class Applicant {
   bool operator ==(covariant Applicant other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
-  
-    return 
-      other.name == name &&
-      other.email == email &&
-      listEquals(other.skills, skills) &&
-      listEquals(other.techStacks, techStacks) &&
-      other.about == about &&
-      other.profilePicture == profilePicture &&
-      other.id == id;
+
+    return other.name == name &&
+        other.email == email &&
+        listEquals(other.skills, skills) &&
+        listEquals(other.techStacks, techStacks) &&
+        other.about == about &&
+        other.profilePicture == profilePicture &&
+        other.id == id;
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      email.hashCode ^
-      skills.hashCode ^
-      techStacks.hashCode ^
-      about.hashCode ^
-      profilePicture.hashCode ^
-      id.hashCode;
+        email.hashCode ^
+        skills.hashCode ^
+        techStacks.hashCode ^
+        about.hashCode ^
+        profilePicture.hashCode ^
+        id.hashCode;
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Applicant.fromJson(String source) => Applicant.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Applicant.fromJson(String source) =>
+      Applicant.fromMap(json.decode(source) as Map<String, dynamic>);
 }

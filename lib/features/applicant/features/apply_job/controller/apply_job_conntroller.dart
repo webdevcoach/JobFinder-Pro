@@ -8,16 +8,20 @@ import 'package:jobhunt_pro/core/enums/application_status.dart';
 import 'package:jobhunt_pro/core/resuables/file_url.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
 
-import '../../authentication/controller/auth_controller.dart';
+import '../../../../authentication/controller/auth_controller.dart';
 
 enum ApplyJobState {
   initialState,
   loading,
 }
 
-final applyJobControllerProvider = StateNotifierProvider<ApplyJobController, ApplyJobState>((ref) {
-  return  ApplyJobController(databaseAPI: ref.watch(databaseAPIProvider), storageAPI: ref.watch(storageAPIProvider));
+final applyJobControllerProvider =
+    StateNotifierProvider<ApplyJobController, ApplyJobState>((ref) {
+  return ApplyJobController(
+      databaseAPI: ref.watch(databaseAPIProvider),
+      storageAPI: ref.watch(storageAPIProvider));
 });
+
 class ApplyJobController extends StateNotifier<ApplyJobState> {
   final DatabaseAPI _databaseAPI;
   final StorageAPI _storageAPI;
@@ -39,21 +43,21 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     state = ApplyJobState.loading;
     String fileId = await _storageAPI.uploadFile(file: cv, isCv: true);
     String cvUrl = FileUrl.fileUrl(fileId: fileId, isCv: true);
-  final employee = ref.watch(currentApplicantDetailsProvider).value!;
+    final applicant = ref.watch(currentApplicantDetailsProvider).value!;
     ApplyJob applicantInfo = ApplyJob(
-        applicantId: employee.id,
-        coverLetter: coverLetter,
-        cvUrl: cvUrl,
-        jobId: jobId,
-        companyId: companyId,
-        appliedTime: DateTime.now(),
-        status: ApplicationStatus.review,
-        );
+      applicantId: applicant.id,
+      coverLetter: coverLetter,
+      cvUrl: cvUrl,
+      jobId: jobId,
+      companyId: companyId,
+      appliedTime: DateTime.now(),
+      status: ApplicationStatus.review,
+    );
     final apply = await _databaseAPI.applyJob(applyJob: applicantInfo);
     state = ApplyJobState.initialState;
-    apply.fold((l){
+    apply.fold((l) {
       print(l.errorMsg);
-    }, (r){
+    }, (r) {
       print(r.data);
     });
   }

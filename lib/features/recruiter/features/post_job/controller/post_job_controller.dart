@@ -18,7 +18,6 @@ final postedJobProvider = FutureProvider((ref) async {
   return await jobs.getJobs();
 });
 
-
 class PostJobController extends StateNotifier<JobState> {
   final DatabaseAPI _databaseAPI;
   PostJobController({required DatabaseAPI databaseAPI})
@@ -38,32 +37,36 @@ class PostJobController extends StateNotifier<JobState> {
     required WidgetRef ref,
   }) async {
     state = JobState.loading;
-    final employer = ref.watch(currentRecruiterDetailsProvider).value!;
-    PostJob jobDetails = PostJob(
-      jobTitle: jobTitle,
-      workingMode: workingMode,
-      description: description,
-      location: location,
-      jobType: jobType,
-      time: DateTime.now(),
-      jobId: '',
-      isOpened: false,
-      companyId: employer.id,
-      appliedCandidates: [],
-      salary: 40.0,
-      responsibilities: responsibilities,
-      requirement: requirement,
-      benefits: benefits,
-    );
-    final job = await _databaseAPI.postJob(jobDetails: jobDetails);
-    state = JobState.initialState;
-    job.fold((l) {
-      //failure
-      print(l.errorMsg);
-    }, (r) {
-      //success
-      print(r.data);
-    });
+    final recruiter = ref.watch(currentRecruiterDetailsProvider).value;
+    if (recruiter != null) {
+      PostJob jobDetails = PostJob(
+        jobTitle: jobTitle,
+        workingMode: workingMode,
+        description: description,
+        location: location,
+        jobType: jobType,
+        time: DateTime.now(),
+        jobId: '',
+        isOpened: false,
+        companyId: recruiter.id,
+        appliedCandidates: [],
+        salary: salary,
+        responsibilities: responsibilities,
+        requirement: requirement,
+        benefits: benefits,
+      );
+      final job = await _databaseAPI.postJob(jobDetails: jobDetails);
+      state = JobState.initialState;
+      job.fold((l) {
+        //failure
+        print(l.errorMsg);
+      }, (r) {
+        //success
+        print(r.data);
+      });
+    } else {
+      print('error occured');
+    }
   }
 
   Future<List<PostJob>> getJobs() async {

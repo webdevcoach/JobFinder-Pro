@@ -23,6 +23,7 @@ abstract class AuthInterface {
     required String email,
     required String password,
   });
+  Future<model.User?> currentUserAccount();
 }
 
 class AuthAPI implements AuthInterface {
@@ -38,7 +39,7 @@ class AuthAPI implements AuthInterface {
           userId: ID.unique(),
           email: email,
           password: password,
-          name: 'employee');
+          name: 'applicant');
       return right(signUp);
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));
@@ -57,7 +58,7 @@ class AuthAPI implements AuthInterface {
           userId: ID.unique(),
           email: email,
           password: password,
-          name: 'employer');
+          name: 'recruiter');
       return right(signUp);
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));
@@ -75,6 +76,17 @@ class AuthAPI implements AuthInterface {
       return right(session);
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));
+    }
+  }
+
+  @override
+  Future<model.User?> currentUserAccount() async {
+    try {
+      return await _account.get();
+    } on AppwriteException {
+      return null;
+    } catch (e) {
+      return null;
     }
   }
 }
