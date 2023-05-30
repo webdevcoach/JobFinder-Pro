@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/features/applicant/features/home/views/recruiter_home.dart';
 import 'package:jobhunt_pro/features/authentication/screens/login_view.dart';
 import 'package:jobhunt_pro/features/recruiter/features/home/views/page_navigator.dart';
+import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/routes/app_route.dart';
 import 'package:jobhunt_pro/theme/themes.dart';
 
 import 'features/authentication/controller/auth_controller.dart';
@@ -41,11 +43,7 @@ class MyApp extends ConsumerWidget {
               },
               error: (error, st) => Text(error.toString()),
               loading: () => const Center(child: CircularProgressIndicator()),
-            ),
-        routes: {
-          PostedJobDetailView.routeName: (ctx) => const PostedJobDetailView(),
-          PostAJobView.routeName: (ctx) => const PostAJobView(),
-          ViewApplicantsView.routeName: (ctx) => const ViewApplicantsView()
-        });
+            ),onGenerateRoute: AppRoute.generatedRoute,
+        );
   }
 }

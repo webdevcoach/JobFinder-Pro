@@ -32,8 +32,7 @@ class ClosedJobsView extends ConsumerWidget {
                 return job.isOpened
                     ? const SizedBox.shrink()
                     : JobCard(
-                        title: job.jobTitle,
-                        jobPostedDate: job.time,
+                        job:job ,
                       );
               },
             );

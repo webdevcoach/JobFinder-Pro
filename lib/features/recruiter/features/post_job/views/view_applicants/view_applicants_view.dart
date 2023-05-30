@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
 class ViewApplicantsView extends StatelessWidget {
-  static const routeName = 'view-applicants-view';
-  const ViewApplicantsView({super.key});
+  final List<String> applicantId;
+  const ViewApplicantsView({super.key, required this.applicantId});
 
   @override
   Widget build(BuildContext context) {

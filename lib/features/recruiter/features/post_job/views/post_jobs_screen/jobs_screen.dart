@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobhunt_pro/routes/app_route.dart';
 
 import 'active_jobs.dart';
 import 'closed_jobs.dart';
@@ -28,7 +29,7 @@ class JobsScreenState extends State<JobsScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
               onPressed: () =>
-                  Navigator.of(context).pushNamed(PostAJobView.routeName),
+                  Navigator.of(context).pushNamed(AppRoute.postAJobView),
               child: const Text('Post A Job')),
           const SizedBox(width: 10)
         ],

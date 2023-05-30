@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/routes/app_route.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../../theme/colors.dart';
@@ -8,12 +10,11 @@ import '../posted_job_detail_view.dart';
 import 'photo_pile.dart';
 
 class JobCard extends StatelessWidget {
-  final String title;
-  final DateTime jobPostedDate;
+  
+  final PostJob job;
   const JobCard({
     Key? key,
-    required this.title,
-    required this.jobPostedDate,
+    required this.job,
   }) : super(key: key);
 
   @override
@@ -22,7 +23,8 @@ class JobCard extends StatelessWidget {
 
     void selectJob(BuildContext context) {
       Navigator.of(context).pushNamed(
-        PostedJobDetailView.routeName,
+        AppRoute.postedJobDetailsView,
+        arguments: job
       );
     }
 
@@ -51,7 +53,7 @@ class JobCard extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            title,
+                            job.jobTitle,
                             style: textStyle.copyWith(
                                 color: Colors.grey.shade800,
                                 fontSize: 16,
@@ -62,7 +64,7 @@ class JobCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text(timeago.format(jobPostedDate),
+                    Text(timeago.format(job.time),
                         style: textStyle.copyWith(
                             fontSize: 11, color: Colors.grey))
                   ],

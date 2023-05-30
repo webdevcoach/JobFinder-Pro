@@ -25,7 +25,7 @@ enum WorkMode {
 }
 
 class PostAJobView extends ConsumerStatefulWidget {
-  static const routeName = 'post-a-job-view';
+
   const PostAJobView({super.key});
 
   @override

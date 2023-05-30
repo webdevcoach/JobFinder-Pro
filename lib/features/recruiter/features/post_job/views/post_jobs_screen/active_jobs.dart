@@ -30,8 +30,7 @@ class ActiveJobsView extends ConsumerWidget {
                 final job = activeJobs[index];
                 return job.isOpened
                     ? JobCard(
-                        title: job.jobTitle,
-                        jobPostedDate: job.time,
+                        job: job,
                       )
                     : const SizedBox.shrink();
               },

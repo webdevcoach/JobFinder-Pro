@@ -2,14 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/routes/app_route.dart';
 
+import '../../../../../../core/resuables/date_format.dart';
 import '../../../../../../theme/colors.dart';
-import '../view_applicants/view_applicants_view.dart';
 import 'widgets/photo_pile.dart';
 
 class PostedJobDetailView extends StatelessWidget {
-  static const routeName = 'posted-job-detail-view';
-  const PostedJobDetailView({super.key});
+  final PostJob job;
+  const PostedJobDetailView({super.key, required this.job});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +32,13 @@ class PostedJobDetailView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Software Engineer',
+              job.jobTitle,
               style:
                   txtStyle.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
-              'Full-Time',
+              job.jobType,
               style: txtStyle.copyWith(
                   color: AppColors.secondaryColor,
                   fontSize: 16,
@@ -44,10 +46,10 @@ class PostedJobDetailView extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             const DividerWithSpaces(),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(children: [
-                Row(
+                const Row(
                   children: [
                     IconWithText(
                       icon: 'assets/svg/category_icons/bezier.svg',
@@ -76,8 +78,8 @@ class PostedJobDetailView extends StatelessWidget {
                     )
                   ],
                 ),
-                DividerWithSpaces(),
-                Row(
+                const DividerWithSpaces(),
+                const Row(
                   children: [
                     IconWithText(
                       icon: 'assets/svg/recruiter_icons/people.svg',
@@ -87,26 +89,26 @@ class PostedJobDetailView extends StatelessWidget {
                     Text('100k')
                   ],
                 ),
-                DividerWithSpaces(),
+                const DividerWithSpaces(),
                 Row(
                   children: [
-                    IconWithText(
+                    const IconWithText(
                       icon: 'assets/svg/recruiter_icons/calendar-edit.svg',
                       text: 'Posted',
                     ),
-                    Spacer(),
-                    Text('29th May, 2023')
+                    const Spacer(),
+                    Text(formatDate(job.time))
                   ],
                 ),
-                DividerWithSpaces(),
+                const DividerWithSpaces(),
                 Row(
                   children: [
-                    IconWithText(
+                    const IconWithText(
                       icon: 'assets/svg/recruiter_icons/calendar-tick.svg',
                       text: 'Deadline',
                     ),
-                    Spacer(),
-                    Text('29th June, 2023')
+                    const Spacer(),
+                    Text(formatDate(job.deadline))
                   ],
                 ),
               ]),
@@ -118,8 +120,9 @@ class PostedJobDetailView extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ElevatedButton(
-            onPressed: () =>
-                Navigator.of(context).pushNamed(ViewApplicantsView.routeName),
+            onPressed: () => Navigator.of(context).pushNamed(
+                AppRoute.viewApplicants,
+                arguments: job.appliedCandidates),
             child: Text(
               'View All Applicants',
               style: txtStyle.copyWith(color: AppColors.greyColor),
