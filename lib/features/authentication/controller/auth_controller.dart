@@ -8,11 +8,9 @@ import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/core/resuables/file_url.dart';
 import 'package:jobhunt_pro/features/authentication/screens/login_view.dart';
-import 'package:jobhunt_pro/features/recruiter/features/home/views/recruiter_home.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
-
-import '../../applicant/features/home/views/recruiter_home.dart';
+import 'package:jobhunt_pro/routes/app_route.dart';
 
 final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
@@ -48,6 +46,15 @@ final currentApplicantDetailsProvider = FutureProvider((ref) async {
   return userDetails;
 });
 
+//// Applied  applicant profile
+final applicantProfileDetailsProvider = FutureProvider.family((ref, String id) async {
+
+  final userDetails = await ref
+      .watch(authControllerProvider.notifier)
+      .applicantProfile(id: id);
+  return userDetails;
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI;
   final DatabaseAPI _databaseAPI;
@@ -75,9 +82,9 @@ class AuthController extends StateNotifier<bool> {
   }) async {
     state = true;
     var nav = Navigator.of(context);
-   String uploadedFileId =
-       await _storageAPI.uploadFile(file: file, isCv: false);
-   String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId, isCv: false);
+    String uploadedFileId =
+        await _storageAPI.uploadFile(file: file, isCv: false);
+    String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId, isCv: false);
     Recruiter recruiter = Recruiter(
       companyName: companyName,
       websiteLink: websiteLink,
@@ -86,7 +93,7 @@ class AuthController extends StateNotifier<bool> {
       linkedIn: linkedIn,
       facebook: facebook,
       about: about,
-      logoUrl: 'fileUrl',
+      logoUrl: fileUrl,
       id: '',
     );
     final res =
@@ -158,15 +165,13 @@ class AuthController extends StateNotifier<bool> {
       print(accountInfo.name.toString());
 
       return switch (accountInfo.name) {
-        'applicant' => nav.push(MaterialPageRoute(
-            builder: (context) =>
-                const ApplicantHomeView())), //home page of Applicant
-        'recruiter' => nav.push(MaterialPageRoute(
-            builder: (context) =>
-                const RecruiterHomeView())), //home page of Recruiter
+        'applicant' =>
+          nav.pushNamed(AppRoute.applicantsHomeView), //home page of Applicant
+        'recruiter' =>
+          nav.pushNamed(AppRoute.recruiterPageNavigator), //home page of Recruiter
         _ => const Scaffold(
             body: Center(
-              child: Text("Unexpected Error, I have no idea🤣🤣"),
+              child: Text("Unexpected Error,"),
             ),
           ),
       };

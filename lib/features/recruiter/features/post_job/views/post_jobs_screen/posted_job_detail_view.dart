@@ -122,7 +122,8 @@ class PostedJobDetailView extends StatelessWidget {
         child: ElevatedButton(
             onPressed: () => Navigator.of(context).pushNamed(
                 AppRoute.viewApplicants,
-                arguments: job.appliedCandidates),
+                arguments: job.appliedCandidates,
+                ),
             child: Text(
               'View All Applicants',
               style: txtStyle.copyWith(color: AppColors.greyColor),
