@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../common/custom_forms_kit.dart';
 import '../controller/auth_controller.dart';
-import '../widgets/auth_field.dart';
+import '../widgets/custom_auth_field.dart';
 
 class ApplicantLoginSection extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
@@ -56,7 +57,7 @@ class _LoginViewState extends ConsumerState<ApplicantLoginSection> {
                   const SizedBox(height: 5),
                   ElevatedButton(
                     onPressed: onLogin,
-                    child: const Text('Done'),
+                    child: CustomText(text: 'Log in', color: Colors.white),
                   ),
                   const SizedBox(height: 40),
                 ],

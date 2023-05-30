@@ -24,6 +24,7 @@ abstract class AuthInterface {
     required String password,
   });
   Future<model.User?> currentUserAccount();
+  FutureEither<void> logout();
 }
 
 class AuthAPI implements AuthInterface {
@@ -93,6 +94,24 @@ class AuthAPI implements AuthInterface {
       return null;
     } catch (e) {
       return null;
+    }
+  }
+
+  @override
+  FutureEither<void> logout() async {
+    try {
+      await _account.deleteSession(
+        sessionId: 'current',
+      );
+      return right(null);
+    } on AppwriteException catch (e) {
+      return left(
+        Failure(e.message ?? 'Some error occurred'),
+      );
+    } catch (e) {
+      return left(
+        Failure(e.toString()),
+      );
     }
   }
 }

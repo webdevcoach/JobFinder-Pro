@@ -47,23 +47,25 @@ class AppTheme {
 
   static ThemeData light() {
     return ThemeData(
-      // colorScheme: ColorScheme(
-      //   brightness: Brightness.light,
-      //   primary: Colors.black,
-      //   onPrimary: Colors.amber,
-      //   secondary: AppColors.primaryColor.withOpacity(0.3),
-      //   onSecondary: Colors.black,
-      //   error: Colors.red,
-      //   onError: Colors.pink,
-      //   background: AppColors.primaryColor.withOpacity(0.3),
-      //   onBackground: Colors.black,
-      //   surface: AppColors.primaryColor,
-      //   onSurface: Colors.black,
-      // ),
+      colorScheme: ColorScheme(
+          brightness: Brightness.light,
+          primary: AppColors.primaryColor,
+          onPrimary: Colors.white,
+          onPrimaryContainer: Colors.amber,
+          secondary: AppColors.primaryColor.withOpacity(0.3),
+          onSecondary: Colors.black,
+          error: Colors.red,
+          onError: Colors.pink,
+          background: AppColors.primaryColor.withOpacity(0.3),
+          onBackground: Colors.black,
+          surface: AppColors.primaryColor,
+          onSurface: Colors.black,
+          surfaceTint: AppColors.primaryColor),
+
       indicatorColor: AppColors.primaryColor,
-      primaryColor: AppColors.primaryColor,
-      primarySwatch: convertColor(0XFF2555D0),
-      useMaterial3: false,
+      // primaryColor: AppColors.primaryColor,
+      // primarySwatch: convertColor(0xFF1C3A88),
+      useMaterial3: true,
       // AppColors.primaryColor: AppColors.primaryColor,
       brightness: Brightness.light,
       // canvasColor: Colors.green,
@@ -81,10 +83,12 @@ class AppTheme {
           color: Colors.black,
         ),
       ),
-      tabBarTheme: const TabBarTheme(
-        labelColor: AppColors.primaryColor,
-        indicatorColor: AppColors.primaryColor,
-      ),
+      datePickerTheme: const DatePickerThemeData(
+          backgroundColor: Colors.white,
+          shadowColor: AppColors.primaryColor,
+          surfaceTintColor: AppColors.primaryColor,
+          rangePickerBackgroundColor: Colors.red),
+
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
             shape:

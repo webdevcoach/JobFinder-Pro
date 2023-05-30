@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/core/resuables/pick_image.dart';
 
 import '../controller/auth_controller.dart';
-import '../widgets/auth_field.dart';
+import '../widgets/custom_auth_field.dart';
 
 class RecruiterSignupSection extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
@@ -33,6 +33,11 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+    companyNameController.dispose();
+    websiteLinkController.dispose();
+    twitterController.dispose();
+    linkedinController.dispose();
+    facebookController.dispose();
   }
 
   // Future<File?> pickImage() async {

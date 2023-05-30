@@ -5,16 +5,15 @@ import 'package:jobhunt_pro/model/post_job.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../../../../../theme/colors.dart';
-import '../posted_job_detail_view.dart';
 import 'photo_pile.dart';
 
 class JobCard extends StatelessWidget {
-  
   final PostJob job;
+  final void Function()? onTap;
   const JobCard({
     Key? key,
     required this.job,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -22,20 +21,18 @@ class JobCard extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.displayMedium!;
 
     void selectJob(BuildContext context) {
-      Navigator.of(context).pushNamed(
-        AppRoute.postedJobDetailsView,
-        arguments: job
-      );
+      Navigator.of(context)
+          .pushNamed(AppRoute.postedJobDetailsView, arguments: job);
     }
 
     return GestureDetector(
-      onTap: () => selectJob(context),
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
             // color: AppColors.greyColor,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: AppColors.greyColor,
+              color: Colors.grey.shade200,
               width: 2,
               strokeAlign: BorderSide.strokeAlignOutside,
             )),

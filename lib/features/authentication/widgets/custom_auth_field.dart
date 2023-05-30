@@ -43,7 +43,7 @@ class CustomAuthField extends StatelessWidget {
             ),
           ),
           filled: true,
-          fillColor: Colors.grey.shade200,
+          fillColor: AppColors.primaryColor.withOpacity(0.1),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(

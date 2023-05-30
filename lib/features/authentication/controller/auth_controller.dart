@@ -12,6 +12,8 @@ import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 
+import '../../../common/route_transition.dart';
+
 final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
   return AuthController(
@@ -47,11 +49,10 @@ final currentApplicantDetailsProvider = FutureProvider((ref) async {
 });
 
 //// Applied  applicant profile
-final applicantProfileDetailsProvider = FutureProvider.family((ref, String id) async {
-
-  final userDetails = await ref
-      .watch(authControllerProvider.notifier)
-      .applicantProfile(id: id);
+final applicantProfileDetailsProvider =
+    FutureProvider.family((ref, String id) async {
+  final userDetails =
+      await ref.watch(authControllerProvider.notifier).applicantProfile(id: id);
   return userDetails;
 });
 
@@ -167,8 +168,8 @@ class AuthController extends StateNotifier<bool> {
       return switch (accountInfo.name) {
         'applicant' =>
           nav.pushNamed(AppRoute.applicantsHomeView), //home page of Applicant
-        'recruiter' =>
-          nav.pushNamed(AppRoute.recruiterPageNavigator), //home page of Recruiter
+        'recruiter' => nav.pushNamed(
+            AppRoute.recruiterPageNavigator), //home page of Recruiter
         _ => const Scaffold(
             body: Center(
               child: Text("Unexpected Error,"),
@@ -186,5 +187,15 @@ class AuthController extends StateNotifier<bool> {
   Future<Applicant> applicantProfile({required String id}) async {
     final details = await _databaseAPI.getApplicantProfile(id: id);
     return Applicant.fromMap(details.data);
+  }
+
+  void logout(BuildContext context) async {
+    final res = await _authAPI.logout();
+    res.fold((l) => null, (r) {
+      state = false;
+      Navigator.of(context).push(pageRouteTransition(
+        const LoginView(),
+      ));
+    });
   }
 }

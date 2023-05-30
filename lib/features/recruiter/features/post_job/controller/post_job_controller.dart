@@ -19,6 +19,17 @@ final postedJobProvider = FutureProvider((ref) async {
   return await jobs.getJobs();
 });
 
+final postedJobDetailsProvider =
+    FutureProvider.family((ref, String postedJobId) async {
+  final jobs = await ref.watch(postJobControllerProvider.notifier).getJobs();
+  final res = jobs.where((job) => postedJobId == job.jobId).toList();
+  return res.first;
+});
+
+final applicantsImageProvider = FutureProvider((ref) async {
+  return;
+});
+
 class PostJobController extends StateNotifier<JobState> {
   final DatabaseAPI _databaseAPI;
   PostJobController({required DatabaseAPI databaseAPI})
@@ -44,22 +55,21 @@ class PostJobController extends StateNotifier<JobState> {
     final nav = Navigator.of(context);
     if (recruiter != null) {
       PostJob jobDetails = PostJob(
-        jobTitle: jobTitle,
-        workingMode: workingMode,
-        description: description,
-        location: location,
-        jobType: jobType,
-        time: DateTime.now(),
-        jobId: '',
-        isOpened: true,
-        companyId: recruiter.id,
-        appliedCandidates: [],
-        salary: salary,
-        responsibilities: responsibilities,
-        requirement: requirement,
-        benefits: benefits,
-        deadline: deadline
-      );
+          jobTitle: jobTitle,
+          workingMode: workingMode,
+          description: description,
+          location: location,
+          jobType: jobType,
+          time: DateTime.now(),
+          jobId: '',
+          isOpened: true,
+          companyId: recruiter.id,
+          appliedCandidates: [],
+          salary: salary,
+          responsibilities: responsibilities,
+          requirement: requirement,
+          benefits: benefits,
+          deadline: deadline);
       final job = await _databaseAPI.postJob(jobDetails: jobDetails);
       state = JobState.initialState;
       job.fold((l) {

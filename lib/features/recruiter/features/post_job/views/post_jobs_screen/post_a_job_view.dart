@@ -1,31 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/common/info_chip.dart';
 import 'package:jobhunt_pro/core/extensions/sentence_splitter.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 
+import '../../../../../../common/custom_forms_kit.dart';
+import '../../../../../../core/enums/enums.dart';
 import '../../../../../../theme/colors.dart';
 
-enum WorkType {
-  fullTime('Full-Time'),
-  partTime('Part-Time'),
-  contract('Contract');
-
-  const WorkType(this.text);
-  final String text;
-}
-
-enum WorkMode {
-  remote('Remote'),
-  onSite('On-Site'),
-  hybrid('Hybrid');
-
-  const WorkMode(this.text);
-  final String text;
-}
-
 class PostAJobView extends ConsumerStatefulWidget {
-
   const PostAJobView({super.key});
 
   @override
@@ -41,9 +25,9 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
   final salaryController = TextEditingController();
   final responsibilitiesController = TextEditingController();
   WorkType _seletectedWorkType = WorkType.fullTime;
-  WorkMode _seletectedWorkMode = WorkMode.onSite;
+  WorkingMode _seletectedWorkMode = WorkingMode.onSite;
   List<String> perksAndBenefits = [];
-  DateTime deadline = DateTime.now();
+  DateTime deadline = DateTime.now().add(const Duration(days: 1));
 
   void _postJob() {
     ref.watch(postJobControllerProvider.notifier).postJob(
@@ -71,14 +55,19 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
             perksAndBenefits.remove(chipName);
           } else {
             perksAndBenefits.add(chipName);
+            print(chipName);
           }
         });
       },
-      child: Chip(
-        label: Text(chipName),
-        backgroundColor:
-            isSelected ? AppColors.primaryColor.withOpacity(0.5) : null,
-      ),
+      // child: Chip(
+      //   label: Text(chipName),
+      //   backgroundColor:
+      //       isSelected ? AppColors.primaryColor.withOpacity(0.5) : null,
+      // ),
+      child: InfoChip(
+          title: chipName,
+          titleColor:
+              isSelected ? AppColors.primaryColor : AppColors.secondaryColor),
     );
   }
 
@@ -106,74 +95,24 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                     CustomTextField(
                         controller: descriptionController,
                         enableMaxlines: true),
-                    const CustomTextBold(text: 'Work Type'),
-                    RadioListTile<WorkType>(
-                      contentPadding: const EdgeInsets.all(5),
-                      title: CustomText(text: WorkType.fullTime.text),
-                      value: WorkType.fullTime,
-                      groupValue: _seletectedWorkType,
-                      onChanged: (WorkType? value) {
-                        setState(() {
-                          _seletectedWorkType = value!;
-                        });
-                      },
-                    ),
-                    RadioListTile<WorkType>(
-                      contentPadding: const EdgeInsets.all(5),
-                      title: CustomText(text: WorkType.partTime.text),
-                      value: WorkType.partTime,
-                      groupValue: _seletectedWorkType,
-                      onChanged: (WorkType? value) {
-                        setState(() {
-                          _seletectedWorkType = value!;
-                        });
-                      },
-                    ),
-                    RadioListTile<WorkType>(
-                      contentPadding: const EdgeInsets.all(5),
-                      title: CustomText(text: WorkType.contract.text),
-                      value: WorkType.contract,
-                      groupValue: _seletectedWorkType,
-                      onChanged: (WorkType? value) {
-                        setState(() {
-                          _seletectedWorkType = value!;
-                        });
-                      },
-                    ),
                     const CustomTextBold(text: 'Work Mode'),
-                    RadioListTile<WorkMode>(
-                      contentPadding: const EdgeInsets.all(5),
-                      title: CustomText(text: WorkMode.onSite.text),
-                      value: WorkMode.onSite,
-                      groupValue: _seletectedWorkMode,
-                      onChanged: (WorkMode? value) {
-                        setState(() {
-                          _seletectedWorkMode = value!;
-                        });
-                      },
-                    ),
-                    RadioListTile<WorkMode>(
-                      contentPadding: const EdgeInsets.all(5),
-                      title: CustomText(text: WorkMode.remote.text),
-                      value: WorkMode.remote,
-                      groupValue: _seletectedWorkMode,
-                      onChanged: (WorkMode? value) {
-                        setState(() {
-                          _seletectedWorkMode = value!;
-                        });
-                      },
-                    ),
-                    RadioListTile<WorkMode>(
-                      contentPadding: const EdgeInsets.all(5),
-                      title: CustomText(text: WorkMode.hybrid.text),
-                      value: WorkMode.hybrid,
-                      groupValue: _seletectedWorkMode,
-                      onChanged: (WorkMode? value) {
-                        setState(() {
-                          _seletectedWorkMode = value!;
-                        });
-                      },
-                    ),
+                    for (var mode in WorkingMode.values)
+                      RadioTile<WorkingMode>(
+                        title: mode.text,
+                        value: mode,
+                        groupValue: _seletectedWorkMode,
+                        onChanged: (value) =>
+                            setState(() => _seletectedWorkMode = value!),
+                      ),
+                    const CustomTextBold(text: 'Work Type'),
+                    for (var type in WorkType.values)
+                      RadioTile<WorkType>(
+                        title: type.text,
+                        value: type,
+                        groupValue: _seletectedWorkType,
+                        onChanged: (value) =>
+                            setState(() => _seletectedWorkType = value!),
+                      ),
                     const CustomTextBold(text: 'Location'),
                     CustomTextField(controller: locationController),
                     const CustomTextBold(text: 'Salary'),
@@ -187,20 +126,6 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                         controller: responsibilitiesController,
                         enableMaxlines: true),
                     const CustomTextBold(text: 'Perks & Benefits'),
-                    TextButton(
-                        onPressed: () async {
-                          final DateTime? date = await showDatePicker(
-                              context: context,
-                              initialDate: deadline,
-                              firstDate: DateTime(2023, 1),
-                              lastDate: DateTime(2050));
-                          if (date != null) {
-                            setState(() {
-                              deadline = date;
-                            });
-                          }
-                        },
-                        child: Text('Deadline: ${deadline.toString()}')),
                     Wrap(
                       spacing: 8.0,
                       runSpacing: 10,
@@ -215,6 +140,22 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                         _perksChips('Paid holiday,'),
                       ],
                     ),
+                    const CustomTextBold(text: 'Deadline'),
+                    TextButton(
+                        onPressed: () async {
+                          final DateTime? date = await showDatePicker(
+                              context: context,
+                              initialDate: deadline,
+                              firstDate:
+                                  DateTime.now().add(const Duration(days: 1)),
+                              lastDate: DateTime(2050));
+                          if (date != null) {
+                            setState(() {
+                              deadline = date;
+                            });
+                          }
+                        },
+                        child: Text('Deadline: ${deadline.toString()}')),
                   ],
                 ),
               ),
@@ -232,75 +173,28 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
   }
 }
 
-class CustomTextBold extends StatelessWidget {
-  final String text;
-  const CustomTextBold({
+class RadioTile<T> extends StatelessWidget {
+  final String title;
+  final T value;
+  final T groupValue;
+  final ValueChanged<T?> onChanged;
+
+  const RadioTile({
+    required this.title,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
     Key? key,
-    required this.text,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final txtStyle = Theme.of(context).textTheme.displayMedium;
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 10),
-      child: Text(text,
-          style: txtStyle!.copyWith(fontSize: 18, fontWeight: FontWeight.w600)),
-    );
-  }
-}
-
-class CustomText extends StatelessWidget {
-  final String text;
-  const CustomText({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final txtStyle = Theme.of(context).textTheme.displayMedium;
-
-    return Text(text, style: txtStyle!.copyWith(fontSize: 15));
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final bool enableMaxlines;
-  const CustomTextField({
-    Key? key,
-    required this.controller,
-    this.enableMaxlines = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      maxLines: enableMaxlines ? 5 : 1,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.grey.shade300.withOpacity(0.1),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: AppColors.primaryColor,
-            width: 1.5,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        //hintText: 'hintText',
-        hintStyle: const TextStyle(
-          fontSize: 18,
-        ),
-      ),
+    return RadioListTile<T>(
+      contentPadding: const EdgeInsets.all(5),
+      title: CustomText(text: title),
+      value: value,
+      groupValue: groupValue,
+      onChanged: onChanged,
     );
   }
 }

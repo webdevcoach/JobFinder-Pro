@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 
+import '../../../../../../theme/colors.dart';
 import 'active_jobs.dart';
 import 'closed_jobs.dart';
-import 'post_a_job_view.dart';
 
 class JobsScreen extends StatefulWidget {
   const JobsScreen({super.key});
@@ -44,9 +44,8 @@ class JobsScreenState extends State<JobsScreen> {
               padding: const EdgeInsets.all(8.0),
               child: SegmentedButton<int>(
                 style: const ButtonStyle(
-                  padding: MaterialStatePropertyAll(EdgeInsets.all(12)),
-                  // backgroundColor: MaterialStatePropertyAll(Colors.red),
-                ),
+                    side: MaterialStatePropertyAll(
+                        BorderSide(color: AppColors.primaryColor))),
                 showSelectedIcon: false,
                 selected: {_selectedIndex},
                 segments: const [

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
@@ -7,18 +8,31 @@ import 'package:jobhunt_pro/routes/app_route.dart';
 
 import '../../../../../../core/resuables/date_format.dart';
 import '../../../../../../theme/colors.dart';
+import '../../controller/post_job_controller.dart';
 import 'widgets/photo_pile.dart';
 
-class PostedJobDetailView extends StatelessWidget {
+class PostedJobDetailView extends ConsumerWidget {
   final PostJob job;
   const PostedJobDetailView({super.key, required this.job});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final txtStyle = Theme.of(context)
         .textTheme
         .displayMedium!
         .copyWith(fontWeight: FontWeight.normal);
+
+    final seletectedJob = ref.watch(postedJobDetailsProvider(job.jobId)).value;
+
+    // final job = seletectedJob?.firstWhere((job) => job.jobId == postedJobId);
+
+    // final res = seletectedJob
+    //     ?.firstWhere((postedJob) => postedJob.jobTitle == postedJobId);
+
+    // if (seletectedJob == null) {
+    //   return const CircularProgressIndicator();
+    // }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Job Details'),
@@ -26,103 +40,117 @@ class PostedJobDetailView extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(IconlyBold.edit))
         ],
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              job.jobTitle,
-              style:
-                  txtStyle.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+      body: seletectedJob == null
+          ? const Center(child: CircularProgressIndicator())
+          : Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // seletectedJob2.when(
+                  //   data: (data) {
+                  //     final out = data.w(
+                  //         (postedJob) => postedJob.jobTitle == postedJobId);
+                  //     print(out.jobId);
+                  //     return Text(out.jobType);
+                  //   },
+                  //   error: (error, st) => Text(error.toString()),
+                  //   loading: () => const Text('loading'),
+                  // ),
+                  Text(
+                    job.jobTitle,
+                    style: txtStyle.copyWith(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    job.jobType,
+                    style: txtStyle.copyWith(
+                        color: AppColors.secondaryColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  const SizedBox(height: 30),
+                  const DividerWithSpaces(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Column(children: [
+                      const Row(
+                        children: [
+                          IconWithText(
+                            icon: 'assets/svg/category_icons/people.svg',
+                            text: 'Applicants',
+                          ),
+                          Spacer(),
+                          PhotoPile(
+                            images: [
+                              'https://i.pravatar.cc/300?img=11',
+                              'https://i.pravatar.cc/300?img=22',
+                              'https://i.pravatar.cc/300?img=33',
+                              'https://i.pravatar.cc/300?img=4',
+                              'https://i.pravatar.cc/300?img=5',
+                              'https://i.pravatar.cc/300?img=6',
+                              'https://i.pravatar.cc/300?img=7',
+                              'https://i.pravatar.cc/300?img=1',
+                              'https://i.pravatar.cc/300?img=2',
+                              'https://i.pravatar.cc/300?img=3',
+                              'https://i.pravatar.cc/300?img=4',
+                              'https://i.pravatar.cc/300?img=5',
+                              'https://i.pravatar.cc/300?img=6',
+                              'https://i.pravatar.cc/300?img=7',
+                            ],
+                            avatarSize: 30,
+                            overlapDistance: 15,
+                          )
+                        ],
+                      ),
+                      const DividerWithSpaces(),
+                      const Row(
+                        children: [
+                          IconWithText(
+                            icon: 'assets/svg/recruiter_icons/bezier.svg',
+                            text: 'Audience Reached',
+                          ),
+                          Spacer(),
+                          Text('100k')
+                        ],
+                      ),
+                      const DividerWithSpaces(),
+                      Row(
+                        children: [
+                          const IconWithText(
+                            icon:
+                                'assets/svg/recruiter_icons/calendar-edit.svg',
+                            text: 'Posted',
+                          ),
+                          const Spacer(),
+                          Text(formatDate(job.time))
+                        ],
+                      ),
+                      const DividerWithSpaces(),
+                      Row(
+                        children: [
+                          const IconWithText(
+                            icon:
+                                'assets/svg/recruiter_icons/calendar-tick.svg',
+                            text: 'Deadline',
+                          ),
+                          const Spacer(),
+                          Text(formatDate(job.deadline))
+                        ],
+                      ),
+                    ]),
+                  ),
+                  const DividerWithSpaces(),
+                ],
+              ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              job.jobType,
-              style: txtStyle.copyWith(
-                  color: AppColors.secondaryColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal),
-            ),
-            const SizedBox(height: 30),
-            const DividerWithSpaces(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(children: [
-                const Row(
-                  children: [
-                    IconWithText(
-                      icon: 'assets/svg/category_icons/bezier.svg',
-                      text: 'Applicants',
-                    ),
-                    Spacer(),
-                    PhotoPile(
-                      images: [
-                        'https://i.pravatar.cc/300?img=11',
-                        'https://i.pravatar.cc/300?img=22',
-                        'https://i.pravatar.cc/300?img=33',
-                        'https://i.pravatar.cc/300?img=4',
-                        'https://i.pravatar.cc/300?img=5',
-                        'https://i.pravatar.cc/300?img=6',
-                        'https://i.pravatar.cc/300?img=7',
-                        'https://i.pravatar.cc/300?img=1',
-                        'https://i.pravatar.cc/300?img=2',
-                        'https://i.pravatar.cc/300?img=3',
-                        'https://i.pravatar.cc/300?img=4',
-                        'https://i.pravatar.cc/300?img=5',
-                        'https://i.pravatar.cc/300?img=6',
-                        'https://i.pravatar.cc/300?img=7',
-                      ],
-                      avatarSize: 30,
-                      overlapDistance: 15,
-                    )
-                  ],
-                ),
-                const DividerWithSpaces(),
-                const Row(
-                  children: [
-                    IconWithText(
-                      icon: 'assets/svg/recruiter_icons/people.svg',
-                      text: 'Audience Reached',
-                    ),
-                    Spacer(),
-                    Text('100k')
-                  ],
-                ),
-                const DividerWithSpaces(),
-                Row(
-                  children: [
-                    const IconWithText(
-                      icon: 'assets/svg/recruiter_icons/calendar-edit.svg',
-                      text: 'Posted',
-                    ),
-                    const Spacer(),
-                    Text(formatDate(job.time))
-                  ],
-                ),
-                const DividerWithSpaces(),
-                Row(
-                  children: [
-                    const IconWithText(
-                      icon: 'assets/svg/recruiter_icons/calendar-tick.svg',
-                      text: 'Deadline',
-                    ),
-                    const Spacer(),
-                    Text(formatDate(job.deadline))
-                  ],
-                ),
-              ]),
-            ),
-            const DividerWithSpaces(),
-          ],
-        ),
-      ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ElevatedButton(
             onPressed: () => Navigator.of(context).pushNamed(
-                AppRoute.viewApplicants,
-                arguments: job.appliedCandidates,
+                  AppRoute.viewApplicants,
+                  arguments: job.appliedCandidates,
                 ),
             child: Text(
               'View All Applicants',

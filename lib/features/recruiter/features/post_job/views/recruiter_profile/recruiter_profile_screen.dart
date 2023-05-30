@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jobhunt_pro/apis/auth_api.dart';
+import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 
 class RecruiterProfileScreen extends ConsumerWidget {
   const RecruiterProfileScreen({super.key});
@@ -11,9 +11,9 @@ class RecruiterProfileScreen extends ConsumerWidget {
       body: Center(
           child: TextButton(
               onPressed: () {
-                ref.watch(authApiProvider).logOut();
+                ref.watch(authControllerProvider.notifier).logout(context);
               },
-              child: const Text('LogOut'))),
+              child: const Text('logout'))),
     );
   }
 }

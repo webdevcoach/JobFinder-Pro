@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jobhunt_pro/features/applicant/features/home/views/page_navigator.dart';
 import 'package:jobhunt_pro/features/recruiter/features/home/views/page_navigator.dart';
 import 'package:jobhunt_pro/features/recruiter/features/home/views/recruiter_home.dart';
 
-import '../features/applicant/features/home/views/recruiter_home.dart';
 import '../features/recruiter/features/post_job/views/post_jobs_screen/post_a_job_view.dart';
 import '../features/recruiter/features/post_job/views/post_jobs_screen/posted_job_detail_view.dart';
 import '../features/recruiter/features/post_job/views/view_applicants/view_applicants_view.dart';
@@ -26,7 +26,7 @@ class AppRoute {
       postedJobDetailsView => toPage(PostedJobDetailView(job: routeObject)),
       postAJobView => toPage(const PostAJobView()),
       viewApplicants => toPage(ViewApplicantsView(applicantId: routeObject)),
-      applicantsHomeView => toPage(const ApplicantHomeView()),
+      applicantsHomeView => toPage(const ApplicantPageNavigator()),
       recruiterHomeView => toPage(const RecruiterHomeView()),
       recruiterPageNavigator => toPage(const RecruiterPageNavigator()),
       _ => MaterialPageRoute(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../controller/auth_controller.dart';
-import '../widgets/auth_field.dart';
+import '../widgets/custom_auth_field.dart';
 
 class ApplicantSignupSection extends ConsumerStatefulWidget {
   const ApplicantSignupSection({super.key});

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/common/route_transition.dart';
 import 'package:jobhunt_pro/core/extensions/sort_job_by_date.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/features/post_job/views/post_jobs_screen/posted_job_detail_view.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 
 class ActiveJobsView extends ConsumerWidget {
@@ -16,7 +18,7 @@ class ActiveJobsView extends ConsumerWidget {
           const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       child: Padding(
         padding:
-            const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 30),
+            const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 30),
         child: activeJobs.when(
           data: (data) {
             final activeJobs = data.sortByDate();
@@ -31,6 +33,8 @@ class ActiveJobsView extends ConsumerWidget {
                 return job.isOpened
                     ? JobCard(
                         job: job,
+                        onTap: () => Navigator.of(context).push(
+                            pageRouteTransition(PostedJobDetailView(job: job))),
                       )
                     : const SizedBox.shrink();
               },
