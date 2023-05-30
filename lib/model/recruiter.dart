@@ -8,7 +8,7 @@ class Recruiter {
   final String linkedIn;
   final String facebook;
   final String about;
-  // final String logoUrl;
+  final String logoUrl;
   final String id;
   Recruiter({
     required this.companyName,
@@ -18,7 +18,7 @@ class Recruiter {
     required this.linkedIn,
     required this.facebook,
     required this.about,
-    // required this.logoUrl,
+    required this.logoUrl,
     required this.id,
   });
 
@@ -41,7 +41,7 @@ class Recruiter {
       linkedIn: linkedIn ?? this.linkedIn,
       facebook: facebook ?? this.facebook,
       about: about ?? this.about,
-      // logoUrl: logoUrl ?? this.logoUrl,
+      logoUrl: logoUrl ?? this.logoUrl,
       id: id ?? this.id,
     );
   }
@@ -68,7 +68,7 @@ class Recruiter {
       linkedIn: map['linkedIn'] as String,
       facebook: map['facebook'] as String,
       about: map['about'] as String,
-      // logoUrl: map['logoUrl'] as String,
+      logoUrl: map['logoUrl'] as String,
       id: map['\$id'] as String,
     );
   }
@@ -94,7 +94,7 @@ class Recruiter {
         other.linkedIn == linkedIn &&
         other.facebook == facebook &&
         other.about == about &&
-        // other.logoUrl == logoUrl &&
+        other.logoUrl == logoUrl &&
         other.id == id;
   }
 
@@ -107,7 +107,7 @@ class Recruiter {
         linkedIn.hashCode ^
         facebook.hashCode ^
         about.hashCode ^
-        // logoUrl.hashCode ^
+        logoUrl.hashCode ^
         id.hashCode;
   }
 }

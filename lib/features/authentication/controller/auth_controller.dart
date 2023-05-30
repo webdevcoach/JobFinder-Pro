@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:appwrite/models.dart' as model;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/auth_api.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
+import 'package:jobhunt_pro/core/resuables/file_url.dart';
 import 'package:jobhunt_pro/features/authentication/screens/login_view.dart';
 import 'package:jobhunt_pro/features/recruiter/features/home/views/recruiter_home.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
@@ -67,14 +70,14 @@ class AuthController extends StateNotifier<bool> {
     required String facebook,
     required String about,
     required String password,
-    // required File file,
+    required File file,
     required BuildContext context,
   }) async {
     state = true;
     var nav = Navigator.of(context);
-    // String uploadedFileId =
-    //     await _storageAPI.uploadFile(file: file, isCv: false);
-    // String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId, isCv: false);
+   String uploadedFileId =
+       await _storageAPI.uploadFile(file: file, isCv: false);
+   String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId, isCv: false);
     Recruiter recruiter = Recruiter(
       companyName: companyName,
       websiteLink: websiteLink,
@@ -83,7 +86,7 @@ class AuthController extends StateNotifier<bool> {
       linkedIn: linkedIn,
       facebook: facebook,
       about: about,
-      // logoUrl: fileUrl,
+      logoUrl: 'fileUrl',
       id: '',
     );
     final res =

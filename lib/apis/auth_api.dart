@@ -36,10 +36,11 @@ class AuthAPI implements AuthInterface {
   }) async {
     try {
       final signUp = await _account.create(
-          userId: ID.unique(),
-          email: email,
-          password: password,
-          name: 'applicant');
+        userId: ID.unique(),
+        email: email,
+        password: password,
+        name: 'applicant',
+      );
       return right(signUp);
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));
@@ -48,6 +49,8 @@ class AuthAPI implements AuthInterface {
 
   Future<model.User> getAccountInfo() async => await _account.get();
 
+  logOut()async=> await _account.deleteSessions();
+
   @override
   FutureEither<model.User> recruiterSignUp({
     required String email,
@@ -55,10 +58,11 @@ class AuthAPI implements AuthInterface {
   }) async {
     try {
       final signUp = await _account.create(
-          userId: ID.unique(),
-          email: email,
-          password: password,
-          name: 'recruiter');
+        userId: ID.unique(),
+        email: email,
+        password: password,
+        name: 'recruiter',
+      );
       return right(signUp);
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));
@@ -71,8 +75,10 @@ class AuthAPI implements AuthInterface {
     required String password,
   }) async {
     try {
-      final session =
-          await _account.createEmailSession(email: email, password: password);
+      final session = await _account.createEmailSession(
+        email: email,
+        password: password,
+      );
       return right(session);
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/core/resuables/pick_image.dart';
 
 import '../controller/auth_controller.dart';
 import '../widgets/auth_field.dart';
@@ -23,7 +26,7 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
   final linkedinController = TextEditingController();
   final facebookController = TextEditingController();
 
-  // late File image;
+ late File image;
 
   @override
   void dispose() {
@@ -41,9 +44,9 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
   //   return null;
   // }
 
-  // Future<void> pickImage2() async {
-  //   final image = await PickFile.pickImage();
-  // }
+  Future<void> pickImage2() async {
+     image = await PickFile.pickImage();
+  }
 
   void onSignUp() {
     ref.read(authControllerProvider.notifier).recruiterSignUp(
@@ -56,7 +59,7 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
           linkedIn: linkedinController.text,
           facebook: facebookController.text,
           about: 'about',
-          // file: image,
+           file: image,
         );
   }
 
