@@ -159,7 +159,7 @@ class _HomeState extends ConsumerState<Home> {
                                       pageRouteTransition(JobDetailScreen(
                                           jobId: data[index].jobId))),
                                   job: data[index],
-                                  isSaved: data[index].isOpened,
+                                  isSaved: false,
                                   imageUrl: 'https://i.pravatar.cc/300?img=1',
                                   imageBackground: Colors.transparent,
                                 )

@@ -18,8 +18,10 @@ class ApplicantCard extends ConsumerWidget {
                   data: (profile) {
                     return ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: NetworkImage(profile.profilePicture ??
-                            'https://i.pravatar.cc/300?img=60'),
+                        backgroundImage: NetworkImage(
+                          profile.profilePicture ??
+                              'https://i.pravatar.cc/300?img=60',
+                        ),
                       ),
                       title: Text(profile.name),
                       onTap: () {

@@ -91,4 +91,16 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
       );
     });
   }
+
+  void saveJob({required Applicant applicant, required String jobId})async{
+    List<String> savedJobsList =  applicant.savedJobs;
+    if(!savedJobsList.contains(jobId)){
+    savedJobsList.add(jobId);
+    }else{
+      savedJobsList.remove(jobId);
+    }
+    final updatedApplicantDetails = applicant.copyWith(savedJobs: savedJobsList);
+    final job  = await _databaseAPI.saveJob(applicant: updatedApplicantDetails);
+    job.fold((l) => print(l.errorMsg), (r) => null);
+  }
 }

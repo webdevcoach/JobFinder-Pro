@@ -87,17 +87,16 @@ class AuthController extends StateNotifier<bool> {
         await _storageAPI.uploadFile(file: file, isCv: false);
     String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId, isCv: false);
     Recruiter recruiter = Recruiter(
-      companyName: companyName,
-      websiteLink: websiteLink,
-      email: email,
-      twitter: twitter,
-      linkedIn: linkedIn,
-      facebook: facebook,
-      about: about,
-      logoUrl: fileUrl,
-      id: '',
-      postedJobs: []
-    );
+        companyName: companyName,
+        websiteLink: websiteLink,
+        email: email,
+        twitter: twitter,
+        linkedIn: linkedIn,
+        facebook: facebook,
+        about: about,
+        logoUrl: fileUrl,
+        id: '',
+        postedJobs: []);
     final res =
         await _authAPI.recruiterSignUp(email: email, password: password);
     state = false;
@@ -133,6 +132,7 @@ class AuthController extends StateNotifier<bool> {
       profilePicture: '',
       id: '',
       appliedJobs: [],
+      savedJobs: [],
     );
     var nav = Navigator.of(context);
     final res =
@@ -165,8 +165,7 @@ class AuthController extends StateNotifier<bool> {
       print(l.errorMsg);
     }, (r) async {
       final accountInfo = await _authAPI.getAccountInfo();
-      print(accountInfo.name.toString());
-
+      state = false;
       return switch (accountInfo.name) {
         'applicant' =>
           nav.pushNamed(AppRoute.applicantsHomeView), //home page of Applicant
@@ -194,7 +193,6 @@ class AuthController extends StateNotifier<bool> {
   void logout(BuildContext context) async {
     final res = await _authAPI.logout();
     res.fold((l) => null, (r) {
-      state = false;
       Navigator.of(context).push(pageRouteTransition(
         const LoginView(),
       ));

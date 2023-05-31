@@ -21,13 +21,13 @@ class SavedJobsScreen extends ConsumerWidget {
       body: ref.watch(currentApplicantDetailsProvider).when(
           data: (profile) {
             return ListView.builder(
-                itemCount: profile.appliedJobs.length,
+                itemCount: profile.savedJobs.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: JobCard(
                         isApplicant: true,
-                        postedJobsId: profile.appliedJobs[index]),
+                        postedJobsId: profile.savedJobs[index]),
                   );
                 });
           },

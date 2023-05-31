@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/common/searchbox.dart';
 
 import '../../../../common/custom_appbar.dart';
-import '../../../../common/searchbox.dart';
-import '../../../../common/selectable_buttons.dart';
-import 'components/activity_card.dart';
+import '../../../authentication/controller/auth_controller.dart';
+import '../../../recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 
-class ActivityScreen extends StatelessWidget {
+class ActivityScreen extends ConsumerWidget {
   const ActivityScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: CustomAppBar(title: 'Activity', showSuffixIcon: false),
-      body: ListView(children: const [
-        Padding(
+      body: Column(children: [
+        const Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,6 +27,25 @@ class ActivityScreen extends StatelessWidget {
               //     selectedIndex: 0),
             ],
           ),
+        ),
+        Expanded(
+          child: ref.watch(currentApplicantDetailsProvider).when(
+              data: (profile) {
+                return ListView.builder(
+                    itemCount: profile.appliedJobs.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: JobCard(
+                            isApplicant: true,
+                            postedJobsId: profile.appliedJobs[index]),
+                      );
+                    });
+              },
+              error: (error, trace) => SizedBox(
+                    child: Text(error.toString()),
+                  ),
+              loading: () => const CircularProgressIndicator()),
         ),
         // ListView.builder(
         //   physics: const NeverScrollableScrollPhysics(),

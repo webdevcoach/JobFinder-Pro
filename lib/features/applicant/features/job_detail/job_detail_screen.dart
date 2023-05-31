@@ -125,14 +125,15 @@ class JobDetailScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(14),
           child: ref.watch(currentApplicantDetailsProvider).when(
               data: (applicant) {
+                print(jobsData!.jobId);
 
-                return applicant.appliedJobs.contains(jobsData!.jobId)
+                return applicant.appliedJobs.contains(jobsData.jobId)
                     ? const SizedBox()
                     : ElevatedButton(
                         onPressed: () =>
                             Navigator.of(context).push(pageRouteTransition(
                                 ApplyJobView(
-                                  jobDetails: jobsData!,
+                                  jobDetails: jobsData,
                                   applicant: applicant,
                                 ),
                                 td: TransitionDirection.bottom)),

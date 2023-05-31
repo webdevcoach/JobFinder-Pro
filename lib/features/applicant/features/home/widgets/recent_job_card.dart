@@ -1,14 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/features/applicant/features/apply_job/controller/apply_job_conntroller.dart';
+import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
 
 import '../../../../../common/company_logo.dart';
 import '../../../../../common/svg_icon_mini.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
-class RecentJobCard extends StatelessWidget {
+class RecentJobCard extends ConsumerStatefulWidget {
   final PostJob job;
 
   final String imageUrl;
@@ -17,25 +20,30 @@ class RecentJobCard extends StatelessWidget {
 
   final void Function()? onTap;
 
-  const RecentJobCard(
-      {Key? key,
-      required this.imageUrl,
-      required this.imageBackground,
-      required this.isSaved,
-      required this.job,
-      this.onTap})
-      : super(key: key);
+  const RecentJobCard({
+    Key? key,
+    required this.imageUrl,
+    required this.imageBackground,
+    required this.isSaved,
+    required this.job,
+    this.onTap,
+  }) : super(key: key);
 
+  @override
+  ConsumerState<RecentJobCard> createState() => _RecentJobCardState();
+}
+
+class _RecentJobCardState extends ConsumerState<RecentJobCard> {
   @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.displayMedium!;
     return InkWell(
-        onTap: onTap,
+        onTap: widget.onTap,
         child: Row(
           children: [
             CompanyLogo(
               size: 30,
-              imageUrl: imageUrl,
+              imageUrl: widget.imageUrl,
             ),
             const SizedBox(width: 10),
             Flexible(
@@ -47,7 +55,7 @@ class RecentJobCard extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          job.jobTitle,
+                          widget.job.jobTitle,
                           style: textStyle.copyWith(
                               fontSize: 16, fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
@@ -60,13 +68,13 @@ class RecentJobCard extends StatelessWidget {
                     children: [
                       const SvgIconMini(svg: 'location'),
                       Text(
-                        ' ${job.location}',
+                        ' ${widget.job.location}',
                         style: textStyle.copyWith(fontSize: 11),
                       ),
                       const SizedBox(width: 10),
                       const SvgIconMini(svg: 'briefcase'),
                       Text(
-                        ' ${job.jobType}',
+                        ' ${widget.job.jobType}',
                         style: textStyle.copyWith(fontSize: 11),
                       )
                     ],
@@ -76,12 +84,29 @@ class RecentJobCard extends StatelessWidget {
             ),
             Column(
               children: [
-                Icon(
-                  isSaved ? IconlyBold.bookmark : IconlyLight.bookmark,
-                  color: Colors.grey[700],
-                ),
+                ref.watch(currentApplicantDetailsProvider).when(
+                    data: (applicant) {
+                      return InkWell(
+                        onTap: () {
+                          ref
+                              .watch(applyJobControllerProvider.notifier)
+                              .saveJob(
+                                  applicant: applicant,
+                                  jobId: widget.job.jobId);
+                          setState(() {});
+                        },
+                        child: Icon(
+                          applicant.savedJobs.contains(widget.job.jobId)
+                              ? IconlyBold.bookmark
+                              : IconlyLight.bookmark,
+                          color: Colors.grey[700],
+                        ),
+                      );
+                    },
+                    error: (error, stack) => const SizedBox(),
+                    loading: () => const SizedBox()),
                 const SizedBox(height: 10),
-                Text(timeAgo.format(job.time, locale: 'en_short'))
+                Text(timeAgo.format(widget.job.time, locale: 'en_short'))
               ],
             )
           ],
