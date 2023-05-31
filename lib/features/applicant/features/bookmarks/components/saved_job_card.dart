@@ -1,31 +1,33 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
-import 'package:jobhunt_pro/core/enums/enums.dart';
-
+import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
+import 'package:timeago/timeago.dart' as timeAgo;
 import '../../../../../common/company_logo.dart';
 import '../../../../../common/info_chip.dart';
 import '../../../../../common/svg_icon_mini.dart';
 import '../../../../../theme/colors.dart';
 
-class SavedJobCard extends StatelessWidget {
-  final int id;
-  final WorkType type;
-  final String title;
+class SavedJobCard extends ConsumerWidget {
+  final String jobId;
+  //final int id;
+  //final WorkType type;
+  // final String title;
   final bool isBookmarked;
-  final String location;
+  // final String location;
   final String imageUrl;
-  final Color imageBackground;
+  //final Color imageBackground;
   const SavedJobCard({
     Key? key,
-    required this.id,
-    required this.type,
-    required this.title,
+    // required this.id,
+    // required this.type,
+    required this.jobId,
     required this.isBookmarked,
-    required this.location,
+   // required this.location,
     required this.imageUrl,
-    required this.imageBackground,
+    //required this.imageBackground,
   }) : super(key: key);
 
   // final TextStyle? textStyle;
@@ -37,7 +39,7 @@ class SavedJobCard extends StatelessWidget {
   // }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textStyle = Theme.of(context).textTheme.displayMedium!;
 
     int randomIndex = Random().nextInt(3);
@@ -47,74 +49,75 @@ class SavedJobCard extends StatelessWidget {
       ['Applied', Colors.indigo],
       ['Closed', Colors.blue]
     ];
-
-    return GestureDetector(
-      // onTap: (() => selectJob(context)),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(
-              color: Colors.grey.shade100,
-              width: 2,
-              strokeAlign: BorderSide.strokeAlignOutside,
-            )),
-        padding: const EdgeInsets.all(10.0),
-        margin: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            ListTile(
-                leading: CompanyLogo(
-                  imageUrl: imageUrl,
-                  size: 40,
-                ),
-                title: Padding(
-                  padding: const EdgeInsets.only(bottom: 7),
-                  child: Text(
-                    title,
-                    style: textStyle.copyWith(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                trailing: const Icon(IconlyBold.bookmark,
-                    color: AppColors.primaryColor),
-                subtitle: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SvgIconMini(svg: 'location'),
-                    const SizedBox(width: 5),
-                    Text(
-                      location,
-                      style: textStyle.copyWith(fontSize: 13),
-                    ),
-                    const SizedBox(width: 10),
-                    const SvgIconMini(svg: 'briefcase'),
-                    const SizedBox(width: 5),
-                    Text(
-                      type.text,
-                      style: textStyle.copyWith(fontSize: 13),
-                    )
-                  ],
-                )),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ref.watch(myPostedJobProvider(jobId)).when(
+        data: (job) {
+          return GestureDetector(
+            // onTap: (() => selectJob(context)),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                    color: Colors.grey.shade100,
+                    width: 2,
+                    strokeAlign: BorderSide.strokeAlignOutside,
+                  )),
+              padding: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.all(10.0),
+              child: Column(
                 children: [
-                  InfoChip(
-                    title: infoChipTextAndColor[randomIndex][0],
-                    titleColor: infoChipTextAndColor[randomIndex][1],
-                  ),
-                  InfoChip(
-                      title: '${Random().nextInt(10) + 1} hours ago',
-                      titleColor: Colors.grey[800]!),
+                  ListTile(
+                      leading:Image.network(imageUrl),
+                      title: Padding(
+                        padding: const EdgeInsets.only(bottom: 7),
+                        child: Text(
+                          job.jobTitle,
+                          style: textStyle.copyWith(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      trailing: const Icon(IconlyBold.bookmark,
+                          color: AppColors.primaryColor),
+                      subtitle: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SvgIconMini(svg: 'location'),
+                          const SizedBox(width: 5),
+                          Text(
+                            job.location,
+                            style: textStyle.copyWith(fontSize: 13),
+                          ),
+                          const SizedBox(width: 10),
+                          const SvgIconMini(svg: 'briefcase'),
+                          const SizedBox(width: 5),
+                          Text(
+                            job.jobType,
+                            style: textStyle.copyWith(fontSize: 13),
+                          )
+                        ],
+                      )),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InfoChip(
+                          title: infoChipTextAndColor[randomIndex][0],
+                          titleColor: infoChipTextAndColor[randomIndex][1],
+                        ),
+                        InfoChip(
+                            title: timeAgo.format(job.time),
+                            titleColor: Colors.grey[800]!),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            ),
+          );
+        },
+        error: (error, trace) => const SizedBox(),
+        loading: () => const SizedBox());
   }
 }
