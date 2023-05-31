@@ -140,7 +140,7 @@ class JobDetailScreen extends ConsumerWidget {
                 ),
               ),
             ),
-      floatingActionButton: Padding(
+      bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(14),
           child: ref.watch(currentApplicantDetailsProvider).when(
               data: (applicant) {
@@ -164,7 +164,6 @@ class JobDetailScreen extends ConsumerWidget {
               },
               error: (error, stackTrace) => const SizedBox(),
               loading: () => const SizedBox())),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
