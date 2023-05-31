@@ -158,11 +158,8 @@ class _HomeState extends ConsumerState<Home> {
                                   onTap: () => Navigator.of(context).push(
                                       pageRouteTransition(JobDetailScreen(
                                           jobId: data[index].jobId))),
-                                  id: data[index].jobId,
-                                  type: data[index].jobType,
-                                  title: data[index].jobTitle,
+                                  job: data[index],
                                   isSaved: data[index].isOpened,
-                                  location: data[index].location,
                                   imageUrl: 'https://i.pravatar.cc/300?img=1',
                                   imageBackground: Colors.transparent,
                                 )

@@ -14,7 +14,7 @@ class PostJob {
   final String jobId;
   final bool isOpened;
   final String companyId;
-  final List<String> appliedCandidates;
+  final List<String> applicationReceived;
   final String salary;
   final List<String> responsibilities;
   final List<String> requirement;
@@ -30,7 +30,7 @@ class PostJob {
     required this.jobId,
     required this.isOpened,
     required this.companyId,
-    required this.appliedCandidates,
+    required this.applicationReceived,
     required this.salary,
     required this.responsibilities,
     required this.requirement,
@@ -48,7 +48,7 @@ class PostJob {
     String? jobId,
     bool? isOpened,
     String? companyId,
-    List<String>? appliedCandidates,
+    List<String>? applicationReceived,
     String? salary,
     List<String>? responsibilities,
     List<String>? requirement,
@@ -65,7 +65,7 @@ class PostJob {
       jobId: jobId ?? this.jobId,
       isOpened: isOpened ?? this.isOpened,
       companyId: companyId ?? this.companyId,
-      appliedCandidates: appliedCandidates ?? this.appliedCandidates,
+      applicationReceived: applicationReceived ?? this.applicationReceived,
       salary: salary ?? this.salary,
       responsibilities: responsibilities ?? this.responsibilities,
       requirement: requirement ?? this.requirement,
@@ -84,7 +84,7 @@ class PostJob {
       'time': time.millisecondsSinceEpoch,
       'isOpened': isOpened,
       'companyId': companyId,
-      'appliedCandidates': appliedCandidates,
+      'applicationReceived': applicationReceived,
       'salary': salary,
       'responsibilities': responsibilities,
       'requirement': requirement,
@@ -104,7 +104,7 @@ class PostJob {
       jobId: map['\$id'] as String,
       isOpened: map['isOpened'] as bool,
       companyId: map['companyId'] as String,
-      appliedCandidates: List<String>.from(map['appliedCandidates'] ?? []),
+      applicationReceived: List<String>.from(map['applicationReceived'] ?? []),
       salary: map['salary'] as String,
       responsibilities: List<String>.from(map['responsibilities'] ?? []),
       requirement: List<String>.from(map['requirement'] ?? []),
@@ -115,7 +115,7 @@ class PostJob {
 
   @override
   String toString() {
-    return 'PostJob(jobTitle: $jobTitle, workingMode: $workingMode, description: $description, location: $location, jobType: $jobType, time: $time, jobId: $jobId, isOpened: $isOpened, companyId: $companyId, appliedCandidates: $appliedCandidates, salary: $salary, responsibilities: $responsibilities, requirement: $requirement, benefits: $benefits, deadline: $deadline)';
+    return 'PostJob(jobTitle: $jobTitle, workingMode: $workingMode, description: $description, location: $location, jobType: $jobType, time: $time, jobId: $jobId, isOpened: $isOpened, companyId: $companyId, applicationReceived: $applicationReceived, salary: $salary, responsibilities: $responsibilities, requirement: $requirement, benefits: $benefits, deadline: $deadline)';
   }
 
   @override
@@ -132,7 +132,7 @@ class PostJob {
         other.jobId == jobId &&
         other.isOpened == isOpened &&
         other.companyId == companyId &&
-        listEquals(other.appliedCandidates, appliedCandidates) &&
+        listEquals(other.applicationReceived, applicationReceived) &&
         other.salary == salary &&
         listEquals(other.responsibilities, responsibilities) &&
         listEquals(other.requirement, requirement) &&
@@ -151,7 +151,7 @@ class PostJob {
         jobId.hashCode ^
         isOpened.hashCode ^
         companyId.hashCode ^
-        appliedCandidates.hashCode ^
+        applicationReceived.hashCode ^
         salary.hashCode ^
         responsibilities.hashCode ^
         requirement.hashCode ^
@@ -159,8 +159,4 @@ class PostJob {
         deadline.hashCode;
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory PostJob.fromJson(String source) =>
-      PostJob.fromMap(json.decode(source) as Map<String, dynamic>);
 }

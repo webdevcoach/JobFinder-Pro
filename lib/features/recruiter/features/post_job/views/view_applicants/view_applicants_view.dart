@@ -15,7 +15,7 @@ class ViewApplicantsView extends StatelessWidget {
           child: ListView.builder(
               itemCount: applicantId.length,
               itemBuilder: (context, index) {
-                return ApplicantCard(applicantId: applicantId[index]);
+                return ApplicantCard(applicationId: applicantId[index]);
               }),
         ));
   }

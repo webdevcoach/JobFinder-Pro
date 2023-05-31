@@ -11,6 +11,7 @@ class Applicant {
   final String about;
   final String profilePicture;
   final String id;
+  final List<String> appliedJobs;
   Applicant({
     required this.name,
     required this.email,
@@ -19,6 +20,7 @@ class Applicant {
     required this.about,
     required this.profilePicture,
     required this.id,
+    required this.appliedJobs,
   });
 
   Applicant copyWith({
@@ -29,6 +31,7 @@ class Applicant {
     String? about,
     String? profilePicture,
     String? id,
+    List<String>? appliedJobs,
   }) {
     return Applicant(
       name: name ?? this.name,
@@ -38,6 +41,7 @@ class Applicant {
       about: about ?? this.about,
       profilePicture: profilePicture ?? this.profilePicture,
       id: id ?? this.id,
+      appliedJobs: appliedJobs ?? this.appliedJobs,
     );
   }
 
@@ -49,6 +53,7 @@ class Applicant {
       'techStacks': techStacks,
       'about': about,
       'profilePicture': profilePicture,
+      'appliedJobs': appliedJobs,
     };
   }
 
@@ -61,12 +66,13 @@ class Applicant {
       about: map['about'] as String,
       profilePicture: map['profilePicture'] as String,
       id: map['\$id'] as String,
+      appliedJobs: List<String>.from(map['appliedJobs']),
     );
   }
 
   @override
   String toString() {
-    return 'Applicant(name: $name, email: $email, skills: $skills, techStacks: $techStacks, about: $about, profilePicture: $profilePicture, id: $id)';
+    return 'Applicant(name: $name, email: $email, skills: $skills, techStacks: $techStacks, about: $about, profilePicture: $profilePicture, id: $id, appliedJobs: $appliedJobs)';
   }
 
   @override
@@ -80,7 +86,8 @@ class Applicant {
         listEquals(other.techStacks, techStacks) &&
         other.about == about &&
         other.profilePicture == profilePicture &&
-        other.id == id;
+        other.id == id &&
+        listEquals(other.appliedJobs, appliedJobs);
   }
 
   @override
@@ -91,7 +98,8 @@ class Applicant {
         techStacks.hashCode ^
         about.hashCode ^
         profilePicture.hashCode ^
-        id.hashCode;
+        id.hashCode ^
+        appliedJobs.hashCode;
   }
 
   String toJson() => json.encode(toMap());

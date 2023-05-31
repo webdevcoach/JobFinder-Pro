@@ -50,8 +50,6 @@ class AuthAPI implements AuthInterface {
 
   Future<model.User> getAccountInfo() async => await _account.get();
 
-  logOut()async=> await _account.deleteSessions();
-
   @override
   FutureEither<model.User> recruiterSignUp({
     required String email,

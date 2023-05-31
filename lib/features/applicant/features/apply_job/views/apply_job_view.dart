@@ -7,20 +7,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:jobhunt_pro/common/custom_forms_kit.dart';
-import 'package:jobhunt_pro/common/route_transition.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/controller/apply_job_conntroller.dart';
-import 'package:jobhunt_pro/features/applicant/features/home/views/page_navigator.dart';
+import 'package:jobhunt_pro/model/applicant.dart';
+import 'package:jobhunt_pro/model/post_job.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
 
 import '../../../../../core/resuables/pick_image.dart';
 
 class ApplyJobView extends ConsumerStatefulWidget {
-  final String companyId;
-  final String jobId;
+  final PostJob jobDetails;
+  final Applicant applicant;
   const ApplyJobView({
     super.key,
-    required this.companyId,
-    required this.jobId,
+    required this.jobDetails,
+    required this.applicant,
   });
 
   @override
@@ -30,6 +30,7 @@ class ApplyJobView extends ConsumerStatefulWidget {
 class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
   final coverLetterController = TextEditingController();
   late File cv;
+  bool isUploaded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,72 +39,84 @@ class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
             context: context,
             cv: cv,
             coverLetter: coverLetterController.text,
-            companyId: widget.companyId,
-            jobId: widget.jobId,
+            jobId: widget.jobDetails.jobId,
             ref: ref,
+            applicant: widget.applicant,
+            selectedJob: widget.jobDetails,
           );
     }
 
     Future<void> pickCV() async {
       cv = await PickFile.pickPdf();
-      // setState(() {});
+      setState(() {
+        isUploaded = true;
+      });
     }
 
+    final applyJobState = ref.watch(applyJobControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Apply'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CustomTextBold(text: 'Cover Letter'),
-            CustomTextField(
-                controller: coverLetterController, enableMaxlines: true),
-            const CustomTextBold(text: 'Upload CV'),
-            GestureDetector(
-              onTap: pickCV,
-              child: DottedBorder(
-                borderType: BorderType.RRect,
-                radius: const Radius.circular(20),
-                dashPattern: const [10, 10],
-                color: Colors.grey.shade400.withOpacity(0.8),
-                strokeWidth: 2,
-                child: Container(
-                  // padding: const EdgeInsets.all(20),
-                  // margin: const EdgeInsets.all(20),
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey.withOpacity(0.1),
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/svg/recruiter_icons/document-upload.svg',
-                          color: AppColors.primaryColor.withOpacity(0.9),
-                          height: 30,
+        child: SingleChildScrollView(
+          child: applyJobState == ApplyJobState.loading
+              ? const CircularProgressIndicator()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CustomTextBold(text: 'Cover Letter'),
+                    CustomTextField(
+                        controller: coverLetterController,
+                        enableMaxlines: true),
+                    const CustomTextBold(text: 'Upload CV'),
+                    GestureDetector(
+                      onTap: pickCV,
+                      child: DottedBorder(
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(20),
+                        dashPattern: const [10, 10],
+                        color: Colors.grey.shade400.withOpacity(0.8),
+                        strokeWidth: 2,
+                        child: Container(
+                          // padding: const EdgeInsets.all(20),
+                          // margin: const EdgeInsets.all(20),
+                          height: 120,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: isUploaded
+                                ? Colors.green.withOpacity(0.1)
+                                : Colors.grey.withOpacity(0.1),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/svg/recruiter_icons/document-upload.svg',
+                                  color:
+                                      AppColors.primaryColor.withOpacity(0.9),
+                                  height: 30,
+                                ),
+                                const SizedBox(height: 10),
+                                CustomText(
+                                    text:
+                                        isUploaded ? 'Uploaded' : 'Browse file')
+                              ],
+                            ),
+                          ),
                         ),
-                        const SizedBox(height: 10),
-                        CustomText(text: 'Browse file')
-                      ],
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 30),
+                    ElevatedButton(
+                        onPressed: () async {
+                          applyJob();
+                        },
+                        child: CustomText(text: 'Submit', color: Colors.white))
+                  ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-                onPressed: () async {
-                  applyJob();
-                  Navigator.of(context).push(
-                      pageRouteTransition(const ApplicantPageNavigator()));
-                },
-                child: CustomText(text: 'Submit', color: Colors.white))
-          ],
         ),
       ),
     );

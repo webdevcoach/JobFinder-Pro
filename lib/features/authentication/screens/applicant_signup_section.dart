@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 
 import '../controller/auth_controller.dart';
 import '../widgets/custom_auth_field.dart';
@@ -80,7 +81,7 @@ class _SignUpViewState extends ConsumerState<ApplicantSignupSection> {
                   const SizedBox(height: 5),
                   ElevatedButton(
                     onPressed: onSignUp,
-                    child: const Text('Done'),
+                    child: CustomText(text: 'Sign up', color: Colors.white),
                   ),
                   // ElevatedButton(
                   //     onPressed: pickImage2,

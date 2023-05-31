@@ -28,7 +28,16 @@ abstract class DataBaseInterface {
   FutureEither<Document> applyJob({required ApplyJob applyJob});
   Future<Document> getApplicantProfile({required String id});
   Future<Document> getRecruiterProfile({required String id});
+  FutureEither<Document> updateJobWithApplicationId({required PostJob job});
+  FutureEither<Document> updateApplicantProfileWithJobId({
+    required Applicant applicant,
+  });
+  FutureEither<Document> addJobIdToRecruiterProfile({
+    required Recruiter recruiter,
+  });
   Future<List<Document>> getPostedJobs();
+  Future<Document> myPostedJobs({required String jobId});
+   Future<Document> getAppliedApplicants({required String applicationId});
 }
 
 class DatabaseAPI implements DataBaseInterface {
@@ -41,7 +50,7 @@ class DatabaseAPI implements DataBaseInterface {
       final post = await _databases.createDocument(
         databaseId: AppWriteConstant.jobDatabaseId,
         collectionId: AppWriteConstant.appliedJobCollectionId,
-        documentId: ID.unique(),
+        documentId: ID.custom(applyJob.applicationId),
         data: applyJob.toMap(),
       );
       return right(post);
@@ -128,9 +137,78 @@ class DatabaseAPI implements DataBaseInterface {
     final jobs = await _databases.listDocuments(
       databaseId: AppWriteConstant.jobDatabaseId,
       collectionId: AppWriteConstant.postedJobCollectionId,
-
       // queries: ['time']
     );
     return jobs.documents;
+  }
+
+  @override
+  FutureEither<Document> updateApplicantProfileWithJobId({
+    required Applicant applicant,
+  }) async {
+    try {
+      final update = await _databases.updateDocument(
+        databaseId: AppWriteConstant.usersDatabaseId,
+        collectionId: AppWriteConstant.applicantCollectionId,
+        documentId: applicant.id,
+        data: {'appliedJobs': applicant.appliedJobs},
+      );
+      return right(update);
+    } on AppwriteException catch (e) {
+      return left(Failure(e.message!));
+    }
+  }
+
+  @override
+  FutureEither<Document> updateJobWithApplicationId({
+    required PostJob job,
+  }) async {
+    try {
+      final update = await _databases.updateDocument(
+        databaseId: AppWriteConstant.jobDatabaseId,
+        collectionId: AppWriteConstant.postedJobCollectionId,
+        documentId: job.jobId,
+        data: {'applicationReceived': job.applicationReceived},
+      );
+      return right(update);
+    } on AppwriteException catch (e) {
+      return left(Failure(e.message!));
+    }
+  }
+
+  @override
+  FutureEither<Document> addJobIdToRecruiterProfile({
+    required Recruiter recruiter,
+  }) async {
+    try {
+      final addJobId = await _databases.updateDocument(
+          databaseId: AppWriteConstant.usersDatabaseId,
+          collectionId: AppWriteConstant.recruiterCollectionId,
+          documentId: recruiter.id,
+          data: {'postedJobs': recruiter.postedJobs});
+      return right(addJobId);
+    } on AppwriteException catch (e) {
+      return left(Failure(e.message!));
+    }
+  }
+  
+  @override
+  Future<Document> myPostedJobs({required String jobId}) async{
+    final myJob =  await _databases.getDocument(
+      databaseId: AppWriteConstant.jobDatabaseId, 
+      collectionId: AppWriteConstant.postedJobCollectionId, 
+      documentId: jobId,
+      );
+      return myJob;
+  }
+  
+  @override
+  Future<Document> getAppliedApplicants({required String applicationId}) async{
+     final myJob =  await _databases.getDocument(
+      databaseId: AppWriteConstant.jobDatabaseId, 
+      collectionId: AppWriteConstant.appliedJobCollectionId, 
+      documentId: applicationId,
+      );
+      return myJob;
   }
 }

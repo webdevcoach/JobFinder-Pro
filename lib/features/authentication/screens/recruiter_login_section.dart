@@ -59,7 +59,7 @@ class _LoginViewState extends ConsumerState<RecruiterLoginSection> {
                     alignment: Alignment.topRight,
                     child: ElevatedButton(
                       onPressed: onLogin,
-                      child: CustomText(text: 'Sign up', color: Colors.white),
+                      child: CustomText(text: 'Log in', color: Colors.white),
                     ),
                   ),
                   const SizedBox(height: 40),

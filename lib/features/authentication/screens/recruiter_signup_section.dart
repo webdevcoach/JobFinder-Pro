@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/core/resuables/pick_image.dart';
 
+import '../../../common/custom_forms_kit.dart';
 import '../controller/auth_controller.dart';
 import '../widgets/custom_auth_field.dart';
 
@@ -26,7 +27,7 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
   final linkedinController = TextEditingController();
   final facebookController = TextEditingController();
 
- late File image;
+  late File image;
 
   @override
   void dispose() {
@@ -50,7 +51,7 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
   // }
 
   Future<void> pickImage2() async {
-     image = await PickFile.pickImage();
+    image = await PickFile.pickImage();
   }
 
   void onSignUp() {
@@ -64,7 +65,7 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
           linkedIn: linkedinController.text,
           facebook: facebookController.text,
           about: 'about',
-           file: image,
+          file: image,
         );
   }
 
@@ -110,11 +111,10 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
                   // const SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: onSignUp,
-                    child: const Text('Submit'),
+                    child: CustomText(text: 'Submit', color: Colors.white),
                   ),
-                  // ElevatedButton(
-                  //     onPressed: pickImage2,
-                  //     child: const Text('pickImage')),
+                  ElevatedButton(
+                      onPressed: pickImage2, child: const Text('pickImage')),
                   const SizedBox(height: 40),
                 ],
               ),

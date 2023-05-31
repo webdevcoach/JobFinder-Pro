@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
+import 'package:jobhunt_pro/model/apply_job.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
 
 enum JobState {
@@ -17,6 +18,15 @@ final postJobControllerProvider =
 final postedJobProvider = FutureProvider((ref) async {
   final jobs = ref.watch(postJobControllerProvider.notifier);
   return await jobs.getJobs();
+});
+final myPostedJobProvider = FutureProvider.family((ref, String jobId) async {
+  final jobs = ref.watch(postJobControllerProvider.notifier);
+  return await jobs.myJobs(jobId: jobId);
+});
+
+final appliedApplicantProvider = FutureProvider.family((ref, String applicationId) async {
+  final jobs = ref.watch(postJobControllerProvider.notifier);
+  return await jobs.appliedApplicant(applicationId: applicationId);
 });
 
 final postedJobDetailsProvider =
@@ -52,8 +62,10 @@ class PostJobController extends StateNotifier<JobState> {
   }) async {
     state = JobState.loading;
     final recruiter = ref.watch(currentRecruiterDetailsProvider).value;
+    
     final nav = Navigator.of(context);
     if (recruiter != null) {
+      List<String> postedJobIds = recruiter.postedJobs;
       PostJob jobDetails = PostJob(
           jobTitle: jobTitle,
           workingMode: workingMode,
@@ -64,7 +76,7 @@ class PostJobController extends StateNotifier<JobState> {
           jobId: '',
           isOpened: true,
           companyId: recruiter.id,
-          appliedCandidates: [],
+          applicationReceived: [],         
           salary: salary,
           responsibilities: responsibilities,
           requirement: requirement,
@@ -75,8 +87,10 @@ class PostJobController extends StateNotifier<JobState> {
       job.fold((l) {
         //failure
         print(l.errorMsg);
-      }, (r) {
-        //success
+      }, (r) async{
+       postedJobIds.add(r.$id);
+       final recruiterUpdatedDetails = recruiter.copyWith(postedJobs: postedJobIds);
+       await _databaseAPI.addJobIdToRecruiterProfile(recruiter: recruiterUpdatedDetails);
         print(r.data);
         nav.pop();
       });
@@ -89,4 +103,17 @@ class PostJobController extends StateNotifier<JobState> {
     final jobs = await _databaseAPI.getPostedJobs();
     return jobs.map((job) => PostJob.fromMap(job.data)).toList();
   }
+
+ Future<PostJob> myJobs({required String jobId})async{
+  final job = await _databaseAPI.myPostedJobs(jobId: jobId);
+  final postJob = PostJob.fromMap(job.data);
+  return postJob;
+ } 
+
+  Future<ApplyJob> appliedApplicant({required String applicationId})async{
+  final job = await _databaseAPI.getAppliedApplicants(applicationId: applicationId);
+  final postJob = ApplyJob.fromMap(job.data);
+  return postJob;
+ } 
+
 }

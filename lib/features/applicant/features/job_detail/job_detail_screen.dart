@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:jobhunt_pro/common/route_transition.dart';
@@ -10,6 +11,7 @@ import 'package:jobhunt_pro/theme/colors.dart';
 
 import '../../../../common/custom_appbar.dart';
 import '../../../../common/custom_forms_kit.dart';
+import '../../../../core/resuables/date_format.dart';
 import '../../../recruiter/features/post_job/controller/post_job_controller.dart';
 import '../apply_job/views/apply_job_view.dart';
 
@@ -91,7 +93,7 @@ class JobDetailScreen extends ConsumerWidget {
                               color: AppColors.primaryColor),
                           const SizedBox(height: 10),
                           Text(
-                              'Posted ${timeago.format(jobsData.time)}, ends in ${timeago.format(jobsData.deadline)}'),
+                              'Posted ${timeago.format(jobsData.time)}, ends in ${formatDate(jobsData.deadline)}'),
                           const SizedBox(height: 10),
                         ]),
                       ),
@@ -120,8 +122,35 @@ class JobDetailScreen extends ConsumerWidget {
               ),
             ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.all(14),
-        child: ElevatedButton(
+          padding: const EdgeInsets.all(14),
+          child: ref.watch(currentApplicantDetailsProvider).when(
+              data: (applicant) {
+
+                return applicant.appliedJobs.contains(jobsData!.jobId)
+                    ? const SizedBox()
+                    : ElevatedButton(
+                        onPressed: () =>
+                            Navigator.of(context).push(pageRouteTransition(
+                                ApplyJobView(
+                                  jobDetails: jobsData!,
+                                  applicant: applicant,
+                                ),
+                                td: TransitionDirection.bottom)),
+                        child: Text(
+                          'Apply Now',
+                          style: textStyle.copyWith(
+                              color: Colors.white, fontSize: 17),
+                        ));
+              },
+              error: (error, stackTrace) => const SizedBox(),
+              loading: () => const SizedBox())),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+}
+
+/*
+ElevatedButton(
             onPressed: () => Navigator.of(context).push(pageRouteTransition(
                 ApplyJobView(
                     companyId: jobsData!.companyId, jobId: jobsData.jobId),
@@ -130,12 +159,7 @@ class JobDetailScreen extends ConsumerWidget {
               'Apply Now',
               style: textStyle.copyWith(color: Colors.white, fontSize: 17),
             )),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-}
-
+*/
 class BulletedListBuilder extends StatelessWidget {
   final List<String> list;
   const BulletedListBuilder({

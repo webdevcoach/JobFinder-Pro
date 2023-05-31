@@ -1,22 +1,39 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 
 import '../../../../common/custom_appbar.dart';
-import 'components/saved_job_card.dart';
 
-class SavedJobsScreen extends StatelessWidget {
+class SavedJobsScreen extends ConsumerWidget {
   const SavedJobsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textStyle = Theme.of(context).textTheme.displayLarge;
 
     // final savedJobs = jobsData.where((job) => job.isSaved == true).toList();
 
     return Scaffold(
       appBar: CustomAppBar(title: 'Saved', showSuffixIcon: false),
-      body: ListView(
+      body: ref.watch(currentApplicantDetailsProvider).when(
+          data: (profile) {
+            return ListView.builder(
+                itemCount: profile.appliedJobs.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: JobCard(
+                        isApplicant: true,
+                        postedJobsId: profile.appliedJobs[index]),
+                  );
+                });
+          },
+          error: (error, trace) => const SizedBox(),
+          loading: () => const CircularProgressIndicator()),
+      /* ListView(
         children: const [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -54,7 +71,7 @@ class SavedJobsScreen extends StatelessWidget {
           // ),
           SizedBox(height: 20)
         ],
-      ),
+      ),*/
     );
   }
 }

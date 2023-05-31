@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 
 import '../theme/colors.dart';
 
@@ -7,18 +8,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final IconData prefixIcon;
   final bool showSuffixIcon;
+  final bool editProfile;
   final void Function()? onPrefixTap;
+  final void Function()? onProfileEdit;
 
   IconData? suffixIcon;
-  CustomAppBar(
-      {Key? key,
-      // required this.selectedJob,
-      required this.title,
-      this.prefixIcon = Icons.grid_view_rounded,
-      this.suffixIcon,
-      this.onPrefixTap,
-      this.showSuffixIcon = true})
-      : super(key: key);
+  CustomAppBar({
+    Key? key,
+    // required this.selectedJob,
+    required this.title,
+    this.prefixIcon = Icons.grid_view_rounded,
+    this.suffixIcon,
+    this.onPrefixTap,
+    this.editProfile = false,
+    this.showSuffixIcon = true,
+    this.onProfileEdit,
+  }) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -38,7 +43,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           title,
           style: textStyle!.copyWith(fontWeight: FontWeight.w800, fontSize: 23),
         ),
-        // actions: showSuffixIcon ? [AppBarIcon(icon: suffixIcon)] : [],
+        actions: editProfile
+            ? [
+                IconButton(
+                  onPressed: onProfileEdit,
+                  icon: const Icon(IconlyLight.edit_square),
+                )
+              ]
+            : [],
         centerTitle: true,
       ),
     );

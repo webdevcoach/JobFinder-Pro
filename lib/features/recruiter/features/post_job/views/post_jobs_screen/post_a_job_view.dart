@@ -121,7 +121,7 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                     CustomTextField(
                         controller: requirementController,
                         enableMaxlines: true),
-                    const CustomTextBold(text: 'Responsibilties'),
+                    const CustomTextBold(text: 'Responsibilities'),
                     CustomTextField(
                         controller: responsibilitiesController,
                         enableMaxlines: true),

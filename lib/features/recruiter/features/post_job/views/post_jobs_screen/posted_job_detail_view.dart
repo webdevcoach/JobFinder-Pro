@@ -150,7 +150,7 @@ class PostedJobDetailView extends ConsumerWidget {
         child: ElevatedButton(
             onPressed: () => Navigator.of(context).pushNamed(
                   AppRoute.viewApplicants,
-                  arguments: job.appliedCandidates,
+                  arguments: job.applicationReceived,
                 ),
             child: Text(
               'View All Applicants',

@@ -1,32 +1,28 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/model/post_job.dart';
 
 import '../../../../../common/company_logo.dart';
 import '../../../../../common/svg_icon_mini.dart';
+import 'package:timeago/timeago.dart' as timeAgo;
 
 class RecentJobCard extends StatelessWidget {
-  final String id;
+  final PostJob job;
+
   final String imageUrl;
   final Color imageBackground;
-  final String title;
-  final String location;
   final bool isSaved;
-  final String type;
+
   final void Function()? onTap;
 
   const RecentJobCard(
       {Key? key,
-      required this.id,
       required this.imageUrl,
       required this.imageBackground,
-      required this.title,
-      required this.location,
       required this.isSaved,
-      required this.type,
+      required this.job,
       this.onTap})
       : super(key: key);
 
@@ -51,7 +47,7 @@ class RecentJobCard extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          title,
+                          job.jobTitle,
                           style: textStyle.copyWith(
                               fontSize: 16, fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
@@ -64,13 +60,13 @@ class RecentJobCard extends StatelessWidget {
                     children: [
                       const SvgIconMini(svg: 'location'),
                       Text(
-                        ' $location',
+                        ' ${job.location}',
                         style: textStyle.copyWith(fontSize: 11),
                       ),
                       const SizedBox(width: 10),
                       const SvgIconMini(svg: 'briefcase'),
                       Text(
-                        ' $type',
+                        ' ${job.jobType}',
                         style: textStyle.copyWith(fontSize: 11),
                       )
                     ],
@@ -85,7 +81,7 @@ class RecentJobCard extends StatelessWidget {
                   color: Colors.grey[700],
                 ),
                 const SizedBox(height: 10),
-                Text('${(Random().nextInt(10) + 1).toString()}h')
+                Text(timeAgo.format(job.time, locale: 'en_short'))
               ],
             )
           ],

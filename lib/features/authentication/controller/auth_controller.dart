@@ -96,6 +96,7 @@ class AuthController extends StateNotifier<bool> {
       about: about,
       logoUrl: fileUrl,
       id: '',
+      postedJobs: []
     );
     final res =
         await _authAPI.recruiterSignUp(email: email, password: password);
@@ -131,6 +132,7 @@ class AuthController extends StateNotifier<bool> {
       about: '',
       profilePicture: '',
       id: '',
+      appliedJobs: [],
     );
     var nav = Navigator.of(context);
     final res =

@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class Recruiter {
@@ -10,6 +12,7 @@ class Recruiter {
   final String about;
   final String logoUrl;
   final String id;
+  final List<String> postedJobs;
   Recruiter({
     required this.companyName,
     required this.websiteLink,
@@ -20,6 +23,7 @@ class Recruiter {
     required this.about,
     required this.logoUrl,
     required this.id,
+    required this.postedJobs,
   });
 
   Recruiter copyWith({
@@ -32,6 +36,7 @@ class Recruiter {
     String? about,
     String? logoUrl,
     String? id,
+    List<String>? postedJobs,
   }) {
     return Recruiter(
       companyName: companyName ?? this.companyName,
@@ -43,6 +48,7 @@ class Recruiter {
       about: about ?? this.about,
       logoUrl: logoUrl ?? this.logoUrl,
       id: id ?? this.id,
+      postedJobs: postedJobs ?? this.postedJobs,
     );
   }
 
@@ -55,37 +61,34 @@ class Recruiter {
       'linkedIn': linkedIn,
       'facebook': facebook,
       'about': about,
-      // 'logoUrl': logoUrl,
+      'logoUrl': logoUrl,
+      'postedJobs': postedJobs,
     };
   }
 
   factory Recruiter.fromMap(Map<String, dynamic> map) {
     return Recruiter(
-      companyName: map['companyName'] as String,
-      websiteLink: map['websiteLink'] as String,
-      email: map['email'] as String,
-      twitter: map['twitter'] as String,
-      linkedIn: map['linkedIn'] as String,
-      facebook: map['facebook'] as String,
-      about: map['about'] as String,
-      logoUrl: map['logoUrl'] as String,
-      id: map['\$id'] as String,
-    );
+        companyName: map['companyName'] as String,
+        websiteLink: map['websiteLink'] as String,
+        email: map['email'] as String,
+        twitter: map['twitter'] as String,
+        linkedIn: map['linkedIn'] as String,
+        facebook: map['facebook'] as String,
+        about: map['about'] as String,
+        logoUrl: map['logoUrl'] as String,
+        id: map['\$id'] as String,
+        postedJobs: List<String>.from(map['postedJobs']));
   }
 
   @override
   String toString() {
-    return 'Recruiter(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about,  id: $id,)';
+    return 'Recruiter(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about, logoUrl: $logoUrl, id: $id, postedJobs: $postedJobs)';
   }
-
-  //   @override
-  // String toString() {
-  //   return 'Recruiter(companyName: $companyName, websiteLink: $websiteLink, email: $email, twitter: $twitter, linkedIn: $linkedIn, facebook: $facebook, about: $about, logoUrl: $logoUrl, id: $id,)';
-  // }
 
   @override
   bool operator ==(covariant Recruiter other) {
     if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
 
     return other.companyName == companyName &&
         other.websiteLink == websiteLink &&
@@ -95,7 +98,8 @@ class Recruiter {
         other.facebook == facebook &&
         other.about == about &&
         other.logoUrl == logoUrl &&
-        other.id == id;
+        other.id == id &&
+        listEquals(other.postedJobs, postedJobs);
   }
 
   @override
@@ -108,6 +112,7 @@ class Recruiter {
         facebook.hashCode ^
         about.hashCode ^
         logoUrl.hashCode ^
-        id.hashCode;
+        id.hashCode ^
+        postedJobs.hashCode;
   }
 }

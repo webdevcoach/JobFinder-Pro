@@ -11,7 +11,7 @@ class InfoBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.headline2;
+    final textStyle = Theme.of(context).textTheme.displayMedium;
 
     return Container(
       height: 80,
@@ -26,7 +26,7 @@ class InfoBox extends StatelessWidget {
             style:
                 textStyle!.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
         const SizedBox(height: 5),
-        Text(subtext, style: textStyle.copyWith(fontSize: 15)),
+        Text(subtext, style: textStyle.copyWith(fontSize: 14)),
       ]),
     );
   }
