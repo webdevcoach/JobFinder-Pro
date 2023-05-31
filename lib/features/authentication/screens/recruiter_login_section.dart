@@ -53,6 +53,7 @@ class _LoginViewState extends ConsumerState<RecruiterLoginSection> {
                   CustomAuthField(
                     controller: passwordController,
                     hintText: 'Password',
+                    isPasswordField: true,
                   ),
                   const SizedBox(height: 5),
                   Align(

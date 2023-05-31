@@ -87,6 +87,7 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
                   CustomAuthField(
                     controller: passwordController,
                     hintText: 'Password',
+                    isPasswordField: true,
                   ),
                   CustomAuthField(
                     controller: companyNameController,

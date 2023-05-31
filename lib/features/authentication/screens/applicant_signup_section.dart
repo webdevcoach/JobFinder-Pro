@@ -48,14 +48,6 @@ class _SignUpViewState extends ConsumerState<ApplicantSignupSection> {
         );
   }
 
-  bool showObscureText = true;
-
-  void showHidePassword() {
-    setState(() {
-      showObscureText = !showObscureText;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider);
@@ -74,9 +66,8 @@ class _SignUpViewState extends ConsumerState<ApplicantSignupSection> {
                   CustomAuthField(
                     controller: passwordController,
                     hintText: 'Password',
-                    showObscureText: showObscureText,
+                    // showObscureText: showObscureText,
                     isPasswordField: true,
-                    showPasswordFunc: showHidePassword,
                   ),
                   const SizedBox(height: 5),
                   ElevatedButton(
