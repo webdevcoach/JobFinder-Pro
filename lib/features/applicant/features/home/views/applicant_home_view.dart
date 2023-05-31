@@ -11,6 +11,7 @@ import '../../../../../common/verticalbar_decoration.dart';
 import '../../../../../constants/category_data.dart';
 import '../../../../../model/post_job.dart';
 import '../../../../../theme/colors.dart';
+import '../../../../authentication/controller/auth_controller.dart';
 import '../widgets/category_icon.dart';
 import '../widgets/recent_job_card.dart';
 
@@ -29,36 +30,17 @@ class _HomeState extends ConsumerState<Home> {
     final textStyle = Theme.of(context).textTheme.displayLarge;
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            const CircleAvatar(
-              radius: 20,
+        centerTitle: false,
+        title: const Text('Hi there 👋🏽'
+            // style: txtStyle!.copyWith(fontSize: 13),
             ),
-            const SizedBox(width: 10),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Good morning 👋🏽',
-                  // style: txtStyle!.copyWith(fontSize: 13),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  'dd',
-                  // style: txtStyle.copyWith(
-                  //     fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const Spacer(),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  IconlyLight.notification,
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(IconlyLight.notification
                   // color: Colors.grey,
-                ))
-          ],
-        ),
+                  ))
+        ],
       ),
       body: ListView(children: [
         Padding(
@@ -153,6 +135,14 @@ class _HomeState extends ConsumerState<Home> {
                         shrinkWrap: true,
                         itemCount: data.length,
                         itemBuilder: (BuildContext context, int index) {
+                          final companyDetails = ref
+                              .watch(recruiterProfileDetailsProvider(
+                                  data[index].companyId))
+                              .value;
+                          if (companyDetails == null) {
+                            return const SizedBox();
+                          }
+
                           return data[index].isOpened
                               ? RecentJobCard(
                                   onTap: () => Navigator.of(context).push(
@@ -160,7 +150,7 @@ class _HomeState extends ConsumerState<Home> {
                                           jobId: data[index].jobId))),
                                   job: data[index],
                                   isSaved: false,
-                                  imageUrl: 'https://i.pravatar.cc/300?img=1',
+                                  imageUrl: companyDetails.logoUrl,
                                   imageBackground: Colors.transparent,
                                 )
                               : const SizedBox();

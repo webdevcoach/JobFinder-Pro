@@ -19,11 +19,10 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  final _titleController = TextEditingController();
-  final _yearsController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    final applicant = ref.watch(currentApplicantDetailsProvider).value;
+
     final textStyle = Theme.of(context).textTheme.displayMedium;
     return Scaffold(
       // resizeToAvoidBottomInset: false,

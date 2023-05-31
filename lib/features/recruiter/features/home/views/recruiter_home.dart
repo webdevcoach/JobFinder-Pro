@@ -12,9 +12,6 @@ class RecruiterHomeView extends ConsumerWidget {
 
     final currentUser = ref.watch(currentRecruiterDetailsProvider).value;
 
-    if (currentUser == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -23,20 +20,9 @@ class RecruiterHomeView extends ConsumerWidget {
               radius: 20,
             ),
             const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Good morning 👋🏽',
-                  style: txtStyle!.copyWith(fontSize: 13),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  currentUser.companyName,
-                  style: txtStyle.copyWith(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
+            Text(
+              'Hi there 👋🏽',
+              style: txtStyle!.copyWith(fontSize: 13),
             ),
             const Spacer(),
             IconButton(
@@ -48,15 +34,17 @@ class RecruiterHomeView extends ConsumerWidget {
           ],
         ),
       ),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [
-            Text('Insights'),
-            Text('Recents applicants'),
-            Text('Trending Candidates'),
-          ],
-        ),
-      ),
+      body: currentUser == null
+          ? const CircularProgressIndicator()
+          : const SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text('Insights'),
+                  Text('Recents applicants'),
+                  Text('Trending Candidates'),
+                ],
+              ),
+            ),
     );
   }
 }

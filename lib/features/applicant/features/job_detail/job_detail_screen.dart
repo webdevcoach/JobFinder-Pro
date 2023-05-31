@@ -11,6 +11,7 @@ import 'package:jobhunt_pro/theme/colors.dart';
 
 import '../../../../common/custom_appbar.dart';
 import '../../../../common/custom_forms_kit.dart';
+import '../../../../common/info_chip.dart';
 import '../../../../core/resuables/date_format.dart';
 import '../../../recruiter/features/post_job/controller/post_job_controller.dart';
 import '../apply_job/views/apply_job_view.dart';
@@ -97,25 +98,43 @@ class JobDetailScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                         ]),
                       ),
+
+                      const SizedBox(height: 20),
+                      CustomText(text: 'Description', bold: true, size: 18),
+                      const SizedBox(height: 10),
+
+                      CustomText(text: jobsData.description),
+
                       const SizedBox(height: 20),
                       CustomText(text: 'Requirements', bold: true, size: 18),
                       const SizedBox(height: 10),
 
-                      BulletedListBuilder(list: jobsData.requirement),
+                      BulletedListBuilder(
+                          list: jobsData.requirement, padding: true),
                       CustomText(
                           text: 'Responsibilities', bold: true, size: 18),
                       const SizedBox(height: 10),
 
-                      BulletedListBuilder(list: jobsData.requirement),
+                      BulletedListBuilder(
+                          list: jobsData.responsibilities, padding: true),
                       const SizedBox(height: 10),
 
                       CustomText(
                           text: 'Perks & Benefits', bold: true, size: 18),
                       const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 10,
+                        children: jobsData.benefits
+                            .map((item) => InfoChip(
+                                  title: item,
+                                  titleColor: AppColors.secondaryColor,
+                                ))
+                            .toList(),
+                      ),
 
-                      BulletedListBuilder(
-                          list: jobsData.benefits), // const SegmentedSlider(),
-                      const SizedBox(height: 60)
+                      // const SegmentedSlider(),
+                      // const SizedBox(height: 5)
                     ],
                   ),
                 ),
@@ -163,9 +182,11 @@ ElevatedButton(
 */
 class BulletedListBuilder extends StatelessWidget {
   final List<String> list;
+  final bool padding;
   const BulletedListBuilder({
     Key? key,
     required this.list,
+    this.padding = false,
   }) : super(key: key);
 
   @override
@@ -173,12 +194,15 @@ class BulletedListBuilder extends StatelessWidget {
     return ListView(
       shrinkWrap: true,
       children: list
-          .map((item) => ListTile(
-              dense: true,
-              minVerticalPadding: 0,
-              leading: CustomText(
-                  text: '•', color: AppColors.primaryColor, size: 25),
-              title: CustomText(text: item, size: 15)))
+          .map((item) => Padding(
+                padding: EdgeInsets.only(bottom: padding ? 8 : 0),
+                child: ListTile(
+                    dense: true,
+                    minVerticalPadding: 0,
+                    leading: CustomText(
+                        text: '•', color: AppColors.primaryColor, size: 25),
+                    title: CustomText(text: item, size: 15)),
+              ))
           .toList(),
     );
   }

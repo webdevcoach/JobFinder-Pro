@@ -56,6 +56,13 @@ final applicantProfileDetailsProvider =
   return userDetails;
 });
 
+final recruiterProfileDetailsProvider =
+    FutureProvider.family((ref, String id) async {
+  final userDetails =
+      await ref.watch(authControllerProvider.notifier).recruiterProfile(id: id);
+  return userDetails;
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI;
   final DatabaseAPI _databaseAPI;
