@@ -24,6 +24,9 @@ abstract class DataBaseInterface {
     required Applicant applicant,
     required String id,
   });
+  FutureEither<Document> updateApplicantProfileDetails({
+    required Applicant applicant,
+  });
   FutureEither<Document> postJob({required PostJob jobDetails});
   FutureEither<Document> applyJob({required ApplyJob applyJob});
   Future<Document> getApplicantProfile({required String id});
@@ -231,13 +234,30 @@ class DatabaseAPI implements DataBaseInterface {
       return left(Failure(e.message!));
     }
   }
-  
+
   @override
-  Future<List<Document>> getApplicants()async {
-      final jobs = await _databases.listDocuments(
+  Future<List<Document>> getApplicants() async {
+    final jobs = await _databases.listDocuments(
       databaseId: AppWriteConstant.usersDatabaseId,
       collectionId: AppWriteConstant.applicantCollectionId,
     );
     return jobs.documents;
+  }
+
+  @override
+  FutureEither<Document> updateApplicantProfileDetails({
+    required Applicant applicant,
+  }) async {
+    try {
+      final update = await _databases.updateDocument(
+        databaseId: AppWriteConstant.usersDatabaseId,
+        collectionId: AppWriteConstant.applicantCollectionId,
+        documentId: applicant.id,
+        data: applicant.toMap()
+      );
+      return right(update);
+    } on AppwriteException catch (e) {
+      return left(Failure(e.message!));
+    }
   }
 }

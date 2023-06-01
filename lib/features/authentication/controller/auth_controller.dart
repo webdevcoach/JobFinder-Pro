@@ -139,7 +139,9 @@ class AuthController extends StateNotifier<bool> {
       name: name,
       email: email,
       skills: [],
-      techStacks: [],
+      experience: '',
+      location: '',
+      title: '',
       about: '',
       profilePicture: '',
       id: '',
@@ -204,6 +206,19 @@ class AuthController extends StateNotifier<bool> {
   Future<Applicant> applicantProfile({required String id}) async {
     final details = await _databaseAPI.getApplicantProfile(id: id);
     return Applicant.fromMap(details.data);
+  }
+
+  void updateApplicantProfile({required Applicant applicant}) async {
+    state = true;
+    final update = await _databaseAPI.updateApplicantProfileDetails(
+      applicant: applicant,
+    );
+    state = false;
+    update.fold((l) {
+      print(l.errorMsg);
+    }, (r) {
+      print('success');
+    });
   }
 
   void logout(BuildContext context) async {

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/apis/auth_api.dart';
+import 'package:jobhunt_pro/routes/app_route.dart';
 
 import '../../../../common/custom_appbar.dart';
 import '../../../../common/verticalbar_decoration.dart';
@@ -31,7 +32,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         title: 'Profile',
         suffixIcon: IconlyBold.edit,
         editProfile: true,
-        onProfileEdit: () {},
+        onProfileEdit: () {
+          Navigator.pushNamed(context, AppRoute.editApplicantProfile,
+              arguments: applicant);
+        },
       ),
       body: SingleChildScrollView(
         child: ref.watch(currentApplicantDetailsProvider).when(

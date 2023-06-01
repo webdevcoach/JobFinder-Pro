@@ -1,13 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 
 class Applicant {
   final String name;
   final String email;
   final List<String> skills;
-  final List<String> techStacks;
+  final String title;
+  final String experience;
   final String about;
+  final String location;
   final String profilePicture;
   final String id;
   final List<String> appliedJobs;
@@ -16,8 +20,10 @@ class Applicant {
     required this.name,
     required this.email,
     required this.skills,
-    required this.techStacks,
+    required this.title,
+    required this.experience,
     required this.about,
+    required this.location,
     required this.profilePicture,
     required this.id,
     required this.appliedJobs,
@@ -28,8 +34,10 @@ class Applicant {
     String? name,
     String? email,
     List<String>? skills,
-    List<String>? techStacks,
+    String? title,
+    String? experience,
     String? about,
+    String? location,
     String? profilePicture,
     String? id,
     List<String>? appliedJobs,
@@ -39,8 +47,10 @@ class Applicant {
       name: name ?? this.name,
       email: email ?? this.email,
       skills: skills ?? this.skills,
-      techStacks: techStacks ?? this.techStacks,
+      title: title ?? this.title,
+      experience: experience ?? this.experience,
       about: about ?? this.about,
+      location: location ?? this.location,
       profilePicture: profilePicture ?? this.profilePicture,
       id: id ?? this.id,
       appliedJobs: appliedJobs ?? this.appliedJobs,
@@ -53,8 +63,10 @@ class Applicant {
       'name': name,
       'email': email,
       'skills': skills,
-      'techStacks': techStacks,
+      'title': title,
+      'experience': experience,
       'about': about,
+      'location': location,
       'profilePicture': profilePicture,
       'appliedJobs': appliedJobs,
       'savedJobs': savedJobs,
@@ -65,47 +77,57 @@ class Applicant {
     return Applicant(
       name: map['name'] as String,
       email: map['email'] as String,
-      skills: List<String>.from(map['skills']),
-      techStacks: List<String>.from(map['techStacks']),
+      skills: List<String>.from(map['skills'] ),
+      title: map['title'] as String,
+      experience: map['experience'] as String,
       about: map['about'] as String,
+      location: map['location'] as String,
       profilePicture: map['profilePicture'] as String,
-      id: map['\$id'] as String,
-      appliedJobs: List<String>.from(map['appliedJobs']),
-      savedJobs: List<String>.from(map['savedJobs']),
+      id: map['id'] as String,
+      appliedJobs: List<String>.from(map['appliedJobs'] ),
+      savedJobs: List<String>.from(map['savedJobs'] ),
     );
   }
 
   @override
   String toString() {
-    return 'Applicant(name: $name, email: $email, skills: $skills, techStacks: $techStacks, about: $about, profilePicture: $profilePicture, id: $id, appliedJobs: $appliedJobs, savedJobs: $savedJobs)';
+    return 'Applicant(name: $name, email: $email, skills: $skills, title: $title, experience: $experience, about: $about, location: $location, profilePicture: $profilePicture, id: $id, appliedJobs: $appliedJobs, savedJobs: $savedJobs)';
   }
 
   @override
   bool operator ==(covariant Applicant other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
-
-    return other.name == name &&
-        other.email == email &&
-        listEquals(other.skills, skills) &&
-        listEquals(other.techStacks, techStacks) &&
-        other.about == about &&
-        other.profilePicture == profilePicture &&
-        other.id == id &&
-        listEquals(other.appliedJobs, appliedJobs) &&
-        listEquals(other.savedJobs, savedJobs);
+  
+    return 
+      other.name == name &&
+      other.email == email &&
+      listEquals(other.skills, skills) &&
+      other.title == title &&
+      other.experience == experience &&
+      other.about == about &&
+      other.location == location &&
+      other.profilePicture == profilePicture &&
+      other.id == id &&
+      listEquals(other.appliedJobs, appliedJobs) &&
+      listEquals(other.savedJobs, savedJobs);
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-        email.hashCode ^
-        skills.hashCode ^
-        techStacks.hashCode ^
-        about.hashCode ^
-        profilePicture.hashCode ^
-        id.hashCode ^
-        appliedJobs.hashCode ^
-        savedJobs.hashCode;
+      email.hashCode ^
+      skills.hashCode ^
+      title.hashCode ^
+      experience.hashCode ^
+      about.hashCode ^
+      location.hashCode ^
+      profilePicture.hashCode ^
+      id.hashCode ^
+      appliedJobs.hashCode ^
+      savedJobs.hashCode;
   }
+
+ 
+
 }
