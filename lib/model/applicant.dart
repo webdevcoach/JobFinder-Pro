@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 
 import 'package:collection/collection.dart';
 
@@ -57,14 +56,13 @@ class Applicant {
       'techStacks': techStacks,
       'about': about,
       'profilePicture': profilePicture,
-     
       'appliedJobs': appliedJobs,
       'savedJobs': savedJobs,
     };
   }
 
   factory Applicant.fromMap(Map<String, dynamic> map) {
-    return  Applicant(
+    return Applicant(
       name: map['name'] as String,
       email: map['email'] as String,
       skills: List<String>.from(map['skills']),
@@ -86,34 +84,28 @@ class Applicant {
   bool operator ==(covariant Applicant other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
-  
-    return 
-      other.name == name &&
-      other.email == email &&
-      listEquals(other.skills, skills) &&
-      listEquals(other.techStacks, techStacks) &&
-      other.about == about &&
-      other.profilePicture == profilePicture &&
-      other.id == id &&
-      listEquals(other.appliedJobs, appliedJobs) &&
-      listEquals(other.savedJobs, savedJobs);
+
+    return other.name == name &&
+        other.email == email &&
+        listEquals(other.skills, skills) &&
+        listEquals(other.techStacks, techStacks) &&
+        other.about == about &&
+        other.profilePicture == profilePicture &&
+        other.id == id &&
+        listEquals(other.appliedJobs, appliedJobs) &&
+        listEquals(other.savedJobs, savedJobs);
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      email.hashCode ^
-      skills.hashCode ^
-      techStacks.hashCode ^
-      about.hashCode ^
-      profilePicture.hashCode ^
-      id.hashCode ^
-      appliedJobs.hashCode ^
-      savedJobs.hashCode;
+        email.hashCode ^
+        skills.hashCode ^
+        techStacks.hashCode ^
+        about.hashCode ^
+        profilePicture.hashCode ^
+        id.hashCode ^
+        appliedJobs.hashCode ^
+        savedJobs.hashCode;
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Applicant.fromJson(String source) =>
-      Applicant.fromMap(json.decode(source) as Map<String, dynamic>);
 }

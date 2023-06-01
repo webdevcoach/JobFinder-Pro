@@ -93,7 +93,7 @@ class AuthController extends StateNotifier<bool> {
     var nav = Navigator.of(context);
     String uploadedFileId =
         await _storageAPI.uploadFile(file: file, isCv: false);
-    String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId, isCv: false);
+    String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId,);
     Recruiter recruiter = Recruiter(
         companyName: companyName,
         websiteLink: websiteLink,
@@ -181,13 +181,11 @@ class AuthController extends StateNotifier<bool> {
       final accountInfo = await _authAPI.getAccountInfo();
       state = false;
       return switch (accountInfo.name) {
-        'applicant' => nav.pushAndRemoveUntil(
-            pageRouteTransition(const ApplicantPageNavigator()),
-            (Route<dynamic> route) => false), //home page of Applicant
-
-        'recruiter' => nav.pushAndRemoveUntil(
-            pageRouteTransition(const RecruiterPageNavigator()),
-            (Route<dynamic> route) => false), //home page of Recruiter
+        'applicant' => nav.pushNamedAndRemoveUntil(AppRoute.applicantsHomeView,
+            (route) => false), //home page of Applicant
+        'recruiter' => nav.pushNamedAndRemoveUntil(
+            AppRoute.recruiterPageNavigator,
+            (route) => false), //home page of Recruiter
         _ => const Scaffold(
             body: Center(
               child: Text("Unexpected Error,"),

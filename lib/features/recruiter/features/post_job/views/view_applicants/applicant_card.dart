@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/applicant_details.dart';
 
 class ApplicantCard extends ConsumerWidget {
   final String applicationId;
@@ -25,8 +26,11 @@ class ApplicantCard extends ConsumerWidget {
                       ),
                       title: Text(profile.name),
                       onTap: () {
-                        print(applyJob.appliedTime);
-                        print(applyJob.cvUrl);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AppliedApplicantDetails(
+                                    applyJob: applyJob)));
                       },
                       trailing: const Icon(IconlyLight.arrow_right_2),
                     );
@@ -39,6 +43,8 @@ class ApplicantCard extends ConsumerWidget {
         error: (error, statckTrace) => Center(
               child: Text(error.toString()),
             ),
-        loading: () => const Center());
+        loading: () => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ));
   }
 }

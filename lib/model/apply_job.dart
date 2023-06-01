@@ -10,7 +10,7 @@ import '../core/enums/application_status.dart';
 class ApplyJob {
   final String applicantId;
   final String coverLetter;
-  final String cvUrl;
+  final String cvId;
   final String applicationId;
   final String companyId;
   final DateTime appliedTime;
@@ -18,7 +18,7 @@ class ApplyJob {
   ApplyJob({
     required this.applicantId,
     required this.coverLetter,
-    required this.cvUrl,
+    required this.cvId,
     required this.applicationId,
     required this.companyId,
     required this.appliedTime,
@@ -28,7 +28,7 @@ class ApplyJob {
   ApplyJob copyWith({
     String? applicantId,
     String? coverLetter,
-    String? cvUrl,
+    String? cvId,
     String? applicationId,
     String? companyId,
     DateTime? appliedTime,
@@ -37,7 +37,7 @@ class ApplyJob {
     return ApplyJob(
       applicantId: applicantId ?? this.applicantId,
       coverLetter: coverLetter ?? this.coverLetter,
-      cvUrl: cvUrl ?? this.cvUrl,
+      cvId: cvId ?? this.cvId,
       applicationId: applicationId ?? this.applicationId,
       companyId: companyId ?? this.companyId,
       appliedTime: appliedTime ?? this.appliedTime,
@@ -49,7 +49,7 @@ class ApplyJob {
     return <String, dynamic>{
       'applicantId': applicantId,
       'coverLetter': coverLetter,
-      'cvUrl': cvUrl,
+      'cvId': cvId,
       'companyId': companyId,
       'appliedTime': appliedTime.millisecondsSinceEpoch,
       'status': status.text,
@@ -60,7 +60,7 @@ class ApplyJob {
     return ApplyJob(
       applicantId: map['applicantId'] as String,
       coverLetter: map['coverLetter'] as String,
-      cvUrl: map['cvUrl'] as String,
+      cvId: map['cvId'] as String,
       applicationId: map['\$id'] as String,
       companyId: map['companyId'] as String,
       appliedTime: DateTime.fromMillisecondsSinceEpoch(map['appliedTime'] as int),
@@ -70,7 +70,7 @@ class ApplyJob {
 
   @override
   String toString() {
-    return 'ApplyJob(applicantId: $applicantId, coverLetter: $coverLetter, cvUrl: $cvUrl, applicationId: $applicationId, companyId: $companyId, appliedTime: $appliedTime, status: $status)';
+    return 'ApplyJob(applicantId: $applicantId, coverLetter: $coverLetter, cvId: $cvId, applicationId: $applicationId, companyId: $companyId, appliedTime: $appliedTime, status: $status)';
   }
 
   @override
@@ -80,7 +80,7 @@ class ApplyJob {
     return 
       other.applicantId == applicantId &&
       other.coverLetter == coverLetter &&
-      other.cvUrl == cvUrl &&
+      other.cvId == cvId &&
       other.applicationId == applicationId &&
       other.companyId == companyId &&
       other.appliedTime == appliedTime &&
@@ -91,7 +91,7 @@ class ApplyJob {
   int get hashCode {
     return applicantId.hashCode ^
       coverLetter.hashCode ^
-      cvUrl.hashCode ^
+      cvId.hashCode ^
       applicationId.hashCode ^
       companyId.hashCode ^
       appliedTime.hashCode ^

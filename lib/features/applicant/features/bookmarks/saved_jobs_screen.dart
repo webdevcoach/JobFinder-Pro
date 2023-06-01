@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/features/applicant/features/bookmarks/widgets/saved_job_card.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 
@@ -23,11 +24,14 @@ class SavedJobsScreen extends ConsumerWidget {
             return ListView.builder(
                 itemCount: profile.savedJobs.length,
                 itemBuilder: (context, index) {
+                 final  saved = profile.savedJobs.reversed.toList()[index];
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: JobCard(
-                        isApplicant: true,
-                        postedJobsId: profile.savedJobs[index]),
+                    child: SavedJobCard(
+                      jobId: saved,
+                      imageUrl: 'https://pbs.twimg.com/profile_images/1658476926590414848/uqMIb2yx_400x400.jpg',
+                      isBookmarked: true,
+                         ),
                   );
                 });
           },

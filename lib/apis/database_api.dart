@@ -36,6 +36,7 @@ abstract class DataBaseInterface {
     required Recruiter recruiter,
   });
   Future<List<Document>> getPostedJobs();
+  Future<List<Document>> getApplicants();
   Future<Document> myPostedJobs({required String jobId});
   Future<Document> getAppliedApplicants({required String applicationId});
 
@@ -195,29 +196,29 @@ class DatabaseAPI implements DataBaseInterface {
       return left(Failure(e.message!));
     }
   }
-  
+
   @override
-  Future<Document> myPostedJobs({required String jobId}) async{
-    final myJob =  await _databases.getDocument(
-      databaseId: AppWriteConstant.jobDatabaseId, 
-      collectionId: AppWriteConstant.postedJobCollectionId, 
+  Future<Document> myPostedJobs({required String jobId}) async {
+    final myJob = await _databases.getDocument(
+      databaseId: AppWriteConstant.jobDatabaseId,
+      collectionId: AppWriteConstant.postedJobCollectionId,
       documentId: jobId,
-      );
-      return myJob;
+    );
+    return myJob;
   }
-  
+
   @override
-  Future<Document> getAppliedApplicants({required String applicationId}) async{
-     final myJob =  await _databases.getDocument(
-      databaseId: AppWriteConstant.jobDatabaseId, 
-      collectionId: AppWriteConstant.appliedJobCollectionId, 
+  Future<Document> getAppliedApplicants({required String applicationId}) async {
+    final myJob = await _databases.getDocument(
+      databaseId: AppWriteConstant.jobDatabaseId,
+      collectionId: AppWriteConstant.appliedJobCollectionId,
       documentId: applicationId,
-      );
-      return myJob;
+    );
+    return myJob;
   }
-  
+
   @override
-  FutureEither<Document> saveJob({required Applicant applicant})  async {
+  FutureEither<Document> saveJob({required Applicant applicant}) async {
     try {
       final update = await _databases.updateDocument(
         databaseId: AppWriteConstant.usersDatabaseId,
@@ -229,5 +230,14 @@ class DatabaseAPI implements DataBaseInterface {
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));
     }
+  }
+  
+  @override
+  Future<List<Document>> getApplicants()async {
+      final jobs = await _databases.listDocuments(
+      databaseId: AppWriteConstant.usersDatabaseId,
+      collectionId: AppWriteConstant.applicantCollectionId,
+    );
+    return jobs.documents;
   }
 }
