@@ -12,7 +12,7 @@ class EditApplicantProfile extends ConsumerWidget {
     final nameController = TextEditingController(text: applicant.name);
     final aboutController = TextEditingController(text: applicant.about);
     final experienceController =
-        TextEditingController(text: applicant.experience);
+        TextEditingController(text: applicant.experience.toString());
     final locationController = TextEditingController(text: applicant.location);
     final titleController = TextEditingController(text: applicant.title);
     final skillsController =
@@ -22,7 +22,7 @@ class EditApplicantProfile extends ConsumerWidget {
             applicant: applicant.copyWith(
               name: nameController.text,
               about: aboutController.text,
-              experience: experienceController.text,
+              experience: experienceController.text.sentenceToList(),
               location: locationController.text,
               profilePicture: '',
               skills: skillsController.text.sentenceToList(),

@@ -139,7 +139,7 @@ class AuthController extends StateNotifier<bool> {
       name: name,
       email: email,
       skills: [],
-      experience: '',
+      experience: [],
       location: '',
       title: '',
       about: '',

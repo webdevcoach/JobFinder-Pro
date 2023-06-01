@@ -9,7 +9,7 @@ class Applicant {
   final String email;
   final List<String> skills;
   final String title;
-  final String experience;
+  final List<String> experience;
   final String about;
   final String location;
   final String profilePicture;
@@ -35,7 +35,7 @@ class Applicant {
     String? email,
     List<String>? skills,
     String? title,
-    String? experience,
+    List<String>?  experience,
     String? about,
     String? location,
     String? profilePicture,
@@ -79,7 +79,7 @@ class Applicant {
       email: map['email'] as String,
       skills: List<String>.from(map['skills'] ),
       title: map['title'] as String,
-      experience: map['experience'] as String,
+      experience: List<String>.from(map['experience'] ),
       about: map['about'] as String,
       location: map['location'] as String,
       profilePicture: map['profilePicture'] as String,

@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class InfoChip extends StatelessWidget {
   final String title;
   final Color titleColor;
-  const InfoChip({
-    Key? key,
-    required this.title,
-    required this.titleColor,
-  }) : super(key: key);
+  final double fontSize;
+  final BorderRadius? borderRadius;
+  const InfoChip(
+      {Key? key,
+      required this.title,
+      required this.titleColor,
+      this.borderRadius,
+      this.fontSize = 15})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +25,16 @@ class InfoChip extends StatelessWidget {
     //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
     // );
     return Container(
-        height: 28,
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             color: titleColor.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(6)),
+            borderRadius: borderRadius ?? BorderRadius.circular(6)),
         child: Text(
           " $title ",
           style: Theme.of(context).textTheme.displayLarge!.copyWith(
-              color: titleColor, fontSize: 15, fontWeight: FontWeight.w500),
+              color: titleColor,
+              fontSize: fontSize,
+              fontWeight: FontWeight.w500),
         ));
   }
 }

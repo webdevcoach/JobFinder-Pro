@@ -107,6 +107,19 @@ class JobDetailScreen extends ConsumerWidget {
                             bold: true,
                           ),
                           const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InfoChip(
+                                  title: jobsData.jobType,
+                                  titleColor: Colors.blueGrey),
+                              const SizedBox(width: 10),
+                              InfoChip(
+                                  title: jobsData.workingMode,
+                                  titleColor: Colors.blueGrey)
+                            ],
+                          ),
+                          const SizedBox(height: 10),
                           CustomText(
                             text:
                                 'Posted ${timeago.format(jobsData.time)}, ends in ${formatDate(jobsData.deadline)}',
@@ -147,8 +160,7 @@ class JobDetailScreen extends ConsumerWidget {
                         children: jobsData.benefits
                             .map((item) => InfoChip(
                                   title: item,
-                                  titleColor:
-                                      AppColors.secondaryColor.withOpacity(0.8),
+                                  titleColor: Colors.blueGrey,
                                 ))
                             .toList(),
                       ),

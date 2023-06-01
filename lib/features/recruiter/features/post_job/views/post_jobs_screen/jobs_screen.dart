@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 
+import '../../../../../../constants/app_svg.dart';
 import '../../../../../../theme/colors.dart';
 import 'active_jobs.dart';
 import 'closed_jobs.dart';
@@ -24,15 +26,15 @@ class JobsScreenState extends State<JobsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        actions: [
-          MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(AppRoute.postAJobView),
-              child: const Text('Post A Job')),
-          const SizedBox(width: 10)
-        ],
+        // actions: [
+        //   MaterialButton(
+        //       shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(15)),
+        //       onPressed: () =>
+        //           Navigator.of(context).pushNamed(AppRoute.postAJobView),
+        //       child: const Text('Post A Job')),
+        //   const SizedBox(width: 10)
+        // ],
         title: const Text('My Jobs'),
       ),
 
@@ -73,11 +75,10 @@ class JobsScreenState extends State<JobsScreen> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () =>
-      //       Navigator.of(context).pushNamed(PostAJobView.routeName),
-      //   child: const Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).pushNamed(AppRoute.postAJobView),
+        child: SvgPicture.asset(AppSvg.addBroken, color: Colors.white),
+      ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       // floatingActionButton: Stack(
