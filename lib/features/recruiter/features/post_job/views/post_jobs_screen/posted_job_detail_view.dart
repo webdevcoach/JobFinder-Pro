@@ -6,6 +6,7 @@ import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 
+import '../../../../../../constants/app_svg.dart';
 import '../../../../../../core/resuables/date_format.dart';
 import '../../../../../../theme/colors.dart';
 import '../../controller/post_job_controller.dart';
@@ -24,15 +25,6 @@ class PostedJobDetailView extends ConsumerWidget {
 
     final seletectedJob = ref.watch(postedJobDetailsProvider(job.jobId)).value;
 
-    // final job = seletectedJob?.firstWhere((job) => job.jobId == postedJobId);
-
-    // final res = seletectedJob
-    //     ?.firstWhere((postedJob) => postedJob.jobTitle == postedJobId);
-
-    // if (seletectedJob == null) {
-    //   return const CircularProgressIndicator();
-    // }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Job Details'),
@@ -47,16 +39,6 @@ class PostedJobDetailView extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // seletectedJob2.when(
-                  //   data: (data) {
-                  //     final out = data.w(
-                  //         (postedJob) => postedJob.jobTitle == postedJobId);
-                  //     print(out.jobId);
-                  //     return Text(out.jobType);
-                  //   },
-                  //   error: (error, st) => Text(error.toString()),
-                  //   loading: () => const Text('loading'),
-                  // ),
                   Text(
                     job.jobTitle,
                     style: txtStyle.copyWith(
@@ -78,7 +60,7 @@ class PostedJobDetailView extends ConsumerWidget {
                       const Row(
                         children: [
                           IconWithText(
-                            icon: 'assets/svg/category_icons/people.svg',
+                            icon: AppSvg.peopleLight,
                             text: 'Applicants',
                           ),
                           Spacer(),
@@ -108,7 +90,7 @@ class PostedJobDetailView extends ConsumerWidget {
                       const Row(
                         children: [
                           IconWithText(
-                            icon: 'assets/svg/recruiter_icons/bezier.svg',
+                            icon: AppSvg.trendUpLight,
                             text: 'Audience Reached',
                           ),
                           Spacer(),
@@ -119,8 +101,7 @@ class PostedJobDetailView extends ConsumerWidget {
                       Row(
                         children: [
                           const IconWithText(
-                            icon:
-                                'assets/svg/recruiter_icons/calendar-edit.svg',
+                            icon: AppSvg.calenderEditLight,
                             text: 'Posted',
                           ),
                           const Spacer(),
@@ -131,8 +112,7 @@ class PostedJobDetailView extends ConsumerWidget {
                       Row(
                         children: [
                           const IconWithText(
-                            icon:
-                                'assets/svg/recruiter_icons/calendar-tick.svg',
+                            icon: AppSvg.calenderTickLight,
                             text: 'Deadline',
                           ),
                           const Spacer(),

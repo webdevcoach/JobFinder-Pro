@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/features/applicant/features/bookmarks/widgets/saved_job_card.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 
 import '../../../../common/custom_appbar.dart';
 
@@ -13,10 +12,6 @@ class SavedJobsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final textStyle = Theme.of(context).textTheme.displayLarge;
-
-    // final savedJobs = jobsData.where((job) => job.isSaved == true).toList();
-
     return Scaffold(
       appBar: CustomAppBar(title: 'Saved', showSuffixIcon: false),
       body: ref.watch(currentApplicantDetailsProvider).when(
@@ -24,14 +19,12 @@ class SavedJobsScreen extends ConsumerWidget {
             return ListView.builder(
                 itemCount: profile.savedJobs.length,
                 itemBuilder: (context, index) {
-                 final  saved = profile.savedJobs.reversed.toList()[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SavedJobCard(
-                      jobId: saved,
-                      imageUrl: 'https://pbs.twimg.com/profile_images/1658476926590414848/uqMIb2yx_400x400.jpg',
-                      isBookmarked: true,
-                         ),
+                  final saved = profile.savedJobs.reversed.toList()[index];
+                  return SavedJobCard(
+                    jobId: saved,
+                    imageUrl:
+                        'https://pbs.twimg.com/profile_images/1658476926590414848/uqMIb2yx_400x400.jpg',
+                    isBookmarked: true,
                   );
                 });
           },

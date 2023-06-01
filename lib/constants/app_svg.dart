@@ -6,10 +6,10 @@ class AppSvg {
   static const String briefcaseBold = '$_path/briefcase-bold.svg';
   static const String briefcaseLight = '$_path/briefcase-light.svg';
   static const String brushBold = '$_path/brush-bold.svg';
-  static const String calenderEditLight = '$_path/calender-edit-light.svg';
-  static const String calenderTickLight = '$_path/calender-tick-light.svg';
+  static const String calenderEditLight = '$_path/calendar-edit-light.svg';
+  static const String calenderTickLight = '$_path/calendar-tick-light.svg';
   static const String codeCircleBold = '$_path/code-circle-bold.svg';
-  static const String commandBold = '$_path/commmand-bold.svg';
+  static const String commandBold = '$_path/command-bold.svg';
   static const String cpuChargeBold = '$_path/cpu-charge-bold.svg';
   static const String documentCodeBold = '$_path/document-code-bold.svg';
   static const String documentUploadBold = '$_path/document-upload-bold.svg';
@@ -18,6 +18,8 @@ class AppSvg {
   static const String microscopeBold = '$_path/microscope-bold.svg';
   static const String peopleLight = '$_path/people-light.svg';
   static const String scrollBold = '$_path/scroll-bold.svg';
-  static const String statusUpBold = '$_path/status-up-light.svg';
+  static const String statusUpBold = '$_path/status-up-bold.svg';
   static const String verifyBold = '$_path/verify-bold.svg';
+  static const String trendUpLight = '$_path/trend-up-light.svg';
+  static const String addBroken = '$_path/add-broken.svg';
 }

@@ -1,38 +1,34 @@
 import 'package:flutter/material.dart';
 
 import '../model/category.dart';
+import 'app_svg.dart';
 
 const categoryData = [
   Category(
-      category: "Design",
-      icon: "assets/svg/category_icons/brush-2.svg",
-      iconColor: Colors.blueGrey),
+      category: "Design", icon: AppSvg.brushBold, iconColor: Colors.blueGrey),
   Category(
       category: "Software",
-      icon: "assets/svg/category_icons/code-circle.svg",
+      icon: AppSvg.codeCircleBold,
       iconColor: Colors.teal),
   Category(
       category: "Data",
-      icon: "assets/svg/category_icons/cpu-charge.svg",
+      icon: AppSvg.cpuChargeBold,
       iconColor: Colors.lightGreen),
   Category(
       category: "Marketing",
-      icon: "assets/svg/category_icons/status-up.svg",
+      icon: AppSvg.statusUpBold,
       iconColor: Colors.indigo),
-  Category(
-      category: "Data",
-      icon: "assets/svg/category_icons/command.svg",
-      iconColor: Colors.pink),
+  Category(category: "Data", icon: AppSvg.commandBold, iconColor: Colors.pink),
   Category(
       category: "Research",
-      icon: "assets/svg/category_icons/microscope.svg",
+      icon: AppSvg.microscopeBold,
       iconColor: Colors.cyan),
   Category(
       category: "Teaching",
-      icon: "assets/svg/category_icons/award.svg",
+      icon: AppSvg.awardBold,
       iconColor: Colors.deepPurple),
   Category(
       category: "Engineering",
-      icon: "assets/svg/category_icons/bezier.svg",
+      icon: AppSvg.bezierBold,
       iconColor: Colors.deepOrange),
 ];

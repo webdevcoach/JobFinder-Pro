@@ -1,63 +1,49 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/common/company_logo.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
-import 'package:timeago/timeago.dart' as timeAgo;
+import 'package:timeago/timeago.dart' as timeago;
 import '../../../../../common/info_chip.dart';
 import '../../../../../common/svg_icon_mini.dart';
 import '../../../../../constants/app_svg.dart';
 import '../../../../../theme/colors.dart';
+import '../../../../authentication/controller/auth_controller.dart';
 
-class SavedJobCard extends ConsumerWidget {
+class SavedJobCard extends ConsumerStatefulWidget {
   final String jobId;
-  //final int id;
-  //final WorkType type;
-  // final String title;
+
   final bool isBookmarked;
-  // final String location;
   final String imageUrl;
-  //final Color imageBackground;
   const SavedJobCard({
     Key? key,
-    // required this.id,
-    // required this.type,
     required this.jobId,
     required this.isBookmarked,
-    // required this.location,
     required this.imageUrl,
-    //required this.imageBackground,
   }) : super(key: key);
 
-  // final TextStyle? textStyle;
-  // void selectJob(BuildContext context) {
-  //   Navigator.of(context).pushNamed(
-  //     JobDetailScreen.routeName,
-  //     arguments: id,
-  //   );
-  // }
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SavedJobCard> createState() => _SavedJobCardState();
+}
+
+class _SavedJobCardState extends ConsumerState<SavedJobCard> {
+  @override
+  Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.displayMedium!;
 
-    int randomIndex = Random().nextInt(3);
-
-    List infoChipTextAndColor = [
-      ['Open', Colors.green],
-      ['Applied', Colors.indigo],
-      ['Closed', Colors.blue]
-    ];
-    return ref.watch(myPostedJobProvider(jobId)).when(
+    return ref.watch(myPostedJobProvider(widget.jobId)).when(
         data: (job) {
+          final companyDetails =
+              ref.watch(recruiterProfileDetailsProvider(job.companyId)).value;
+
+          // final applicant = ref.watch(currentApplicantDetailsProvider).value;
           return GestureDetector(
             // onTap: (() => selectJob(context)),
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   border: Border.all(
-                    color: Colors.grey.shade100,
+                    color: Colors.grey.shade300,
                     width: 2,
                     strokeAlign: BorderSide.strokeAlignOutside,
                   )),
@@ -66,33 +52,34 @@ class SavedJobCard extends ConsumerWidget {
               child: Column(
                 children: [
                   ListTile(
-                      leading: Image.network(imageUrl),
+                      leading: CompanyLogo(
+                        imageUrl: companyDetails!.logoUrl,
+                        size: 40,
+                      ),
                       title: Padding(
                         padding: const EdgeInsets.only(bottom: 7),
                         child: Text(
                           job.jobTitle,
                           style: textStyle.copyWith(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                       ),
                       trailing: const Icon(IconlyBold.bookmark,
                           color: AppColors.primaryColor),
                       subtitle: Row(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           const SvgIconMini(svg: AppSvg.locationLight),
                           const SizedBox(width: 5),
                           Text(
                             job.location,
-                            style: textStyle.copyWith(fontSize: 13),
+                            style: textStyle.copyWith(fontSize: 12),
                           ),
                           const SizedBox(width: 10),
                           const SvgIconMini(svg: AppSvg.briefcaseLight),
                           const SizedBox(width: 5),
                           Text(
                             job.jobType,
-                            style: textStyle.copyWith(fontSize: 13),
+                            style: textStyle.copyWith(fontSize: 12),
                           )
                         ],
                       )),
@@ -103,11 +90,11 @@ class SavedJobCard extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InfoChip(
-                          title: infoChipTextAndColor[randomIndex][0],
-                          titleColor: infoChipTextAndColor[randomIndex][1],
+                          title: job.isOpened ? 'Open' : 'Closed',
+                          titleColor: job.isOpened ? Colors.green : Colors.blue,
                         ),
                         InfoChip(
-                            title: timeAgo.format(job.time),
+                            title: timeago.format(job.time),
                             titleColor: Colors.grey[800]!),
                       ],
                     ),

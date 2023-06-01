@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobhunt_pro/theme/colors.dart';
 
 class VerticalBar extends StatelessWidget {
   final String title;
@@ -36,8 +37,10 @@ class VerticalBar extends StatelessWidget {
           onTap: onTap,
           child: Text(
             trailing,
-            style:
-                textStyle.copyWith(fontSize: 14, fontWeight: FontWeight.normal),
+            style: textStyle.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: AppColors.primaryColor),
           ),
         )
       ],
