@@ -8,11 +8,12 @@ class RegistrationMiniInfo extends StatelessWidget {
   final String left;
   final String right;
 
-  const RegistrationMiniInfo(
-      {super.key,
-      required this.route,
-      required this.left,
-      required this.right});
+  const RegistrationMiniInfo({
+    super.key,
+    required this.route,
+    required this.left,
+    required this.right,
+  });
   @override
   Widget build(BuildContext context) {
     final txtStyle = Theme.of(context)

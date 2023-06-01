@@ -208,10 +208,16 @@ class AuthController extends StateNotifier<bool> {
     return Applicant.fromMap(details.data);
   }
 
-  void updateApplicantProfile({required Applicant applicant}) async {
+  void updateApplicantProfile({
+    required Applicant applicant,
+    required File image,
+  }) async {
     state = true;
+    String imageId = await _storageAPI.uploadFile(file: image, isCv: false);
+    String imageUrl = FileUrl.fileUrl(fileId: imageId);
+    final updatedDetails = applicant.copyWith(profilePicture: imageUrl);
     final update = await _databaseAPI.updateApplicantProfileDetails(
-      applicant: applicant,
+      applicant: updatedDetails,
     );
     state = false;
     update.fold((l) {

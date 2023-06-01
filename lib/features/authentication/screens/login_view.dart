@@ -62,40 +62,40 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   style: txtStyle,
                 ),
                 const SizedBox(height: 30),
-                isLoading
-                    ? const CircularProgressIndicator()
-                    : Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Form(
-                            key: formKey,
-                            child: Column(
-                              children: [
-                                CustomAuthField(
-                                  controller: emailController,
-                                  hintText: 'Email',
-                                  isPasswordField: false,
-                                ),
-                                CustomAuthField(
-                                  controller: passwordController,
-                                  hintText: 'Password',
-                                  isPasswordField: true,
-                                ),
-                                const SizedBox(height: 5),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: ElevatedButton(
-                                    onPressed: onLogin,
-                                    child: CustomText(
-                                        text: 'Log in', color: Colors.white),
-                                  ),
-                                ),
-                                const SizedBox(height: 40),
-                              ],
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          CustomAuthField(
+                            controller: emailController,
+                            hintText: 'Email',
+                            isPasswordField: false,
+                          ),
+                          CustomAuthField(
+                            controller: passwordController,
+                            hintText: 'Password',
+                            isPasswordField: true,
+                          ),
+                          const SizedBox(height: 5),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: ElevatedButton(
+                              onPressed: onLogin,
+                              child: isLoading
+                                  ? const CircularProgressIndicator( color: Colors.white,)
+                                  : const CustomText(
+                                      text: 'Log in', color: Colors.white),
                             ),
                           ),
-                        ),
+                          const SizedBox(height: 40),
+                        ],
                       ),
+                    ),
+                  ),
+                ),
                 RegistrationMiniInfo(
                     route: SignupView.route(),
                     left: 'Don\'t have an account?',

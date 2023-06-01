@@ -62,65 +62,63 @@ class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: SingleChildScrollView(
-          child: applyJobState == ApplyJobState.loading
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const CustomText(
-                        text: 'Cover Letter', bold: true, formSpacing: true),
-                    CustomTextField(
-                        controller: coverLetterController,
-                        enableMaxlines: true),
-                    const CustomText(
-                        text: 'Upload CV', bold: true, formSpacing: true),
-                    GestureDetector(
-                      onTap: pickCV,
-                      child: DottedBorder(
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(20),
-                        dashPattern: const [10, 10],
-                        color: Colors.grey.shade400.withOpacity(0.8),
-                        strokeWidth: 2,
-                        child: Container(
-                          // padding: const EdgeInsets.all(20),
-                          // margin: const EdgeInsets.all(20),
-                          height: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: isUploaded
-                                ? Colors.green.withOpacity(0.1)
-                                : Colors.grey.withOpacity(0.1),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CustomText(
+                  text: 'Cover Letter', bold: true, formSpacing: true),
+              CustomTextField(
+                  controller: coverLetterController, enableMaxlines: true),
+              const CustomText(
+                  text: 'Upload CV', bold: true, formSpacing: true),
+              GestureDetector(
+                onTap: pickCV,
+                child: DottedBorder(
+                  borderType: BorderType.RRect,
+                  radius: const Radius.circular(20),
+                  dashPattern: const [10, 10],
+                  color: Colors.grey.shade400.withOpacity(0.8),
+                  strokeWidth: 2,
+                  child: Container(
+                    // padding: const EdgeInsets.all(20),
+                    // margin: const EdgeInsets.all(20),
+                    height: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: isUploaded
+                          ? Colors.green.withOpacity(0.1)
+                          : Colors.grey.withOpacity(0.1),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.documentUploadBold,
+                            color: AppColors.primaryColor.withOpacity(0.9),
+                            height: 30,
                           ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  AppSvg.documentUploadBold,
-                                  color:
-                                      AppColors.primaryColor.withOpacity(0.9),
-                                  height: 30,
-                                ),
-                                const SizedBox(height: 10),
-                                CustomText(
-                                    text:
-                                        isUploaded ? 'Uploaded' : 'Browse file')
-                              ],
-                            ),
-                          ),
-                        ),
+                          const SizedBox(height: 10),
+                          CustomText(
+                              text: isUploaded ? 'Uploaded' : 'Browse file')
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    ElevatedButton(
-                        onPressed: () async {
-                          applyJob();
-                        },
-                        child: const CustomText(
-                            text: 'Submit', color: Colors.white))
-                  ],
+                  ),
                 ),
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                  onPressed: () async {
+                    applyJob();
+                  },
+                  child: applyJobState == ApplyJobState.loading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : const CustomText(text: 'Submit', color: Colors.white))
+            ],
+          ),
         ),
       ),
     );

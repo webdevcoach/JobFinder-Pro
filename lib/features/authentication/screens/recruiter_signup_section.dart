@@ -73,53 +73,55 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider);
 
-    return isLoading
-        ? const CircularProgressIndicator()
-        : Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  CustomAuthField(
-                    controller: emailController,
-                    hintText: 'Email',
-                  ),
-                  CustomAuthField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    isPasswordField: true,
-                  ),
-                  CustomAuthField(
-                    controller: companyNameController,
-                    hintText: 'Company Name',
-                  ),
-                  CustomAuthField(
-                    controller: websiteLinkController,
-                    hintText: 'Website',
-                  ),
-                  CustomAuthField(
-                    controller: twitterController,
-                    hintText: 'Twitter',
-                  ),
-                  CustomAuthField(
-                    controller: linkedinController,
-                    hintText: 'Linkedin',
-                  ),
-                  CustomAuthField(
-                    controller: facebookController,
-                    hintText: 'Facebook',
-                  ),
-                  // const SizedBox(height: 40),
-                  ElevatedButton(
-                    onPressed: onSignUp,
-                    child: CustomText(text: 'Submit', color: Colors.white),
-                  ),
-                  ElevatedButton(
-                      onPressed: pickImage2, child: const Text('pickImage')),
-                  const SizedBox(height: 40),
-                ],
-              ),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            CustomAuthField(
+              controller: emailController,
+              hintText: 'Email',
             ),
-          );
+            CustomAuthField(
+              controller: passwordController,
+              hintText: 'Password',
+              isPasswordField: true,
+            ),
+            CustomAuthField(
+              controller: companyNameController,
+              hintText: 'Company Name',
+            ),
+            CustomAuthField(
+              controller: websiteLinkController,
+              hintText: 'Website',
+            ),
+            CustomAuthField(
+              controller: twitterController,
+              hintText: 'Twitter',
+            ),
+            CustomAuthField(
+              controller: linkedinController,
+              hintText: 'Linkedin',
+            ),
+            CustomAuthField(
+              controller: facebookController,
+              hintText: 'Facebook',
+            ),
+            // const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: onSignUp,
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                       color: Colors.white,
+                    )
+                  : const CustomText(text: 'Submit', color: Colors.white),
+            ),
+            ElevatedButton(
+                onPressed: pickImage2, child: const Text('pickImage')),
+            const SizedBox(height: 40),
+          ],
+        ),
+      ),
+    );
   }
 }

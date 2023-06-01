@@ -83,7 +83,7 @@ class Applicant {
       about: map['about'] as String,
       location: map['location'] as String,
       profilePicture: map['profilePicture'] as String,
-      id: map['id'] as String,
+      id: map['\$id'] as String,
       appliedJobs: List<String>.from(map['appliedJobs'] ),
       savedJobs: List<String>.from(map['savedJobs'] ),
     );

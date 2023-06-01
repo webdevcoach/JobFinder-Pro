@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 
+import '../../../common/custom_forms_kit.dart';
 import '../controller/auth_controller.dart';
 import '../widgets/custom_auth_field.dart';
 
@@ -52,34 +52,36 @@ class _SignUpViewState extends ConsumerState<ApplicantSignupSection> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider);
 
-    return isLoading
-        ? const CircularProgressIndicator()
-        : Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  CustomAuthField(
-                    controller: emailController,
-                    hintText: 'Email',
-                  ),
-                  CustomAuthField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    isPasswordField: true,
-                  ),
-                  const SizedBox(height: 5),
-                  ElevatedButton(
-                    onPressed: onSignUp,
-                    child: CustomText(text: 'Sign up', color: Colors.white),
-                  ),
-                  // ElevatedButton(
-                  //     onPressed: pickImage2,
-                  //     child: const Text('pickImage')),
-                  const SizedBox(height: 40),
-                ],
-              ),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            CustomAuthField(
+              controller: emailController,
+              hintText: 'Email',
             ),
-          );
+            CustomAuthField(
+              controller: passwordController,
+              hintText: 'Password',
+              isPasswordField: true,
+            ),
+            const SizedBox(height: 5),
+            ElevatedButton(
+              onPressed: onSignUp,
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                  : const CustomText(text: 'Sign up', color: Colors.white),
+            ),
+            // ElevatedButton(
+            //     onPressed: pickImage2,
+            //     child: const Text('pickImage')),
+            const SizedBox(height: 40),
+          ],
+        ),
+      ),
+    );
   }
 }

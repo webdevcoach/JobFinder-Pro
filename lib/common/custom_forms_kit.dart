@@ -42,6 +42,8 @@ class CustomTextField extends StatelessWidget {
   final bool editable;
   final IconData? prefixIcon;
   final TextInputType? inputType;
+  final bool? showHintText;
+  final String ? hintText;
   const CustomTextField({
     Key? key,
     required this.controller,
@@ -49,6 +51,8 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.editable = true,
     this.inputType,
+    this.showHintText = false,
+    this.hintText = ''
   }) : super(key: key);
 
   @override
@@ -82,7 +86,7 @@ class CustomTextField extends StatelessWidget {
             color: Colors.grey.withOpacity(0.6),
           ),
         ),
-        //hintText: 'hintText',
+        hintText: showHintText! ? hintText : null,
         hintStyle: const TextStyle(
           fontSize: 18,
         ),

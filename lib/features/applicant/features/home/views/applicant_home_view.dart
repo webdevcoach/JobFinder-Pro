@@ -135,22 +135,22 @@ class _HomeState extends ConsumerState<Home> {
                         shrinkWrap: true,
                         itemCount: data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final companyDetails = ref
-                              .watch(recruiterProfileDetailsProvider(
-                                  data[index].companyId))
-                              .value;
-                          if (companyDetails == null) {
-                            return const SizedBox();
-                          }
+                          // final companyDetails = ref
+                          //     .watch(recruiterProfileDetailsProvider(
+                          //         data[index].companyId))
+                          //     .value;
+                          // if (companyDetails == null) {
+                          //   return const SizedBox();
+                          // }
 
                           return data[index].isOpened
                               ? RecentJobCard(
                                   onTap: () => Navigator.of(context).push(
                                       pageRouteTransition(JobDetailScreen(
-                                          jobId: data[index].jobId))),
+                                        jobsData:data[index] ,
+                                          ))),
                                   job: data[index],
-                                  isSaved: false,
-                                  imageUrl: companyDetails.logoUrl,
+                                
                                   imageBackground: Colors.transparent,
                                 )
                               : const SizedBox();

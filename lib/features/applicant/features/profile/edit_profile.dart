@@ -1,25 +1,47 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 import 'package:jobhunt_pro/core/extensions/sentence_splitter.dart';
+import 'package:jobhunt_pro/core/resuables/pick_file.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 
-class EditApplicantProfile extends ConsumerWidget {
+class EditApplicantProfile extends ConsumerStatefulWidget {
   final Applicant applicant;
   const EditApplicantProfile({super.key, required this.applicant});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final nameController = TextEditingController(text: applicant.name);
-    final aboutController = TextEditingController(text: applicant.about);
+  ConsumerState<EditApplicantProfile> createState() =>
+      _EditApplicantProfileState();
+}
+
+class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
+  late File imageFile;
+  bool imagePicked = false;
+  void pickImage() async {
+    imageFile = await PickFile.pickImage();
+    setState(() {
+      imagePicked = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final nameController = TextEditingController(text: widget.applicant.name);
+    final aboutController = TextEditingController(text: widget.applicant.about);
     final experienceController =
-        TextEditingController(text: applicant.experience.toString());
-    final locationController = TextEditingController(text: applicant.location);
-    final titleController = TextEditingController(text: applicant.title);
+        TextEditingController(text: widget.applicant.experience.toString());
+    final locationController =
+        TextEditingController(text: widget.applicant.location);
+    final titleController = TextEditingController(text: widget.applicant.title);
     final skillsController =
-        TextEditingController(text: applicant.skills.toString());
+        TextEditingController(text: widget.applicant.skills.toString());
     void updateProfile() {
       ref.watch(authControllerProvider.notifier).updateApplicantProfile(
-            applicant: applicant.copyWith(
+            image: imageFile,
+            applicant: widget.applicant.copyWith(
               name: nameController.text,
               about: aboutController.text,
               experience: experienceController.text.sentenceToList(),
@@ -31,23 +53,78 @@ class EditApplicantProfile extends ConsumerWidget {
           );
     }
 
+    final textStyle = Theme.of(context).textTheme.displayLarge!;
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          TextButton(onPressed: updateProfile, child: const Text('Update'))
-        ],
+      appBar: AppBar(),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+            onPressed: updateProfile,
+            child: Text(
+              'Update Profile',
+              style: textStyle.copyWith(color: Colors.white, fontSize: 17),
+            )),
       ),
       body: Center(
-        child: Column(
-          children: [
-            Text(applicant.name),
-            TextField(
-              controller: nameController,
-            ),
-            TextField(
-              controller: aboutController,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: ListView(
+            //scrollDirection: Axis.vertical,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 5.0),
+                child: InkWell(
+                  onTap: pickImage,
+                  child: CircleAvatar(
+                      radius: 35,
+                      child: imagePicked
+                          ? ClipOval(child: Image.file(imageFile))
+                          : widget.applicant.profilePicture.isEmpty
+                              ? const SizedBox.shrink()
+                              : Image.network(widget.applicant.profilePicture)),
+                ),
+              ),
+              const CustomText(text: 'Name', bold: true, formSpacing: true),
+              CustomTextField(controller: nameController),
+              const CustomText(text: 'Title', bold: true, formSpacing: true),
+              CustomTextField(
+                controller: titleController,
+                hintText: 'Eg. Mobile App Developer',
+                showHintText: true,
+              ),
+              const CustomText(text: 'Skills', bold: true, formSpacing: true),
+              CustomTextField(
+                controller: skillsController,
+                enableMaxlines: true,
+                hintText: 'Eg. Flutter, AppWrite, Python',
+                showHintText: true,
+              ),
+              const CustomText(
+                  text: 'Experience', bold: true, formSpacing: true),
+              CustomTextField(
+                controller: experienceController,
+                enableMaxlines: true,
+                hintText: 'Eg. Mobile dev at Inteli Kode',
+                showHintText: true,
+              ),
+              const CustomText(text: 'Location', bold: true, formSpacing: true),
+              CustomTextField(
+                controller: locationController,
+                hintText: 'Eg. Ghana, Accra',
+                showHintText: true,
+              ),
+              const CustomText(text: 'About', bold: true, formSpacing: true),
+              CustomTextField(
+                controller: aboutController,
+                enableMaxlines: true,
+                hintText: 'Eg. Mobile dev at Inteli Kode',
+                showHintText: true,
+              ),
+              const SizedBox(
+                height: 20,
+              )
+            ],
+          ),
         ),
       ),
     );

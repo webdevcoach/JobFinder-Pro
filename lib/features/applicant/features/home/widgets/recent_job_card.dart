@@ -15,18 +15,13 @@ import '../../../../../constants/app_svg.dart';
 
 class RecentJobCard extends ConsumerStatefulWidget {
   final PostJob job;
-
-  final String imageUrl;
   final Color imageBackground;
-  final bool isSaved;
 
   final void Function()? onTap;
 
   const RecentJobCard({
     Key? key,
-    required this.imageUrl,
     required this.imageBackground,
-    required this.isSaved,
     required this.job,
     this.onTap,
   }) : super(key: key);
@@ -54,10 +49,17 @@ class _RecentJobCardState extends ConsumerState<RecentJobCard> {
           ),
           child: Row(
             children: [
-              CompanyLogo(
-                size: 30,
-                imageUrl: widget.imageUrl,
-              ),
+              ref
+                  .watch(recruiterProfileDetailsProvider(widget.job.companyId))
+                  .when(
+                      data: (recruiter) {
+                        return CompanyLogo(
+                          size: 30,
+                          imageUrl: recruiter.logoUrl,
+                        );
+                      },
+                      error: (e, t) => const SizedBox(),
+                      loading: () => const SizedBox()),
               const SizedBox(width: 10),
               Flexible(
                 child: Column(

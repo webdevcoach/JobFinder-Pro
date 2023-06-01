@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/apis/auth_api.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
-
 import '../../../../common/custom_appbar.dart';
 import '../../../../common/verticalbar_decoration.dart';
 import '../../../../constants/app_svg.dart';
@@ -54,7 +53,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       CircleAvatar(
                         radius: 80,
                         child: ClipOval(
-                            child: Image.asset('assets/images/abraham.jpg')),
+                            child: Image.network(profile.profilePicture)),
                       ),
                       Text(profile.name,
                           style: textStyle!.copyWith(
@@ -62,7 +61,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Mobile Engineer',
+                          Text(profile.title,
                               style: textStyle.copyWith(fontSize: 15)),
                           SvgPicture.asset(AppSvg.verifyBold,
                               color: AppColors.primaryColor),
@@ -84,12 +83,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         title: 'About Me',
                         trailing: '',
                       ),
-                      // Text(
-                      //   loremText.substring(0, 180),
-                      //   textAlign: TextAlign.left,
-                      // ),
+                      Text(
+                        profile.about,
+                        textAlign: TextAlign.left,
+                      ),
                       const SizedBox(height: 20),
-
+                      Text(
+                        profile.skills.toString(),
+                        textAlign: TextAlign.left,
+                      ),
                       const SizedBox(height: 20),
                       // const EmploymentTile(
                       //   role: 'Staff Engineer - Google',

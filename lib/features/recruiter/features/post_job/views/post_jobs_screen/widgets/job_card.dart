@@ -35,7 +35,7 @@ class JobCard extends ConsumerWidget {
           return GestureDetector(
               onTap: () => isApplicant
                   ? Navigator.of(context).push(
-                      pageRouteTransition(JobDetailScreen(jobId: job.jobId)))
+                      pageRouteTransition(JobDetailScreen(jobsData: job,)))
                   : Navigator.of(context)
                       .pushNamed(AppRoute.postedJobDetailsView, arguments: job),
               child: Container(
