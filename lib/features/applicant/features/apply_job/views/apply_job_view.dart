@@ -12,7 +12,7 @@ import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
 
-import '../../../../../core/resuables/pick_image.dart';
+import '../../../../../core/resuables/pick_file.dart';
 
 class ApplyJobView extends ConsumerStatefulWidget {
   final PostJob jobDetails;

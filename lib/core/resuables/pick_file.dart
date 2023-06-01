@@ -10,11 +10,13 @@ class PickFile {
 
   static Future<File> pickPdf() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowCompression: true,
-        dialogTitle: 'Select your CV',
-        allowMultiple: false,
-        allowedExtensions: ['pdf'],
-        type: FileType.custom);
+      allowCompression: true,
+      dialogTitle: 'Select your CV',
+      allowMultiple: false,
+      allowedExtensions: ['pdf'],
+      type: FileType.custom,
+    );
+    
     return File(result!.files.single.path!);
   }
 }

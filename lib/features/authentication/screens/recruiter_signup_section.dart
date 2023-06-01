@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jobhunt_pro/core/resuables/pick_image.dart';
+import 'package:jobhunt_pro/core/resuables/pick_file.dart';
 
 import '../../../common/custom_forms_kit.dart';
 import '../controller/auth_controller.dart';
