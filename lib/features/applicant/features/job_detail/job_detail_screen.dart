@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/core/extensions/to_msp.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -27,19 +27,26 @@ class JobDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final jobsData = ref.watch(postedJobDetailsProvider(jobId)).value;
 
+    final companyDetails =
+        ref.watch(recruiterProfileDetailsProvider(jobsData!.companyId)).value;
+    //     .value;
+    // if (jobsData == null && jobsData==null) {
+    //   return const SizedBox();
+    // }
+
     final textStyle = Theme.of(context).textTheme.displayLarge!;
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        onPrefixTap: () => Navigator.pop(context),
-        prefixIcon: IconlyLight.arrow_left_2,
-        title: 'Details',
-        // suffixIcon:
-        //     selectedJob.isSaved ? IconlyBold.bookmark : IconlyLight.bookmark,
-      ),
-      body: jobsData == null
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
+    return (companyDetails == null)
+        ? const Center(child: CircularProgressIndicator())
+        : Scaffold(
+            appBar: CustomAppBar(
+              onPrefixTap: () => Navigator.pop(context),
+              prefixIcon: IconlyLight.arrow_left_2,
+              title: 'Details',
+              // suffixIcon:
+              //     selectedJob.isSaved ? IconlyBold.bookmark : IconlyLight.bookmark,
+            ),
+            body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Center(
@@ -70,48 +77,60 @@ class JobDetailScreen extends ConsumerWidget {
                                       blurStyle: BlurStyle.outer,
                                       blurRadius: 1.5)
                                 ]),
-                            child: SvgPicture.asset(
-                              'assets/svg/company_logos/whatsapp.svg',
-                              height: 50,
-                              width: 50,
+                            child: Image.network(
+                              companyDetails.logoUrl,
+                              fit: BoxFit.cover,
+                              height: 80,
+                              width: 80,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
                           CustomText(
                             text: jobsData.jobTitle,
                             bold: true,
-                            size: 16,
+                            size: 18,
                           ),
                           const SizedBox(height: 10),
-                          Text(jobsData.companyId),
+                          CustomText(
+                              text: companyDetails.companyName,
+                              color: AppColors.primaryColor,
+                              size: 20,
+                              bold: true),
                           const SizedBox(height: 10),
                           Divider(color: Colors.grey.shade400),
                           const SizedBox(height: 10),
                           CustomText(text: jobsData.location),
                           const SizedBox(height: 10),
                           CustomText(
-                              text: jobsData.salary,
-                              color: AppColors.primaryColor),
+                            text: jobsData.salary,
+                            color: AppColors.primaryColor,
+                            bold: true,
+                          ),
                           const SizedBox(height: 10),
-                          Text(
-                              'Posted ${timeago.format(jobsData.time)}, ends in ${formatDate(jobsData.deadline)}'),
+                          CustomText(
+                            text:
+                                'Posted ${timeago.format(jobsData.time)}, ends in ${formatDate(jobsData.deadline)}',
+                            size: 13,
+                          ),
                           const SizedBox(height: 10),
                         ]),
                       ),
 
                       const SizedBox(height: 20),
-                      CustomText(text: 'Description', bold: true, size: 18),
+                      const CustomText(
+                          text: 'Description', bold: true, size: 18),
                       const SizedBox(height: 10),
 
                       CustomText(text: jobsData.description),
 
                       const SizedBox(height: 20),
-                      CustomText(text: 'Requirements', bold: true, size: 18),
+                      const CustomText(
+                          text: 'Requirements', bold: true, size: 18),
                       const SizedBox(height: 10),
 
                       BulletedListBuilder(
                           list: jobsData.requirement, padding: true),
-                      CustomText(
+                      const CustomText(
                           text: 'Responsibilities', bold: true, size: 18),
                       const SizedBox(height: 10),
 
@@ -119,7 +138,7 @@ class JobDetailScreen extends ConsumerWidget {
                           list: jobsData.responsibilities, padding: true),
                       const SizedBox(height: 10),
 
-                      CustomText(
+                      const CustomText(
                           text: 'Perks & Benefits', bold: true, size: 18),
                       const SizedBox(height: 10),
                       Wrap(
@@ -128,7 +147,8 @@ class JobDetailScreen extends ConsumerWidget {
                         children: jobsData.benefits
                             .map((item) => InfoChip(
                                   title: item,
-                                  titleColor: AppColors.secondaryColor,
+                                  titleColor:
+                                      AppColors.secondaryColor.withOpacity(0.8),
                                 ))
                             .toList(),
                       ),
@@ -140,31 +160,51 @@ class JobDetailScreen extends ConsumerWidget {
                 ),
               ),
             ),
-      bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(14),
-          child: ref.watch(currentApplicantDetailsProvider).when(
-              data: (applicant) {
-                print(jobsData!.jobId);
+            bottomNavigationBar: Padding(
+                padding: const EdgeInsets.all(14),
+                child: ref.watch(currentApplicantDetailsProvider).when(
+                    data: (applicant) {
+                      print(jobsData.jobId);
 
-                return applicant.appliedJobs.contains(jobsData.jobId)
-                    ? const SizedBox()
-                    : ElevatedButton(
-                        onPressed: () =>
-                            Navigator.of(context).push(pageRouteTransition(
-                                ApplyJobView(
-                                  jobDetails: jobsData,
-                                  applicant: applicant,
-                                ),
-                                td: TransitionDirection.bottom)),
-                        child: Text(
-                          'Apply Now',
-                          style: textStyle.copyWith(
-                              color: Colors.white, fontSize: 17),
-                        ));
-              },
-              error: (error, stackTrace) => const SizedBox(),
-              loading: () => const SizedBox())),
-    );
+                      return applicant.appliedJobs.contains(jobsData.jobId)
+                          ? Theme(
+                              data: Theme.of(context).copyWith(
+                                  splashFactory: NoSplash.splashFactory),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      surfaceTintColor:
+                                          AppColors.primaryColor.toMSP(),
+                                      backgroundColor: Colors.white.toMSP(),
+                                      shape: MaterialStatePropertyAll(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              side: const BorderSide(
+                                                  width: 2,
+                                                  color: AppColors
+                                                      .primaryColor)))),
+                                  onPressed: () {},
+                                  child: const CustomText(
+                                      text: 'Applied',
+                                      color: AppColors.primaryColor)),
+                            )
+                          : ElevatedButton(
+                              onPressed: () => Navigator.of(context)
+                                  .push(pageRouteTransition(
+                                      ApplyJobView(
+                                        jobDetails: jobsData,
+                                        applicant: applicant,
+                                      ),
+                                      td: TransitionDirection.bottom)),
+                              child: Text(
+                                'Apply Now',
+                                style: textStyle.copyWith(
+                                    color: Colors.white, fontSize: 17),
+                              ));
+                    },
+                    error: (error, stackTrace) => const SizedBox(),
+                    loading: () => const SizedBox())),
+          );
   }
 }
 
@@ -198,7 +238,7 @@ class BulletedListBuilder extends StatelessWidget {
                 child: ListTile(
                     dense: true,
                     minVerticalPadding: 0,
-                    leading: CustomText(
+                    leading: const CustomText(
                         text: '•', color: AppColors.primaryColor, size: 25),
                     title: CustomText(text: item, size: 15)),
               ))

@@ -22,8 +22,10 @@ environment:
 dependencies:
   appwrite: ^9.0.0
   collection: ^1.17.1
+  country_picker: ^2.0.20
   cupertino_icons: ^1.0.2
   dotted_border: ^2.0.0+3
+  email_validator: ^2.1.17
   file_picker: ^5.3.1
   flutter:
     sdk: flutter

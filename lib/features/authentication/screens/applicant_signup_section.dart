@@ -66,7 +66,6 @@ class _SignUpViewState extends ConsumerState<ApplicantSignupSection> {
                   CustomAuthField(
                     controller: passwordController,
                     hintText: 'Password',
-                    // showObscureText: showObscureText,
                     isPasswordField: true,
                   ),
                   const SizedBox(height: 5),

@@ -4,13 +4,16 @@ import '../theme/colors.dart';
 
 class CustomText extends StatelessWidget {
   final String text;
-  bool bold;
-  Color? color;
-  double? size;
-  CustomText({
+  final bool bold;
+  final Color? color;
+  final bool formSpacing;
+
+  final double? size;
+  const CustomText({
     Key? key,
     required this.text,
     this.bold = false,
+    this.formSpacing = false,
     this.size,
     this.color,
   }) : super(key: key);
@@ -19,30 +22,16 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     final txtStyle = Theme.of(context).textTheme.displayMedium;
 
-    return Text(text,
-        style: txtStyle!.copyWith(
-          fontSize: size,
-          color: color,
-          fontWeight: bold ? FontWeight.bold : null,
-        ));
-  }
-}
-
-class CustomTextBold extends StatelessWidget {
-  final String text;
-  const CustomTextBold({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final txtStyle = Theme.of(context).textTheme.displayMedium;
-
     return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 10),
+      padding: formSpacing
+          ? const EdgeInsets.only(top: 20, bottom: 15)
+          : const EdgeInsets.all(0),
       child: Text(text,
-          style: txtStyle!.copyWith(fontSize: 18, fontWeight: FontWeight.w600)),
+          style: txtStyle!.copyWith(
+            fontSize: size,
+            color: color,
+            fontWeight: bold ? FontWeight.bold : null,
+          )),
     );
   }
 }
@@ -50,20 +39,36 @@ class CustomTextBold extends StatelessWidget {
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool enableMaxlines;
+  final bool editable;
+  final IconData? prefixIcon;
+  final TextInputType? inputType;
   const CustomTextField({
     Key? key,
     required this.controller,
     this.enableMaxlines = false,
+    this.prefixIcon,
+    this.editable = true,
+    this.inputType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      keyboardType: inputType,
       controller: controller,
       maxLines: enableMaxlines ? 5 : 1,
+      enabled: editable,
+      style: const TextStyle(color: AppColors.secondaryColor),
       decoration: InputDecoration(
+        suffixIcon: Icon(prefixIcon, color: AppColors.secondaryColor),
         filled: true,
-        fillColor: Colors.grey.shade100,
+        fillColor: editable ? Colors.grey.shade100 : Colors.grey.shade100,
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide(
+            color: Colors.grey.withOpacity(0.6),
+          ),
+        ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: const BorderSide(

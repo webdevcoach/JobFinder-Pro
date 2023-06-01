@@ -1,35 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:jobhunt_pro/features/authentication/screens/applicant_login_section.dart';
-import 'package:jobhunt_pro/features/authentication/screens/recruiter_login_section.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/features/authentication/screens/signup_view.dart';
 import 'package:jobhunt_pro/features/authentication/widgets/registration_mini_info.dart';
 
-class LoginView extends StatefulWidget {
+import '../../../common/custom_forms_kit.dart';
+import '../controller/auth_controller.dart';
+import '../widgets/custom_auth_field.dart';
+
+class LoginView extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
         builder: (context) => const LoginView(),
       );
   const LoginView({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  ConsumerState<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  bool applicantLoginSelected = true;
+class _LoginViewState extends ConsumerState<LoginView> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
   }
 
-  setSelectedRadio() {
-    setState(() {
-      applicantLoginSelected = !applicantLoginSelected;
-    });
+  void onLogin() {
+    if (formKey.currentState!.validate()) {
+      ref.read(authControllerProvider.notifier).login(
+            email: emailController.text,
+            password: passwordController.text,
+            context: context,
+          );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(authControllerProvider);
+
     final txtStyle = Theme.of(context)
         .textTheme
         .displayMedium!
@@ -48,39 +62,40 @@ class _LoginViewState extends State<LoginView> {
                   style: txtStyle,
                 ),
                 const SizedBox(height: 30),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: ListTile(
-                        title: const Text("Applicant"),
-                        leading: Radio(
-                          value: true,
-                          groupValue: applicantLoginSelected,
-                          onChanged: (bool? val) {
-                            setSelectedRadio();
-                          },
+                isLoading
+                    ? const CircularProgressIndicator()
+                    : Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Form(
+                            key: formKey,
+                            child: Column(
+                              children: [
+                                CustomAuthField(
+                                  controller: emailController,
+                                  hintText: 'Email',
+                                  isPasswordField: false,
+                                ),
+                                CustomAuthField(
+                                  controller: passwordController,
+                                  hintText: 'Password',
+                                  isPasswordField: true,
+                                ),
+                                const SizedBox(height: 5),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: ElevatedButton(
+                                    onPressed: onLogin,
+                                    child: CustomText(
+                                        text: 'Log in', color: Colors.white),
+                                  ),
+                                ),
+                                const SizedBox(height: 40),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: ListTile(
-                        title: const Text("Recruiter"),
-                        leading: Radio(
-                          value: false,
-                          groupValue: applicantLoginSelected,
-                          onChanged: (bool? val) {
-                            setSelectedRadio();
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                applicantLoginSelected
-                    ? const ApplicantLoginSection()
-                    : const RecruiterLoginSection(),
                 RegistrationMiniInfo(
                     route: SignupView.route(),
                     left: 'Don\'t have an account?',

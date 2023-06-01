@@ -1,7 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/common/info_chip.dart';
+import 'package:country_picker/country_picker.dart';
+
+import 'package:jobhunt_pro/core/extensions/datetime_formatter.dart';
 import 'package:jobhunt_pro/core/extensions/sentence_splitter.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 
@@ -17,12 +21,26 @@ class PostAJobView extends ConsumerStatefulWidget {
 }
 
 class _PostAJobViewState extends ConsumerState<PostAJobView> {
+  @override
+  void initState() {
+    super.initState();
+    deadlineController.text = deadline.toOrdinalDate();
+  }
+
+  @override
+  void dispose() {
+    deadlineController.dispose();
+    super.dispose();
+  }
+
   final jobTitleController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
   final benefitsController = TextEditingController();
   final requirementController = TextEditingController();
   final salaryController = TextEditingController();
+  final deadlineController = TextEditingController();
+
   final responsibilitiesController = TextEditingController();
   WorkType _seletectedWorkType = WorkType.fullTime;
   WorkingMode _seletectedWorkMode = WorkingMode.onSite;
@@ -59,11 +77,6 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
           }
         });
       },
-      // child: Chip(
-      //   label: Text(chipName),
-      //   backgroundColor:
-      //       isSelected ? AppColors.primaryColor.withOpacity(0.5) : null,
-      // ),
       child: InfoChip(
           title: chipName,
           titleColor:
@@ -89,13 +102,16 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomTextBold(text: 'Title'),
+                    const CustomText(
+                        text: 'Title', bold: true, formSpacing: true),
                     CustomTextField(controller: jobTitleController),
-                    const CustomTextBold(text: 'Description'),
+                    const CustomText(
+                        text: 'Description', bold: true, formSpacing: true),
                     CustomTextField(
                         controller: descriptionController,
                         enableMaxlines: true),
-                    const CustomTextBold(text: 'Work Mode'),
+                    const CustomText(
+                        text: 'Work Mode', bold: true, formSpacing: true),
                     for (var mode in WorkingMode.values)
                       RadioTile<WorkingMode>(
                         title: mode.text,
@@ -104,7 +120,8 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                         onChanged: (value) =>
                             setState(() => _seletectedWorkMode = value!),
                       ),
-                    const CustomTextBold(text: 'Work Type'),
+                    const CustomText(
+                        text: 'Work Type', bold: true, formSpacing: true),
                     for (var type in WorkType.values)
                       RadioTile<WorkType>(
                         title: type.text,
@@ -113,19 +130,39 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                         onChanged: (value) =>
                             setState(() => _seletectedWorkType = value!),
                       ),
-                    const CustomTextBold(text: 'Location'),
+                    TextButton(
+                        onPressed: () => showCountryPicker(
+                              showSearch: false,
+                              context: context,
+                              onSelect: (Country country) {
+                                print('Select country: ${country.name}');
+                              },
+                            ),
+                        child: const Text('cout')),
+                    const CustomText(
+                        text: 'Location', bold: true, formSpacing: true),
                     CustomTextField(controller: locationController),
-                    const CustomTextBold(text: 'Salary'),
-                    CustomTextField(controller: salaryController),
-                    const CustomTextBold(text: 'Requirements'),
+                    const CustomText(
+                        text: 'Salary', bold: true, formSpacing: true),
+                    CustomTextField(
+                        controller: salaryController,
+                        inputType: TextInputType.number),
+                    const CustomText(
+                        text: 'Requirements', bold: true, formSpacing: true),
                     CustomTextField(
                         controller: requirementController,
                         enableMaxlines: true),
-                    const CustomTextBold(text: 'Responsibilities'),
+                    const CustomText(
+                        text: 'Responsibilities',
+                        bold: true,
+                        formSpacing: true),
                     CustomTextField(
                         controller: responsibilitiesController,
                         enableMaxlines: true),
-                    const CustomTextBold(text: 'Perks & Benefits'),
+                    const CustomText(
+                        text: 'Perks & Benefits',
+                        bold: true,
+                        formSpacing: true),
                     Wrap(
                       spacing: 8.0,
                       runSpacing: 10,
@@ -140,22 +177,28 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                         _perksChips('Paid holiday,'),
                       ],
                     ),
-                    const CustomTextBold(text: 'Deadline'),
-                    TextButton(
-                        onPressed: () async {
-                          final DateTime? date = await showDatePicker(
-                              context: context,
-                              initialDate: deadline,
-                              firstDate:
-                                  DateTime.now().add(const Duration(days: 1)),
-                              lastDate: DateTime(2050));
-                          if (date != null) {
-                            setState(() {
-                              deadline = date;
-                            });
-                          }
-                        },
-                        child: Text('Deadline: ${deadline.toString()}')),
+                    const CustomText(
+                        text: 'Deadline', bold: true, formSpacing: true),
+                    GestureDetector(
+                      onTap: () async {
+                        final DateTime? date = await showDatePicker(
+                            context: context,
+                            initialDate: deadline,
+                            firstDate:
+                                DateTime.now().add(const Duration(days: 1)),
+                            lastDate: DateTime(2050));
+                        if (date != null) {
+                          setState(() {
+                            deadline = date;
+                            deadlineController.text = deadline.toOrdinalDate();
+                          });
+                        }
+                      },
+                      child: CustomTextField(
+                          controller: deadlineController,
+                          editable: false,
+                          prefixIcon: IconlyLight.calendar),
+                    ),
                   ],
                 ),
               ),
@@ -190,6 +233,7 @@ class RadioTile<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RadioListTile<T>(
+      dense: true,
       contentPadding: const EdgeInsets.all(5),
       title: CustomText(text: title),
       value: value,

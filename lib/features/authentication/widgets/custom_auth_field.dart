@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
+import 'package:email_validator/email_validator.dart';
 
 class CustomAuthField extends StatefulWidget {
   final TextEditingController controller;
@@ -7,11 +8,11 @@ class CustomAuthField extends StatefulWidget {
   final bool isPasswordField;
 
   const CustomAuthField({
-    super.key,
+    Key? key,
     required this.controller,
     required this.hintText,
     this.isPasswordField = false,
-  });
+  }) : super(key: key);
 
   @override
   State<CustomAuthField> createState() => _CustomAuthFieldState();
@@ -19,6 +20,7 @@ class CustomAuthField extends StatefulWidget {
 
 class _CustomAuthFieldState extends State<CustomAuthField> {
   bool showObscureText = true;
+  String? _errorMessage;
 
   void showHidePassword() {
     setState(() {
@@ -26,25 +28,46 @@ class _CustomAuthFieldState extends State<CustomAuthField> {
     });
   }
 
+  String? _validator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field cannot be empty';
+    }
+
+    if (widget.isPasswordField) {
+      if (value.length < 8) {
+        return 'Password must be at least 8 characters';
+      }
+    } else {
+      if (!EmailValidator.validate(value)) {
+        return 'Please enter a valid email';
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final txtStyle = Theme.of(context).textTheme.displayMedium;
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
-      child: TextField(
-        obscureText: showObscureText,
+      child: TextFormField(
+        obscureText: widget.isPasswordField ? showObscureText : false,
         controller: widget.controller,
+        validator: _validator,
         decoration: InputDecoration(
-          prefixIcon: Icon(widget.isPasswordField ? Icons.lock : Icons.mail),
-          suffixIcon: IconButton(
-            splashColor: Colors.transparent,
-            onPressed: showHidePassword,
-            icon: widget.isPasswordField
-                ? Icon(showObscureText
-                    ? Icons.visibility_rounded
-                    : Icons.visibility_off_rounded)
-                : const SizedBox(),
+          prefixIcon: Icon(
+            widget.isPasswordField ? Icons.lock : Icons.mail,
+            color: AppColors.secondaryColor,
           ),
+          suffixIcon: widget.isPasswordField
+              ? IconButton(
+                  splashColor: Colors.transparent,
+                  onPressed: showHidePassword,
+                  icon: Icon(
+                      showObscureText
+                          ? Icons.visibility_rounded
+                          : Icons.visibility_off_rounded,
+                      color: AppColors.secondaryColor))
+              : const SizedBox(),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
@@ -65,6 +88,7 @@ class _CustomAuthFieldState extends State<CustomAuthField> {
           hintStyle: const TextStyle(
             fontSize: 15,
           ),
+          errorText: _errorMessage,
         ),
       ),
     );

@@ -59,18 +59,20 @@ class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
         title: const Text('Apply'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: SingleChildScrollView(
           child: applyJobState == ApplyJobState.loading
-              ? const CircularProgressIndicator()
+              ? const Center(child: CircularProgressIndicator())
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomTextBold(text: 'Cover Letter'),
+                    const CustomText(
+                        text: 'Cover Letter', bold: true, formSpacing: true),
                     CustomTextField(
                         controller: coverLetterController,
                         enableMaxlines: true),
-                    const CustomTextBold(text: 'Upload CV'),
+                    const CustomText(
+                        text: 'Upload CV', bold: true, formSpacing: true),
                     GestureDetector(
                       onTap: pickCV,
                       child: DottedBorder(
@@ -114,7 +116,8 @@ class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
                         onPressed: () async {
                           applyJob();
                         },
-                        child: CustomText(text: 'Submit', color: Colors.white))
+                        child: const CustomText(
+                            text: 'Submit', color: Colors.white))
                   ],
                 ),
         ),

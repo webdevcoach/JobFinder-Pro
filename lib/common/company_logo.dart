@@ -18,13 +18,15 @@ class CompanyLogo extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-              color: Colors.grey.shade400,
+              color: Colors.grey.shade500,
               blurStyle: BlurStyle.outer,
               blurRadius: 1)
         ],
         borderRadius: BorderRadius.circular(15),
       ),
       child: Image.network(
+        // color: Colors.transparent,
+        fit: BoxFit.contain,
         imageUrl,
         height: size,
         width: size,

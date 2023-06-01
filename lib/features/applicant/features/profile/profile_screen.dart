@@ -9,7 +9,7 @@ import '../../../../common/custom_appbar.dart';
 import '../../../../common/verticalbar_decoration.dart';
 import '../../../../theme/colors.dart';
 import '../../../authentication/controller/auth_controller.dart';
-import 'components/infobox.dart';
+import 'widgets/infobox.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});

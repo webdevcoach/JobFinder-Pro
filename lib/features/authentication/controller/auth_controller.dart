@@ -7,12 +7,13 @@ import 'package:jobhunt_pro/apis/auth_api.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/core/resuables/file_url.dart';
+import 'package:jobhunt_pro/features/applicant/features/home/views/page_navigator.dart';
 import 'package:jobhunt_pro/features/authentication/screens/login_view.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
-import 'package:jobhunt_pro/routes/app_route.dart';
 
 import '../../../common/route_transition.dart';
+import '../../recruiter/features/home/views/page_navigator.dart';
 
 final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
@@ -116,7 +117,10 @@ class AuthController extends StateNotifier<bool> {
         print(l.errorMsg);
       }, (r) {
         print(r.data);
-        nav.push(MaterialPageRoute(builder: (context) => const LoginView()));
+        nav.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoginView()),
+          (Route<dynamic> route) => false,
+        );
       });
     });
   }
@@ -154,7 +158,10 @@ class AuthController extends StateNotifier<bool> {
         print(l.errorMsg);
       }, (r) {
         print(r.data);
-        nav.push(MaterialPageRoute(builder: (context) => const LoginView()));
+        nav.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoginView()),
+          (Route<dynamic> route) => false,
+        );
       });
     });
   }
@@ -174,10 +181,13 @@ class AuthController extends StateNotifier<bool> {
       final accountInfo = await _authAPI.getAccountInfo();
       state = false;
       return switch (accountInfo.name) {
-        'applicant' =>
-          nav.pushNamed(AppRoute.applicantsHomeView), //home page of Applicant
-        'recruiter' => nav.pushNamed(
-            AppRoute.recruiterPageNavigator), //home page of Recruiter
+        'applicant' => nav.pushAndRemoveUntil(
+            pageRouteTransition(const ApplicantPageNavigator()),
+            (Route<dynamic> route) => false), //home page of Applicant
+
+        'recruiter' => nav.pushAndRemoveUntil(
+            pageRouteTransition(const RecruiterPageNavigator()),
+            (Route<dynamic> route) => false), //home page of Recruiter
         _ => const Scaffold(
             body: Center(
               child: Text("Unexpected Error,"),
@@ -200,9 +210,12 @@ class AuthController extends StateNotifier<bool> {
   void logout(BuildContext context) async {
     final res = await _authAPI.logout();
     res.fold((l) => null, (r) {
-      Navigator.of(context).push(pageRouteTransition(
-        const LoginView(),
-      ));
+      Navigator.of(context).pushAndRemoveUntil(
+        pageRouteTransition(
+          const LoginView(),
+        ),
+        (Route<dynamic> route) => false,
+      );
     });
   }
 }

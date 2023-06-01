@@ -12,7 +12,7 @@ class ActivityScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Activity', showSuffixIcon: false),
+      appBar: AppBar(title: const Text('Activity')),
       body: Column(children: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0),

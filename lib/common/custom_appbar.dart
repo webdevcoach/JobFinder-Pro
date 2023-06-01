@@ -6,7 +6,7 @@ import '../theme/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final IconData prefixIcon;
+  final IconData? prefixIcon;
   final bool showSuffixIcon;
   final bool editProfile;
   final void Function()? onPrefixTap;
@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     // required this.selectedJob,
     required this.title,
-    this.prefixIcon = Icons.grid_view_rounded,
+    this.prefixIcon,
     this.suffixIcon,
     this.onPrefixTap,
     this.editProfile = false,
@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         leading: GestureDetector(
           onTap: onPrefixTap,
-          child: AppBarIcon(icon: prefixIcon),
+          child: AppBarIcon(icon: prefixIcon ?? IconlyLight.arrow_left_2),
         ),
         title: Text(
           title,
