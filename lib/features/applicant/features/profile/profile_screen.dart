@@ -7,6 +7,7 @@ import 'package:jobhunt_pro/apis/auth_api.dart';
 
 import '../../../../common/custom_appbar.dart';
 import '../../../../common/verticalbar_decoration.dart';
+import '../../../../constants/app_svg.dart';
 import '../../../../theme/colors.dart';
 import '../../../authentication/controller/auth_controller.dart';
 import 'widgets/infobox.dart';
@@ -41,7 +42,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           ref.watch(authApiProvider).logout();
                         },
                         child: const Text('Logout'),
@@ -59,7 +60,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         children: [
                           Text('Mobile Engineer',
                               style: textStyle.copyWith(fontSize: 15)),
-                          SvgPicture.asset('assets/svg/other/verify.svg',
+                          SvgPicture.asset(AppSvg.verifyBold,
                               color: AppColors.primaryColor),
                         ],
                       ),

@@ -11,6 +11,8 @@ import '../../../../../common/company_logo.dart';
 import '../../../../../common/svg_icon_mini.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
+import '../../../../../constants/app_svg.dart';
+
 class RecentJobCard extends ConsumerStatefulWidget {
   final PostJob job;
 
@@ -77,13 +79,13 @@ class _RecentJobCardState extends ConsumerState<RecentJobCard> {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        const SvgIconMini(svg: 'location'),
+                        const SvgIconMini(svg: AppSvg.locationLight),
                         Text(
                           ' ${widget.job.location}',
                           style: textStyle.copyWith(fontSize: 11),
                         ),
                         const SizedBox(width: 10),
-                        const SvgIconMini(svg: 'briefcase'),
+                        const SvgIconMini(svg: AppSvg.briefcaseLight),
                         Text(
                           ' ${widget.job.jobType}',
                           style: textStyle.copyWith(fontSize: 11),

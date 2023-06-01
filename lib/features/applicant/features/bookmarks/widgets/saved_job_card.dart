@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
-import '../../../../../common/company_logo.dart';
 import '../../../../../common/info_chip.dart';
 import '../../../../../common/svg_icon_mini.dart';
+import '../../../../../constants/app_svg.dart';
 import '../../../../../theme/colors.dart';
 
 class SavedJobCard extends ConsumerWidget {
@@ -25,7 +25,7 @@ class SavedJobCard extends ConsumerWidget {
     // required this.type,
     required this.jobId,
     required this.isBookmarked,
-   // required this.location,
+    // required this.location,
     required this.imageUrl,
     //required this.imageBackground,
   }) : super(key: key);
@@ -66,7 +66,7 @@ class SavedJobCard extends ConsumerWidget {
               child: Column(
                 children: [
                   ListTile(
-                      leading:Image.network(imageUrl),
+                      leading: Image.network(imageUrl),
                       title: Padding(
                         padding: const EdgeInsets.only(bottom: 7),
                         child: Text(
@@ -81,14 +81,14 @@ class SavedJobCard extends ConsumerWidget {
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const SvgIconMini(svg: 'location'),
+                          const SvgIconMini(svg: AppSvg.locationLight),
                           const SizedBox(width: 5),
                           Text(
                             job.location,
                             style: textStyle.copyWith(fontSize: 13),
                           ),
                           const SizedBox(width: 10),
-                          const SvgIconMini(svg: 'briefcase'),
+                          const SvgIconMini(svg: AppSvg.briefcaseLight),
                           const SizedBox(width: 5),
                           Text(
                             job.jobType,

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../../../common/company_logo.dart';
 import '../../../../../common/info_chip.dart';
 import '../../../../../common/svg_icon_mini.dart';
+import '../../../../../constants/app_svg.dart';
 import '../../../../../core/enums/enums.dart';
 
 class ActivityCard extends StatelessWidget {
@@ -86,7 +87,7 @@ class ActivityCard extends StatelessWidget {
                 trailing: const Icon(Icons.more_vert, color: Colors.grey),
                 subtitle: Row(
                   children: [
-                    const SvgIconMini(svg: 'location'),
+                    const SvgIconMini(svg: AppSvg.locationLight),
 
                     const SizedBox(width: 5),
                     Text(
@@ -94,7 +95,7 @@ class ActivityCard extends StatelessWidget {
                       style: textStyle.copyWith(fontSize: 13),
                     ),
                     const SizedBox(width: 10),
-                    const SvgIconMini(svg: 'briefcase'),
+                    const SvgIconMini(svg: AppSvg.briefcaseLight),
                     // const Icon(IconlyLight.bag_2, size: 16),
                     const SizedBox(width: 5),
                     Text(
@@ -121,7 +122,7 @@ class ActivityCard extends StatelessWidget {
                     textBaseline: TextBaseline.ideographic,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     children: [
-                      const SvgIconMini(svg: 'dollar'),
+                      const SvgIconMini(svg: AppSvg.dollarLight),
                       const SizedBox(width: 5),
                       Text('${salary}k/month')
                     ],

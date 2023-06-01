@@ -7,13 +7,12 @@ import 'package:jobhunt_pro/apis/auth_api.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/core/resuables/file_url.dart';
-import 'package:jobhunt_pro/features/applicant/features/home/views/page_navigator.dart';
 import 'package:jobhunt_pro/features/authentication/screens/login_view.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
 
 import '../../../common/route_transition.dart';
-import '../../recruiter/features/home/views/page_navigator.dart';
+import '../../../routes/app_route.dart';
 
 final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
@@ -93,7 +92,9 @@ class AuthController extends StateNotifier<bool> {
     var nav = Navigator.of(context);
     String uploadedFileId =
         await _storageAPI.uploadFile(file: file, isCv: false);
-    String fileUrl = FileUrl.fileUrl(fileId: uploadedFileId,);
+    String fileUrl = FileUrl.fileUrl(
+      fileId: uploadedFileId,
+    );
     Recruiter recruiter = Recruiter(
         companyName: companyName,
         websiteLink: websiteLink,

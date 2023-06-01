@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:jobhunt_pro/common/custom_forms_kit.dart';
+import 'package:jobhunt_pro/constants/app_svg.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/controller/apply_job_conntroller.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
@@ -96,7 +97,7 @@ class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
-                                  'assets/svg/recruiter_icons/document-upload.svg',
+                                  AppSvg.documentUploadBold,
                                   color:
                                       AppColors.primaryColor.withOpacity(0.9),
                                   height: 30,

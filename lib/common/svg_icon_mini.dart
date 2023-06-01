@@ -10,6 +10,6 @@ class SvgIconMini extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset('assets/svg/other/$svg.svg', height: 15, width: 15);
+    return SvgPicture.asset(svg, height: 15, width: 15);
   }
 }

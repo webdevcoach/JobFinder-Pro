@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconly/iconly.dart';
 
+import '../../../../../constants/app_svg.dart';
+import '../../../../../theme/colors.dart';
 import '../../post_job/views/post_jobs_screen/jobs_screen.dart';
 import '../../post_job/views/recruiter_profile/recruiter_profile_screen.dart';
 import 'recruiter_home.dart';
@@ -43,15 +46,18 @@ class RecruiterPageNavigatorState extends State<RecruiterPageNavigator> {
               Theme.of(context).textSelectionTheme.selectionColor,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
+          items: <BottomNavigationBarItem>[
+            const BottomNavigationBarItem(
               icon: Icon(Icons.explore_outlined),
               activeIcon: Icon(Icons.explore),
               label: 'Explore',
             ),
             BottomNavigationBarItem(
-              icon: Icon(IconlyLight.activity),
-              activeIcon: Icon(IconlyBold.activity),
+              icon: SvgPicture.asset(AppSvg.briefcaseLight),
+              activeIcon: SvgPicture.asset(
+                AppSvg.briefcaseBold,
+                color: AppColors.primaryColor,
+              ),
               label: 'Jobs',
             ),
             // BottomNavigationBarItem(
@@ -59,7 +65,7 @@ class RecruiterPageNavigatorState extends State<RecruiterPageNavigator> {
             //   activeIcon: Icon(IconlyBold.bookmark),
             //   label: 'Saved',
             // ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(IconlyLight.profile),
               activeIcon: Icon(IconlyBold.profile),
               label: 'Profile',
