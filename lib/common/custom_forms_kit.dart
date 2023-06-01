@@ -73,8 +73,8 @@ class CustomTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: AppColors.greyColor,
+          borderSide: BorderSide(
+            color: Colors.grey.withOpacity(0.6),
           ),
         ),
         //hintText: 'hintText',

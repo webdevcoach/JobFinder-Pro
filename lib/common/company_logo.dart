@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CompanyLogo extends StatelessWidget {
   final String imageUrl;
@@ -15,15 +14,20 @@ class CompanyLogo extends StatelessWidget {
     return Container(
       height: size + 10,
       width: size + 10,
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey.shade400,
+              blurStyle: BlurStyle.outer,
+              blurRadius: 1)
+        ],
+        borderRadius: BorderRadius.circular(15),
       ),
-      child: SvgPicture.network(
+      child: Image.network(
         imageUrl,
         height: size,
         width: size,
-        color: Colors.white,
       ),
     );
   }

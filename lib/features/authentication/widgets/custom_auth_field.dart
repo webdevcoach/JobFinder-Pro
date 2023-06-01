@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
 
-class CustomAuthField extends StatelessWidget {
+class CustomAuthField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
-  final bool showObscureText;
   final bool isPasswordField;
-  final void Function()? showPasswordFunc;
 
-  const CustomAuthField(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      this.showObscureText = false,
-      this.isPasswordField = false,
-      this.showPasswordFunc});
+  const CustomAuthField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    this.isPasswordField = false,
+  });
+
+  @override
+  State<CustomAuthField> createState() => _CustomAuthFieldState();
+}
+
+class _CustomAuthFieldState extends State<CustomAuthField> {
+  bool showObscureText = true;
+
+  void showHidePassword() {
+    setState(() {
+      showObscureText = !showObscureText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +33,13 @@ class CustomAuthField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20.0),
       child: TextField(
         obscureText: showObscureText,
-        controller: controller,
+        controller: widget.controller,
         decoration: InputDecoration(
-          prefixIcon: Icon(isPasswordField ? Icons.lock : Icons.mail),
+          prefixIcon: Icon(widget.isPasswordField ? Icons.lock : Icons.mail),
           suffixIcon: IconButton(
             splashColor: Colors.transparent,
-            onPressed: showPasswordFunc,
-            icon: isPasswordField
+            onPressed: showHidePassword,
+            icon: widget.isPasswordField
                 ? Icon(showObscureText
                     ? Icons.visibility_rounded
                     : Icons.visibility_off_rounded)
@@ -43,15 +53,15 @@ class CustomAuthField extends StatelessWidget {
             ),
           ),
           filled: true,
-          fillColor: AppColors.primaryColor.withOpacity(0.1),
+          fillColor: Colors.grey.shade100,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              color: AppColors.greyColor,
+            borderSide: BorderSide(
+              color: Colors.grey.withOpacity(0.6),
             ),
           ),
           // contentPadding: const EdgeInsets.all(22),
-          hintText: hintText,
+          hintText: widget.hintText,
           hintStyle: const TextStyle(
             fontSize: 15,
           ),

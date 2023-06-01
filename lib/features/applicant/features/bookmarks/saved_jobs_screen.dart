@@ -42,8 +42,10 @@ class SavedJobsScreen extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                ApplyJobDialog(),
                 SizedBox(height: 10),
                 // Text(
                 //   'You saved ${savedJobs.length} jobs',
