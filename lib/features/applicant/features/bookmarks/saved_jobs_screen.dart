@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jobhunt_pro/features/applicant/features/bookmarks/components/saved_job_card.dart';
+import 'package:jobhunt_pro/features/applicant/features/bookmarks/widgets/saved_job_card.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 

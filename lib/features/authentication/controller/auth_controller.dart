@@ -174,10 +174,11 @@ class AuthController extends StateNotifier<bool> {
       final accountInfo = await _authAPI.getAccountInfo();
       state = false;
       return switch (accountInfo.name) {
-        'applicant' =>
-          nav.pushNamed(AppRoute.applicantsHomeView), //home page of Applicant
-        'recruiter' => nav.pushNamed(
-            AppRoute.recruiterPageNavigator), //home page of Recruiter
+        'applicant' => nav.pushNamedAndRemoveUntil(AppRoute.applicantsHomeView,
+            (route) => false), //home page of Applicant
+        'recruiter' => nav.pushNamedAndRemoveUntil(
+            AppRoute.recruiterPageNavigator,
+            (route) => false), //home page of Recruiter
         _ => const Scaffold(
             body: Center(
               child: Text("Unexpected Error,"),
