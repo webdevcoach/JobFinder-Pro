@@ -57,7 +57,7 @@ class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
     return Scaffold(
       appBar: AppBar(),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(18.0),
         child: ElevatedButton(
             onPressed: updateProfile,
             child: Text(

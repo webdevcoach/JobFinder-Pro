@@ -177,12 +177,11 @@ class AuthController extends StateNotifier<bool> {
     final nav = Navigator.of(context);
     state = true;
     final loginRes = await _authAPI.signIn(email: email, password: password);
-
+    state = false;
     loginRes.fold((l) {
       print(l.errorMsg);
     }, (r) async {
       final accountInfo = await _authAPI.getAccountInfo();
-      state = false;
       return switch (accountInfo.name) {
         'applicant' => nav.pushNamedAndRemoveUntil(AppRoute.applicantsHomeView,
             (route) => false), //home page of Applicant

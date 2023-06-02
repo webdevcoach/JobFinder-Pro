@@ -78,7 +78,7 @@ class Applicant {
       name: map['name'] as String,
       email: map['email'] as String,
       skills: List<String>.from(map['skills'] ),
-      title: map['title'] as String,
+      title: map['title'] as String ,
       experience: List<String>.from(map['experience'] ),
       about: map['about'] as String,
       location: map['location'] as String,

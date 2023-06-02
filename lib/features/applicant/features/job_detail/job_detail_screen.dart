@@ -252,6 +252,7 @@ class BulletedListBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: list
           .map((item) => Padding(
                 padding: EdgeInsets.only(bottom: padding ? 8 : 0),

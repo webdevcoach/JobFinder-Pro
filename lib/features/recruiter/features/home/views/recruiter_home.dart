@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/apllicant_details.dart';
+import 'package:jobhunt_pro/theme/colors.dart';
 
 import '../../../../applicant/features/apply_job/controller/apply_job_conntroller.dart';
 
@@ -53,12 +56,20 @@ class RecruiterHomeView extends ConsumerWidget {
                       return ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                            details.profilePicture ??
-                                'https://i.pravatar.cc/300?img=60',
+                            details.profilePicture.isEmpty
+                                ? 'https://i.pravatar.cc/300?img=60'
+                                : details.profilePicture,
                           ),
                         ),
-                        title: Text(details.name),
-                        onTap: () {},
+                        title: CustomText(
+                            text: details.name, bold: true, size: 17),
+                        subtitle: CustomText(
+                            text: details.title,
+                            size: 14,
+                            color: AppColors.primaryColor),
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ApplicantDetails(applicant: details)));
+                        },
                         trailing: const Icon(IconlyLight.arrow_right_2),
                       );
                     });
