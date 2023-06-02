@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
+import 'package:jobhunt_pro/core/enums/application_status.dart';
 import 'package:jobhunt_pro/features/applicant/features/job_detail/job_detail_screen.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/view_cv.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
 
@@ -48,7 +50,28 @@ class _AppliedApplicantDetailsState
     final details = widget.applyJob;
     final textStyle = Theme.of(context).textTheme.displayMedium;
     return Scaffold(
-        appBar: AppBar(title: const Text('Applicant  Details')),
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              /// will change this modalbottomsheet
+              const Chip(
+                  label: CustomText(text: 'Reject', size: 20),
+                  backgroundColor: Colors.red),
+              InkWell(
+                onTap: () => ref
+                    .watch(postJobControllerProvider.notifier)
+                    .acceptOrReject(
+                        applyJob: widget.applyJob
+                            .copyWith(status: ApplicationStatus.accepted)),
+                child: const Chip(
+                  label: CustomText(text: 'Accept', size: 20),
+                  backgroundColor: Color.fromARGB(255, 20, 220, 27),
+                ),
+              )
+            ],
+          ),
+        ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(12),
           child: ElevatedButton(

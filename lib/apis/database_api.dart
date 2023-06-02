@@ -46,6 +46,10 @@ abstract class DataBaseInterface {
   FutureEither<Document> saveJob({
     required Applicant applicant,
   });
+
+  FutureEither<Document> acceptOrRejectApplicant({
+    required ApplyJob applyJob,
+  });
 }
 
 class DatabaseAPI implements DataBaseInterface {
@@ -250,12 +254,28 @@ class DatabaseAPI implements DataBaseInterface {
   }) async {
     try {
       final update = await _databases.updateDocument(
-        databaseId: AppWriteConstant.usersDatabaseId,
-        collectionId: AppWriteConstant.applicantCollectionId,
-        documentId: applicant.id,
-        data: applicant.toMap()
-      );
+          databaseId: AppWriteConstant.usersDatabaseId,
+          collectionId: AppWriteConstant.applicantCollectionId,
+          documentId: applicant.id,
+          data: applicant.toMap());
       return right(update);
+    } on AppwriteException catch (e) {
+      return left(Failure(e.message!));
+    }
+  }
+
+  @override
+  FutureEither<Document> acceptOrRejectApplicant({
+    required ApplyJob applyJob,
+  }) async {
+    try {
+      final post = await _databases.updateDocument(
+        databaseId: AppWriteConstant.jobDatabaseId,
+        collectionId: AppWriteConstant.appliedJobCollectionId,
+        documentId: applyJob.applicationId,
+        data: {'status': applyJob.status.text},
+      );
+      return right(post);
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));
     }

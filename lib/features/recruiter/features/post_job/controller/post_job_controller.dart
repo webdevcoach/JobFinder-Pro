@@ -24,7 +24,8 @@ final myPostedJobProvider = FutureProvider.family((ref, String jobId) async {
   return await jobs.myJobs(jobId: jobId);
 });
 
-final appliedApplicantProvider = FutureProvider.family((ref, String applicationId) async {
+final appliedApplicantProvider =
+    FutureProvider.family((ref, String applicationId) async {
   final jobs = ref.watch(postJobControllerProvider.notifier);
   return await jobs.appliedApplicant(applicationId: applicationId);
 });
@@ -62,7 +63,7 @@ class PostJobController extends StateNotifier<JobState> {
   }) async {
     state = JobState.loading;
     final recruiter = ref.watch(currentRecruiterDetailsProvider).value;
-    
+
     final nav = Navigator.of(context);
     if (recruiter != null) {
       List<String> postedJobIds = recruiter.postedJobs;
@@ -76,7 +77,7 @@ class PostJobController extends StateNotifier<JobState> {
           jobId: '',
           isOpened: true,
           companyId: recruiter.id,
-          applicationReceived: [],         
+          applicationReceived: [],
           salary: salary,
           responsibilities: responsibilities,
           requirement: requirement,
@@ -87,10 +88,12 @@ class PostJobController extends StateNotifier<JobState> {
       job.fold((l) {
         //failure
         print(l.errorMsg);
-      }, (r) async{
-       postedJobIds.add(r.$id);
-       final recruiterUpdatedDetails = recruiter.copyWith(postedJobs: postedJobIds);
-       await _databaseAPI.addJobIdToRecruiterProfile(recruiter: recruiterUpdatedDetails);
+      }, (r) async {
+        postedJobIds.add(r.$id);
+        final recruiterUpdatedDetails =
+            recruiter.copyWith(postedJobs: postedJobIds);
+        await _databaseAPI.addJobIdToRecruiterProfile(
+            recruiter: recruiterUpdatedDetails);
         print(r.data);
         nav.pop();
       });
@@ -104,16 +107,24 @@ class PostJobController extends StateNotifier<JobState> {
     return jobs.map((job) => PostJob.fromMap(job.data)).toList();
   }
 
- Future<PostJob> myJobs({required String jobId})async{
-  final job = await _databaseAPI.myPostedJobs(jobId: jobId);
-  final postJob = PostJob.fromMap(job.data);
-  return postJob;
- } 
+  Future<PostJob> myJobs({required String jobId}) async {
+    final job = await _databaseAPI.myPostedJobs(jobId: jobId);
+    final postJob = PostJob.fromMap(job.data);
+    return postJob;
+  }
 
-  Future<ApplyJob> appliedApplicant({required String applicationId})async{
-  final job = await _databaseAPI.getAppliedApplicants(applicationId: applicationId);
-  final postJob = ApplyJob.fromMap(job.data);
-  return postJob;
- } 
+  Future<ApplyJob> appliedApplicant({required String applicationId}) async {
+    final job =
+        await _databaseAPI.getAppliedApplicants(applicationId: applicationId);
+    final postJob = ApplyJob.fromMap(job.data);
+    return postJob;
+  }
 
+  void acceptOrReject({required ApplyJob applyJob}) async {
+    state = JobState.loading;
+    final status =
+        await _databaseAPI.acceptOrRejectApplicant(applyJob: applyJob);
+    state = JobState.initialState;
+    status.fold((l) => print(l.errorMsg), (r) => print(r.data));
+  }
 }
