@@ -13,12 +13,12 @@ import '../../../../../theme/colors.dart';
 import '../../job_detail/job_detail_screen.dart';
 
 class AppliedJobStatus extends ConsumerWidget {
-  final String jobId;
-  const AppliedJobStatus({super.key, required this.jobId});
+  final String applicationId;
+  const AppliedJobStatus({super.key, required this.applicationId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final jobStatus = ref.watch(appliedJobsFutureProvider(jobId));
+    final jobStatus = ref.watch(appliedJobsFutureProvider(applicationId));
     final textStyle = Theme.of(context).textTheme.displayMedium!;
     return jobStatus.when(
         data: (application) {

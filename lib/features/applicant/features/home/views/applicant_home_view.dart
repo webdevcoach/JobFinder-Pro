@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/common/route_transition.dart';
+import 'package:jobhunt_pro/features/applicant/features/home/views/all_jobs.dart';
 import 'package:jobhunt_pro/features/applicant/features/job_detail/job_detail_screen.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 
@@ -11,7 +12,6 @@ import '../../../../../common/verticalbar_decoration.dart';
 import '../../../../../constants/category_data.dart';
 import '../../../../../model/post_job.dart';
 import '../../../../../theme/colors.dart';
-import '../../../../authentication/controller/auth_controller.dart';
 import '../widgets/category_icon.dart';
 import '../widgets/recent_job_card.dart';
 
@@ -123,7 +123,14 @@ class _HomeState extends ConsumerState<Home> {
                   },
                 ),
               ),
-              VerticalBar(title: 'Recent Jobs'),
+              VerticalBar(
+                title: 'Recent Jobs',
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AllJobsList(
+                            jobs: ref.watch(postedJobProvider).value!))),
+              ),
               const SizedBox(height: 5),
 
               ref.watch(postedJobProvider).when(
@@ -133,7 +140,7 @@ class _HomeState extends ConsumerState<Home> {
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 15),
                         shrinkWrap: true,
-                        itemCount: data.length,
+                        itemCount: data.length < 6 ? data.length : 5,
                         itemBuilder: (BuildContext context, int index) {
                           // final companyDetails = ref
                           //     .watch(recruiterProfileDetailsProvider(
@@ -145,12 +152,11 @@ class _HomeState extends ConsumerState<Home> {
 
                           return data[index].isOpened
                               ? RecentJobCard(
-                                  onTap: () => Navigator.of(context).push(
-                                      pageRouteTransition(JobDetailScreen(
-                                        jobsData:data[index] ,
-                                          ))),
+                                  onTap: () => Navigator.of(context)
+                                      .push(pageRouteTransition(JobDetailScreen(
+                                    jobsData: data[index],
+                                  ))),
                                   job: data[index],
-                                
                                   imageBackground: Colors.transparent,
                                 )
                               : const SizedBox();

@@ -71,7 +71,7 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     final updatedApplicantDetails = applicant.copyWith(
         appliedJobs: applyJobsList, applications: applicationsList);
     List<String> applicationList = selectedJob.applicationReceived;
-    applicationList.add(applicant.id);
+    applicationList.add(applicationId);
     final updatedJobDetails =
         selectedJob.copyWith(applicationReceived: applicationList);
 

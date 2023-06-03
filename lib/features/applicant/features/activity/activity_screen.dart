@@ -4,7 +4,6 @@ import 'package:jobhunt_pro/common/searchbox.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/views/applied_job_status.dart';
 
 import '../../../authentication/controller/auth_controller.dart';
-import '../../../recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 
 class ActivityScreen extends ConsumerWidget {
   const ActivityScreen({super.key});
@@ -34,10 +33,13 @@ class ActivityScreen extends ConsumerWidget {
                 return ListView.builder(
                     itemCount: profile.applications.length,
                     itemBuilder: (context, index) {
+                      final applicationId =
+                          profile.applications.reversed.toList()[index];
                       return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: AppliedJobStatus(jobId: profile.applications[index])
-                      );
+                          padding: const EdgeInsets.all(16.0),
+                          child: AppliedJobStatus(
+                            applicationId: applicationId,
+                          ));
                     });
               },
               error: (error, trace) => SizedBox(
