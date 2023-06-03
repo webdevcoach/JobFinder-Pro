@@ -38,9 +38,12 @@ class RecruiterHomeView extends ConsumerWidget {
               const Spacer(),
               IconButton(
                   onPressed: () {},
-                  icon: const Icon(
-                    IconlyLight.notification,
-                    color: Colors.grey,
+                  icon: const Badge(
+                    label: Text('5'),
+                    child: Icon(
+                      IconlyLight.notification,
+                      color: Colors.grey,
+                    ),
                   ))
             ],
           ),
@@ -68,7 +71,11 @@ class RecruiterHomeView extends ConsumerWidget {
                             size: 14,
                             color: AppColors.primaryColor),
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ApplicantDetails(applicant: details)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ApplicantDetails(applicant: details)));
                         },
                         trailing: const Icon(IconlyLight.arrow_right_2),
                       );

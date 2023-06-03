@@ -98,7 +98,7 @@ class PostJobController extends StateNotifier<JobState> {
         nav.pop();
       });
     } else {
-      print('error occured');
+      print('error occurred');
     }
   }
 
