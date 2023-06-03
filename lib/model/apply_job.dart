@@ -13,6 +13,7 @@ class ApplyJob {
   final String cvId;
   final String applicationId;
   final String companyId;
+  final String jobId;
   final DateTime appliedTime;
   final ApplicationStatus status;
   ApplyJob({
@@ -21,6 +22,7 @@ class ApplyJob {
     required this.cvId,
     required this.applicationId,
     required this.companyId,
+    required this.jobId,
     required this.appliedTime,
     required this.status,
   });
@@ -31,6 +33,7 @@ class ApplyJob {
     String? cvId,
     String? applicationId,
     String? companyId,
+    String? jobId,
     DateTime? appliedTime,
     ApplicationStatus? status,
   }) {
@@ -40,6 +43,7 @@ class ApplyJob {
       cvId: cvId ?? this.cvId,
       applicationId: applicationId ?? this.applicationId,
       companyId: companyId ?? this.companyId,
+      jobId: jobId ?? this.jobId,
       appliedTime: appliedTime ?? this.appliedTime,
       status: status ?? this.status,
     );
@@ -50,7 +54,9 @@ class ApplyJob {
       'applicantId': applicantId,
       'coverLetter': coverLetter,
       'cvId': cvId,
+
       'companyId': companyId,
+      'jobId': jobId,
       'appliedTime': appliedTime.millisecondsSinceEpoch,
       'status': status.text,
     };
@@ -63,6 +69,7 @@ class ApplyJob {
       cvId: map['cvId'] as String,
       applicationId: map['\$id'] as String,
       companyId: map['companyId'] as String,
+      jobId: map['jobId'] as String,
       appliedTime: DateTime.fromMillisecondsSinceEpoch(map['appliedTime'] as int),
       status:(map['status'] as String).applicationStatus(),
     );
@@ -70,7 +77,7 @@ class ApplyJob {
 
   @override
   String toString() {
-    return 'ApplyJob(applicantId: $applicantId, coverLetter: $coverLetter, cvId: $cvId, applicationId: $applicationId, companyId: $companyId, appliedTime: $appliedTime, status: $status)';
+    return 'ApplyJob(applicantId: $applicantId, coverLetter: $coverLetter, cvId: $cvId, applicationId: $applicationId, companyId: $companyId, jobId: $jobId, appliedTime: $appliedTime, status: $status)';
   }
 
   @override
@@ -83,6 +90,7 @@ class ApplyJob {
       other.cvId == cvId &&
       other.applicationId == applicationId &&
       other.companyId == companyId &&
+      other.jobId == jobId &&
       other.appliedTime == appliedTime &&
       other.status == status;
   }
@@ -94,11 +102,9 @@ class ApplyJob {
       cvId.hashCode ^
       applicationId.hashCode ^
       companyId.hashCode ^
+      jobId.hashCode ^
       appliedTime.hashCode ^
       status.hashCode;
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory ApplyJob.fromJson(String source) => ApplyJob.fromMap(json.decode(source) as Map<String, dynamic>);
 }

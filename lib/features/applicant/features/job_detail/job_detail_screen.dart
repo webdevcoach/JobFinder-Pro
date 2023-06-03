@@ -39,7 +39,7 @@ class JobDetailScreen extends ConsumerWidget {
     //     :
 
     final textStyle = Theme.of(context).textTheme.displayLarge!;
-
+   final currentApplicant = ref.watch(currentApplicantDetailsProvider).value;
     return Scaffold(
       appBar: CustomAppBar(
         onPrefixTap: () => Navigator.pop(context),
@@ -223,7 +223,8 @@ class JobDetailScreen extends ConsumerWidget {
                         ));
               },
               error: (error, stackTrace) => const SizedBox(),
-              loading: () => const SizedBox())),
+              loading: () => const SizedBox())
+              ),
     );
   }
 }

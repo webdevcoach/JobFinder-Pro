@@ -109,9 +109,7 @@ class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
               ),
               const SizedBox(height: 30),
               ElevatedButton(
-                  onPressed: () async {
-                    applyJob();
-                  },
+                  onPressed: () => applyJob(),
                   child: applyJobState == ApplyJobState.loading
                       ? const CircularProgressIndicator(
                           color: Colors.white,

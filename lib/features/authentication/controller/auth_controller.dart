@@ -96,16 +96,17 @@ class AuthController extends StateNotifier<bool> {
       fileId: uploadedFileId,
     );
     Recruiter recruiter = Recruiter(
-        companyName: companyName,
-        websiteLink: websiteLink,
-        email: email,
-        twitter: twitter,
-        linkedIn: linkedIn,
-        facebook: facebook,
-        about: about,
-        logoUrl: fileUrl,
-        id: '',
-        postedJobs: []);
+      companyName: companyName,
+      websiteLink: websiteLink,
+      email: email,
+      twitter: twitter,
+      linkedIn: linkedIn,
+      facebook: facebook,
+      about: about,
+      logoUrl: fileUrl,
+      id: '',
+      postedJobs: [],
+    );
     final res =
         await _authAPI.recruiterSignUp(email: email, password: password);
     state = false;
@@ -147,6 +148,7 @@ class AuthController extends StateNotifier<bool> {
       id: '',
       appliedJobs: [],
       savedJobs: [],
+      applications: [],
     );
     var nav = Navigator.of(context);
     final res =

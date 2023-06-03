@@ -42,6 +42,7 @@ abstract class DataBaseInterface {
   Future<List<Document>> getApplicants();
   Future<Document> myPostedJobs({required String jobId});
   Future<Document> getAppliedApplicants({required String applicationId});
+  Future<Document> getAppliedJobs({required String appliedJobId});
 
   FutureEither<Document> saveJob({
     required Applicant applicant,
@@ -163,7 +164,10 @@ class DatabaseAPI implements DataBaseInterface {
         databaseId: AppWriteConstant.usersDatabaseId,
         collectionId: AppWriteConstant.applicantCollectionId,
         documentId: applicant.id,
-        data: {'appliedJobs': applicant.appliedJobs},
+        data: {
+          'appliedJobs': applicant.appliedJobs,
+          'applications': applicant.applications,
+        },
       );
       return right(update);
     } on AppwriteException catch (e) {
@@ -279,5 +283,15 @@ class DatabaseAPI implements DataBaseInterface {
     } on AppwriteException catch (e) {
       return left(Failure(e.message!));
     }
+  }
+
+  @override
+  Future<Document> getAppliedJobs({required String appliedJobId}) async {
+    final myJob = await _databases.getDocument(
+      databaseId: AppWriteConstant.jobDatabaseId,
+      collectionId: AppWriteConstant.appliedJobCollectionId,
+      documentId: appliedJobId,
+    );
+    return myJob;
   }
 }

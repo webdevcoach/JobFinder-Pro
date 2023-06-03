@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/common/searchbox.dart';
+import 'package:jobhunt_pro/features/applicant/features/apply_job/views/applied_job_status.dart';
 
-import '../../../../common/custom_appbar.dart';
 import '../../../authentication/controller/auth_controller.dart';
 import '../../../recruiter/features/post_job/views/post_jobs_screen/widgets/job_card.dart';
 
@@ -32,13 +32,11 @@ class ActivityScreen extends ConsumerWidget {
           child: ref.watch(currentApplicantDetailsProvider).when(
               data: (profile) {
                 return ListView.builder(
-                    itemCount: profile.appliedJobs.length,
+                    itemCount: profile.applications.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: JobCard(
-                            isApplicant: true,
-                            postedJobsId: profile.appliedJobs[index]),
+                        child: AppliedJobStatus(jobId: profile.applications[index])
                       );
                     });
               },

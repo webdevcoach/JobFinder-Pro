@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/core/enums/application_status.dart';
+import 'package:jobhunt_pro/features/applicant/features/apply_job/widgets/apply_job_dialog.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
@@ -12,7 +13,6 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../../common/route_transition.dart';
 import '../../../../authentication/controller/auth_controller.dart';
-import '../../home/views/page_navigator.dart';
 
 enum ApplyJobState {
   initialState,
@@ -26,8 +26,15 @@ final applyJobControllerProvider =
       storageAPI: ref.watch(storageAPIProvider));
 });
 final applicantListProvider = FutureProvider((ref) async {
-  final applicant = await ref.watch(applyJobControllerProvider.notifier).getApplicantsList();
-  return  applicant;
+  final applicant =
+      await ref.watch(applyJobControllerProvider.notifier).getApplicantsList();
+  return applicant;
+});
+
+final appliedJobsFutureProvider = FutureProvider.family((ref, String id) async {
+  return await ref
+      .watch(applyJobControllerProvider.notifier)
+      .getAppliedJob(appliedJobId: id);
 });
 
 class ApplyJobController extends StateNotifier<ApplyJobState> {
@@ -58,11 +65,13 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     }
     String fileId = await _storageAPI.uploadFile(file: cv, isCv: true);
     List<String> applyJobsList = applicant.appliedJobs;
+    List<String> applicationsList = applicant.applications;
     applyJobsList.add(selectedJob.jobId);
-    final updatedApplicantDetails =
-        applicant.copyWith(appliedJobs: applyJobsList);
+    applicationsList.add(applicationId);
+    final updatedApplicantDetails = applicant.copyWith(
+        appliedJobs: applyJobsList, applications: applicationsList);
     List<String> applicationList = selectedJob.applicationReceived;
-    applicationList.add(applicationId);
+    applicationList.add(applicant.id);
     final updatedJobDetails =
         selectedJob.copyWith(applicationReceived: applicationList);
 
@@ -74,13 +83,13 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
       applicationId: applicationId,
       appliedTime: DateTime.now(),
       status: ApplicationStatus.review,
+      jobId: selectedJob.jobId,
     );
     final apply = await _databaseAPI.applyJob(applyJob: applicantInfo);
-
+    state = ApplyJobState.initialState;
     apply.fold((l) {
       print(l.errorMsg);
     }, (r) async {
-      state = ApplyJobState.initialState;
       await _databaseAPI.updateApplicantProfileWithJobId(
           applicant: updatedApplicantDetails);
       final res =
@@ -88,8 +97,7 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
       res.fold(
         (l) => print(l.errorMsg),
         (r) => nav.pushAndRemoveUntil(
-            pageRouteTransition(const ApplicantPageNavigator()),
-            (route) => false),
+            pageRouteTransition(const ApplyJobDialog()), (route) => false),
       );
     });
   }
@@ -112,5 +120,10 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     return applicantList
         .map((document) => Applicant.fromMap(document.data))
         .toList();
+  }
+
+  Future<ApplyJob> getAppliedJob({required String appliedJobId}) async {
+    final jobs = await _databaseAPI.getAppliedJobs(appliedJobId: appliedJobId);
+    return ApplyJob.fromMap(jobs.data);
   }
 }

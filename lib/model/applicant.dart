@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 
 class Applicant {
   final String name;
@@ -16,6 +17,7 @@ class Applicant {
   final String id;
   final List<String> appliedJobs;
   final List<String> savedJobs;
+  final List<String> applications;
   Applicant({
     required this.name,
     required this.email,
@@ -28,6 +30,7 @@ class Applicant {
     required this.id,
     required this.appliedJobs,
     required this.savedJobs,
+    required this.applications,
   });
 
   Applicant copyWith({
@@ -35,13 +38,14 @@ class Applicant {
     String? email,
     List<String>? skills,
     String? title,
-    List<String>?  experience,
+    List<String>? experience,
     String? about,
     String? location,
     String? profilePicture,
     String? id,
     List<String>? appliedJobs,
     List<String>? savedJobs,
+    List<String>? applications,
   }) {
     return Applicant(
       name: name ?? this.name,
@@ -55,6 +59,7 @@ class Applicant {
       id: id ?? this.id,
       appliedJobs: appliedJobs ?? this.appliedJobs,
       savedJobs: savedJobs ?? this.savedJobs,
+      applications: applications ?? this.applications,
     );
   }
 
@@ -68,8 +73,10 @@ class Applicant {
       'about': about,
       'location': location,
       'profilePicture': profilePicture,
+      'id': id,
       'appliedJobs': appliedJobs,
       'savedJobs': savedJobs,
+      'applications': applications,
     };
   }
 
@@ -86,31 +93,32 @@ class Applicant {
       id: map['\$id'] as String,
       appliedJobs: List<String>.from(map['appliedJobs'] ),
       savedJobs: List<String>.from(map['savedJobs'] ),
+      applications: List<String>.from(map['applications'] ),
     );
   }
 
   @override
   String toString() {
-    return 'Applicant(name: $name, email: $email, skills: $skills, title: $title, experience: $experience, about: $about, location: $location, profilePicture: $profilePicture, id: $id, appliedJobs: $appliedJobs, savedJobs: $savedJobs)';
+    return 'Applicant(name: $name, email: $email, skills: $skills, title: $title, experience: $experience, about: $about, location: $location, profilePicture: $profilePicture, id: $id, appliedJobs: $appliedJobs, savedJobs: $savedJobs, applications: $applications)';
   }
 
   @override
   bool operator ==(covariant Applicant other) {
     if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
   
     return 
       other.name == name &&
       other.email == email &&
       listEquals(other.skills, skills) &&
       other.title == title &&
-      other.experience == experience &&
+      listEquals(other.experience, experience) &&
       other.about == about &&
       other.location == location &&
       other.profilePicture == profilePicture &&
       other.id == id &&
       listEquals(other.appliedJobs, appliedJobs) &&
-      listEquals(other.savedJobs, savedJobs);
+      listEquals(other.savedJobs, savedJobs) &&
+      listEquals(other.applications, applications);
   }
 
   @override
@@ -125,9 +133,14 @@ class Applicant {
       profilePicture.hashCode ^
       id.hashCode ^
       appliedJobs.hashCode ^
-      savedJobs.hashCode;
+      savedJobs.hashCode ^
+      applications.hashCode;
   }
 
  
 
+
+  String toJson() => json.encode(toMap());
+
+  factory Applicant.fromJson(String source) => Applicant.fromMap(json.decode(source) as Map<String, dynamic>);
 }
