@@ -1,13 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconly/iconly.dart';
-import 'package:jobhunt_pro/apis/auth_api.dart';
+import 'package:jobhunt_pro/common/custom_forms_kit.dart';
+import 'package:jobhunt_pro/common/svg_icon_mini.dart';
+import 'package:jobhunt_pro/constants/app_svg.dart';
+import 'package:jobhunt_pro/core/resuables/date_format.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
-import '../../../../common/custom_appbar.dart';
-import '../../../../common/verticalbar_decoration.dart';
-import '../../../../constants/app_svg.dart';
+import '../../../../apis/auth_api.dart';
+import '../../../../common/info_chip.dart';
 import '../../../../theme/colors.dart';
 import '../../../authentication/controller/auth_controller.dart';
 import 'widgets/infobox.dart';
@@ -23,18 +25,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final applicant = ref.watch(currentApplicantDetailsProvider).value;
+    final applicantAccount = ref.watch(currentUserAccountProvider).value;
 
     final textStyle = Theme.of(context).textTheme.displayMedium;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(
-        title: 'Profile',
-        suffixIcon: IconlyBold.edit,
-        editProfile: true,
-        onProfileEdit: () {
-          Navigator.pushNamed(context, AppRoute.editApplicantProfile,
-              arguments: applicant);
-        },
+      appBar: AppBar(
+        centerTitle: false,
+        title: const Text('Profile'),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(IconlyBold.setting)),
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoute.editApplicantProfile,
+                    arguments: applicant);
+              },
+              icon: const Icon(IconlyBold.edit))
+        ],
       ),
       body: SingleChildScrollView(
         child: ref.watch(currentApplicantDetailsProvider).when(
@@ -42,69 +49,99 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               return Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextButton(
-                        onPressed: () async {
+                        onPressed: () {
                           ref.watch(authApiProvider).logout();
                         },
                         child: const Text('Logout'),
                       ),
-                      CircleAvatar(
-                        radius: 80,
-                        child: ClipOval(
-                            child: Image.network(profile.profilePicture)),
-                      ),
-                      Text(profile.name,
-                          style: textStyle!.copyWith(
-                              fontSize: 24, fontWeight: FontWeight.bold)),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(profile.title,
-                              style: textStyle.copyWith(fontSize: 15)),
-                          SvgPicture.asset(AppSvg.verifyBold,
-                              color: AppColors.primaryColor),
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundImage:
+                                NetworkImage(profile.profilePicture),
+                          ),
+                          const SizedBox(width: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(profile.name,
+                                  style: textStyle!.copyWith(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 5),
+                              Text(profile.title,
+                                  style: textStyle.copyWith(fontSize: 15)),
+                            ],
+                          ),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 15),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InfoBox(
                               text: profile.appliedJobs.length.toString(),
                               subtext: 'Applied'),
-                          const InfoBox(text: '12', subtext: 'Reviewed'),
-                          const InfoBox(text: '19', subtext: 'Interviews'),
+                          InfoBox(
+                              text: formatDate(DateTime.parse(
+                                  applicantAccount!.registration)),
+                              subtext: 'Member Since'),
+                          const InfoBox(text: '19', subtext: 'Offers'),
                         ],
                       ),
+                      const SizedBox(height: 15),
+                      const Divider(
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 15),
+                      ProfileInfoBox(
+                        title: 'Contact Information',
+                        icon: AppSvg.userBold,
+                        children: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const SvgIconMini(svg: AppSvg.locationLight),
+                                  const SizedBox(width: 5),
+                                  CustomText(text: profile.location, size: 14),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  const SvgIconMini(svg: AppSvg.mailLight),
+                                  const SizedBox(width: 5),
+                                  CustomText(text: profile.email, size: 14),
+                                ],
+                              ),
+                            ]),
+                      ),
+                      ProfileInfoBox(
+                        title: 'Summary',
+                        icon: AppSvg.documentTextBold,
+                        children: CustomText(text: profile.about, size: 14),
+                      ),
+                      ProfileInfoBox(
+                        title: 'Skills',
+                        icon: AppSvg.awardBold,
+                        children: Wrap(
+                          spacing: 8.0,
+                          runSpacing: 10,
+                          children: profile.skills
+                              .map((item) => InfoChip(
+                                    title: item,
+                                    titleColor: AppColors.primaryColor,
+                                  ))
+                              .toList(),
+                        ),
+                      ),
                       const SizedBox(height: 10),
-                      VerticalBar(
-                        title: 'About Me',
-                        trailing: '',
-                      ),
-                      Text(
-                        profile.about,
-                        textAlign: TextAlign.left,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        profile.skills.toString(),
-                        textAlign: TextAlign.left,
-                      ),
-                      const SizedBox(height: 20),
-                      // const EmploymentTile(
-                      //   role: 'Staff Engineer - Google',
-                      //   period: 'April, 2022 - Present',
-                      // ),
-                      // const EmploymentTile(
-                      //   role: 'Senior Engineer - Yahoo',
-                      //   period: 'April, 2017 - April, 2022',
-                      // ),
-                      // const EmploymentTile(
-                      //   role: 'Data Scientist Engineer - IBM',
-                      //   period: 'Apirl, 2008 - June, 2017',
-                      // ),
                     ]),
               );
             },
@@ -112,6 +149,87 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   child: SizedBox(),
                 ),
             loading: () => const SizedBox.shrink()),
+      ),
+    );
+  }
+}
+
+class ProfileInfoBox extends StatefulWidget {
+  final String title;
+  final String icon;
+  final Widget children;
+  const ProfileInfoBox({
+    Key? key,
+    required this.title,
+    required this.icon,
+    required this.children,
+  }) : super(key: key);
+
+  @override
+  _ProfileInfoBoxState createState() => _ProfileInfoBoxState();
+}
+
+class _ProfileInfoBoxState extends State<ProfileInfoBox> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade600,
+              blurRadius: 1,
+              blurStyle: BlurStyle.outer,
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              SvgPicture.asset(
+                widget.icon,
+                color: AppColors.primaryColor,
+              ),
+              const SizedBox(width: 8),
+              CustomText(text: widget.title, bold: true, size: 17),
+              const Spacer(),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isExpanded = !_isExpanded;
+                    });
+                  },
+                  icon: SvgPicture.asset(
+                    _isExpanded ? AppSvg.arrowUpBroken : AppSvg.arrowDownBroken,
+                    color: AppColors.primaryColor,
+                  ))
+            ]),
+            _isExpanded
+                ? Divider(
+                    color: Colors.grey.shade400,
+                  )
+                : const SizedBox(),
+            AnimatedContainer(
+              curve: Curves.bounceIn,
+              duration: const Duration(milliseconds: 500),
+              height: _isExpanded ? null : 0,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  widget.children,
+                  const SizedBox(height: 10)
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
