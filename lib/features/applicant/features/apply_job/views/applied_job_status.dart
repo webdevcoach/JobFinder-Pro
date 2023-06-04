@@ -101,6 +101,7 @@ class AppliedJobStatus extends ConsumerWidget {
                   trailing: InfoChip(
                       title: application.status.text,
                       fontSize: 17,
+                      bold: false,
                       titleColor: applicationStatusColor(application.status)),
                 ),
               ],
@@ -113,7 +114,7 @@ class AppliedJobStatus extends ConsumerWidget {
 }
 
 Color applicationStatusColor(ApplicationStatus status) => switch (status) {
-      ApplicationStatus.review => Colors.grey,
+      ApplicationStatus.review => Colors.amber,
       ApplicationStatus.accepted => Colors.green,
       ApplicationStatus.rejected => Colors.red,
     };

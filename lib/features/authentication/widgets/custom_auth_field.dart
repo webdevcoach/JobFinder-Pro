@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
 import 'package:email_validator/email_validator.dart';
+
+import '../../../constants/app_svg.dart';
 
 class CustomAuthField extends StatefulWidget {
   final TextEditingController controller;
@@ -54,19 +57,30 @@ class _CustomAuthFieldState extends State<CustomAuthField> {
         controller: widget.controller,
         validator: _validator,
         decoration: InputDecoration(
-          prefixIcon: Icon(
-            widget.isPasswordField ? Icons.lock : Icons.mail,
-            color: AppColors.secondaryColor,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(
+                12.0), // Adjust padding to position the SVG
+            child: SvgPicture.asset(
+              widget.isPasswordField ? AppSvg.lockBold : AppSvg.atSignBold,
+              width: 24, // Adjust width
+              height: 24, // Adjust height
+              fit: BoxFit.contain,
+              color: AppColors.secondaryColor,
+            ),
           ),
+
           suffixIcon: widget.isPasswordField
               ? IconButton(
                   splashColor: Colors.transparent,
                   onPressed: showHidePassword,
-                  icon: Icon(
-                      showObscureText
-                          ? Icons.visibility_rounded
-                          : Icons.visibility_off_rounded,
-                      color: AppColors.secondaryColor))
+                  icon: SizedBox(
+                    width: 24, // Adjust width
+                    height: 24, // Adjust height
+                    child: SvgPicture.asset(
+                        showObscureText ? AppSvg.eyeBold : AppSvg.eyeSlashBold,
+                        fit: BoxFit.contain,
+                        color: AppColors.secondaryColor),
+                  ))
               : const SizedBox(),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),

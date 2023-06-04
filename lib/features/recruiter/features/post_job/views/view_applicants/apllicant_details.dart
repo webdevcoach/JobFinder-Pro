@@ -20,7 +20,7 @@ class ApplicantDetails extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 80,
-              child: ClipOval(child: Image.network(applicant.profilePicture )),
+              backgroundImage: NetworkImage(applicant.profilePicture),
             ),
             const SizedBox(height: 10),
             Row(

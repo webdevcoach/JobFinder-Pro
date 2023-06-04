@@ -19,31 +19,34 @@ class VerticalBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.displayLarge;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      textBaseline: TextBaseline.ideographic,
-      children: [
-        Row(
-          children: [
-            Text(title, style: textStyle!.copyWith(fontSize: 20)),
-            const SizedBox(
-              width: 6,
-            ),
-            child,
-          ],
-        ),
-        GestureDetector(
-          onTap: onTap,
-          child: Text(
-            trailing,
-            style: textStyle.copyWith(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                color: AppColors.primaryColor),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        textBaseline: TextBaseline.ideographic,
+        children: [
+          Row(
+            children: [
+              Text(title, style: textStyle!.copyWith(fontSize: 20)),
+              const SizedBox(
+                width: 6,
+              ),
+              child,
+            ],
           ),
-        )
-      ],
+          GestureDetector(
+            onTap: onTap,
+            child: Text(
+              trailing,
+              style: textStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.primaryColor),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

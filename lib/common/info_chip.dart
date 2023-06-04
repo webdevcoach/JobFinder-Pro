@@ -5,11 +5,13 @@ class InfoChip extends StatelessWidget {
   final Color titleColor;
   final double fontSize;
   final BorderRadius? borderRadius;
+  final bool bold;
   const InfoChip(
       {Key? key,
       required this.title,
       required this.titleColor,
       this.borderRadius,
+      this.bold = true,
       this.fontSize = 15})
       : super(key: key);
 
@@ -34,7 +36,7 @@ class InfoChip extends StatelessWidget {
           style: Theme.of(context).textTheme.displayLarge!.copyWith(
               color: titleColor,
               fontSize: fontSize,
-              fontWeight: FontWeight.w500),
+              fontWeight: bold ? FontWeight.w500 : FontWeight.normal),
         ));
   }
 }

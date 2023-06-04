@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
-import 'package:jobhunt_pro/common/company_logo.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../../../../common/info_chip.dart';
@@ -36,9 +35,7 @@ class _SavedJobCardState extends ConsumerState<SavedJobCard> {
           final companyDetails =
               ref.watch(recruiterProfileDetailsProvider(job.companyId)).value;
 
-          // final applicant = ref.watch(currentApplicantDetailsProvider).value;
           return GestureDetector(
-            // onTap: (() => selectJob(context)),
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -52,9 +49,13 @@ class _SavedJobCardState extends ConsumerState<SavedJobCard> {
               child: Column(
                 children: [
                   ListTile(
-                      leading: CompanyLogo(
-                        imageUrl: companyDetails!.logoUrl,
-                        size: 40,
+                      leading: ClipOval(
+                        child: Image.network(
+                          companyDetails!.logoUrl,
+                          fit: BoxFit.contain,
+                          height: 45,
+                          width: 45,
+                        ),
                       ),
                       title: Padding(
                         padding: const EdgeInsets.only(bottom: 7),

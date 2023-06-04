@@ -14,12 +14,11 @@ class InfoBox extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.displayMedium;
 
     return Container(
-      height: 80,
-      width: 100,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
+        // color: AppColors.primaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 3, color: Colors.grey[50]!),
+        border: Border.all(width: 3, color: Colors.grey[100]!),
       ),
       child: Column(children: [
         Text(text,

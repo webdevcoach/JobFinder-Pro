@@ -24,8 +24,6 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Jobfinder-Pro',
       theme: light,
-
-      // home: const LoginView(),
       home: ref.watch(currentUserAccountProvider).when(
             data: (user) {
               if (user != null) {

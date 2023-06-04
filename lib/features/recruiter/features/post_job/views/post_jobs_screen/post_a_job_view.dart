@@ -146,7 +146,8 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                         text: 'Salary', bold: true, formSpacing: true),
                     CustomTextField(
                         controller: salaryController,
-                        inputType: TextInputType.number),
+                        inputType: TextInputType.number,
+                        prefixIcon: Icons.attach_money_sharp),
                     const CustomText(
                         text: 'Requirements', bold: true, formSpacing: true),
                     CustomTextField(
@@ -197,7 +198,7 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                       child: CustomTextField(
                           controller: deadlineController,
                           editable: false,
-                          prefixIcon: IconlyLight.calendar),
+                          suffixIcon: IconlyLight.calendar),
                     ),
                   ],
                 ),

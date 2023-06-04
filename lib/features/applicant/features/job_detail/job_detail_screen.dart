@@ -13,6 +13,8 @@ import 'package:jobhunt_pro/theme/colors.dart';
 import '../../../../common/custom_appbar.dart';
 import '../../../../common/custom_forms_kit.dart';
 import '../../../../common/info_chip.dart';
+import '../../../../common/light_icon_box.dart';
+import '../../../../constants/app_svg.dart';
 import '../../../../core/resuables/date_format.dart';
 import '../apply_job/views/apply_job_view.dart';
 
@@ -25,21 +27,8 @@ class JobDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final jobsData = ref.watch(postedJobDetailsProvider(jobId)).value;
-
-    // final companyDetails =
-    //     ref.watch(recruiterProfileDetailsProvider(jobsData!.companyId)).value;
-    // //     .value;
-    // if (jobsData == null && jobsData==null) {
-    //   return const SizedBox();
-    // }
-
-    // (companyDetails == null)
-    //     ? const Center(child: CircularProgressIndicator())
-    //     :
-
     final textStyle = Theme.of(context).textTheme.displayLarge!;
-   final currentApplicant = ref.watch(currentApplicantDetailsProvider).value;
+    final currentApplicant = ref.watch(currentApplicantDetailsProvider).value;
     return Scaffold(
       appBar: CustomAppBar(
         onPrefixTap: () => Navigator.pop(context),
@@ -64,7 +53,7 @@ class JobDetailScreen extends ConsumerWidget {
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(15),
                                 boxShadow: const [
                                   BoxShadow(
                                       color: Colors.grey,
@@ -73,21 +62,23 @@ class JobDetailScreen extends ConsumerWidget {
                                 ]),
                             child: Column(children: [
                               Container(
-                                padding: const EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(15),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(15),
                                     boxShadow: const [
                                       BoxShadow(
                                           color: Colors.grey,
                                           blurStyle: BlurStyle.outer,
                                           blurRadius: 1.5)
                                     ]),
-                                child: Image.network(
-                                  recruiter.logoUrl,
-                                  fit: BoxFit.cover,
-                                  height: 80,
-                                  width: 80,
+                                child: ClipOval(
+                                  child: Image.network(
+                                    recruiter.logoUrl,
+                                    fit: BoxFit.cover,
+                                    height: 80,
+                                    width: 80,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 15),
@@ -98,44 +89,72 @@ class JobDetailScreen extends ConsumerWidget {
                               ),
                               const SizedBox(height: 10),
                               CustomText(
-                                  text: recruiter.companyName,
-                                  color: AppColors.primaryColor,
-                                  size: 20,
-                                  bold: true),
-                              const SizedBox(height: 10),
-                              Divider(color: Colors.grey.shade400),
-                              const SizedBox(height: 10),
-                              CustomText(text: jobsData.location),
-                              const SizedBox(height: 10),
-                              CustomText(
-                                text: jobsData.salary,
+                                text: recruiter.companyName,
                                 color: AppColors.primaryColor,
-                                bold: true,
+                                size: 20,
                               ),
+
                               const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  InfoChip(
-                                      title: jobsData.jobType,
-                                      titleColor: Colors.blueGrey),
-                                  const SizedBox(width: 10),
-                                  InfoChip(
-                                      title: jobsData.workingMode,
-                                      titleColor: Colors.blueGrey)
-                                ],
-                              ),
+                              // CustomText(text: jobsData.location),
+                              // const SizedBox(height: 10),
+                              // CustomText(
+                              //   text: jobsData.salary,
+                              //   color: AppColors.primaryColor,
+                              //   bold: true,
+                              // ),
+                              // const SizedBox(height: 10),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     InfoChip(
+                              //         title: jobsData.jobType,
+                              //         titleColor: Colors.blueGrey),
+                              //     const SizedBox(width: 10),
+                              //     InfoChip(
+                              //         title: jobsData.workingMode,
+                              //         titleColor: Colors.blueGrey)
+                              //   ],
+                              // ),
                               const SizedBox(height: 10),
                               CustomText(
                                 text:
                                     'Posted ${timeago.format(jobsData.time)}, ends in ${formatDate(jobsData.deadline)}',
                                 size: 13,
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 5),
                             ]),
                           ),
-
                           const SizedBox(height: 20),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              LightIconBox(
+                                  icon: AppSvg.dollarBold,
+                                  title: 'Salary',
+                                  color: Colors.orange,
+                                  subtitle: jobsData.salary),
+                              const LightIconBox(
+                                  icon: AppSvg.locationBold,
+                                  title: 'Location',
+                                  color: Colors.teal,
+                                  subtitle: 'Accra'),
+                              LightIconBox(
+                                  icon: AppSvg.briefcaseBold,
+                                  title: 'Type',
+                                  color: Colors.blueGrey,
+                                  subtitle: jobsData.jobType),
+                              LightIconBox(
+                                  icon: AppSvg.flashBold,
+                                  title: 'Mode',
+                                  color: Colors.blue,
+                                  subtitle: jobsData.workingMode),
+                            ],
+                          ),
+
+                          const SizedBox(height: 10),
+                          Divider(color: Colors.grey.shade400),
+                          const SizedBox(height: 10),
                           const CustomText(
                               text: 'Description', bold: true, size: 18),
                           const SizedBox(height: 10),
@@ -166,7 +185,7 @@ class JobDetailScreen extends ConsumerWidget {
                             children: jobsData.benefits
                                 .map((item) => InfoChip(
                                       title: item,
-                                      titleColor: Colors.blueGrey,
+                                      titleColor: AppColors.secondaryColor,
                                     ))
                                 .toList(),
                           ),
@@ -223,8 +242,7 @@ class JobDetailScreen extends ConsumerWidget {
                         ));
               },
               error: (error, stackTrace) => const SizedBox(),
-              loading: () => const SizedBox())
-              ),
+              loading: () => const SizedBox())),
     );
   }
 }

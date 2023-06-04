@@ -40,20 +40,23 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool enableMaxlines;
   final bool editable;
+  final IconData? suffixIcon;
   final IconData? prefixIcon;
+
   final TextInputType? inputType;
   final bool? showHintText;
-  final String ? hintText;
-  const CustomTextField({
-    Key? key,
-    required this.controller,
-    this.enableMaxlines = false,
-    this.prefixIcon,
-    this.editable = true,
-    this.inputType,
-    this.showHintText = false,
-    this.hintText = ''
-  }) : super(key: key);
+  final String? hintText;
+  const CustomTextField(
+      {Key? key,
+      required this.controller,
+      this.enableMaxlines = false,
+      this.suffixIcon,
+      this.prefixIcon,
+      this.editable = true,
+      this.inputType,
+      this.showHintText = false,
+      this.hintText = ''})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,12 @@ class CustomTextField extends StatelessWidget {
       enabled: editable,
       style: const TextStyle(color: AppColors.secondaryColor),
       decoration: InputDecoration(
-        suffixIcon: Icon(prefixIcon, color: AppColors.secondaryColor),
+        suffixIcon: suffixIcon == null
+            ? null
+            : Icon(suffixIcon, color: AppColors.secondaryColor),
+        prefixIcon: prefixIcon == null
+            ? null
+            : Icon(prefixIcon, color: AppColors.secondaryColor),
         filled: true,
         fillColor: editable ? Colors.grey.shade100 : Colors.grey.shade100,
         disabledBorder: OutlineInputBorder(

@@ -30,21 +30,29 @@ class ApplyJobView extends ConsumerStatefulWidget {
 
 class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
   final coverLetterController = TextEditingController();
-  late File cv;
+  File? cv;
   bool isUploaded = false;
 
   @override
   Widget build(BuildContext context) {
     void applyJob() {
-      ref.watch(applyJobControllerProvider.notifier).applyJob(
-            context: context,
-            cv: cv,
-            coverLetter: coverLetterController.text,
-            jobId: widget.jobDetails.jobId,
-            ref: ref,
-            applicant: widget.applicant,
-            selectedJob: widget.jobDetails,
-          );
+      if (cv == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please upload a CV before submitting.'),
+          ),
+        );
+      } else {
+        ref.watch(applyJobControllerProvider.notifier).applyJob(
+              context: context,
+              cv: cv!,
+              coverLetter: coverLetterController.text,
+              jobId: widget.jobDetails.jobId,
+              ref: ref,
+              applicant: widget.applicant,
+              selectedJob: widget.jobDetails,
+            );
+      }
     }
 
     Future<void> pickCV() async {
@@ -58,6 +66,9 @@ class _ApplyJobViewState extends ConsumerState<ApplyJobView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Apply'),
+        leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(Icons.clear)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),

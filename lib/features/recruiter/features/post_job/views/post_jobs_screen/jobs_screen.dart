@@ -76,8 +76,12 @@ class JobsScreenState extends State<JobsScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        elevation: 10,
+        splashColor: Colors.white,
+        backgroundColor: Colors.white,
         onPressed: () => Navigator.of(context).pushNamed(AppRoute.postAJobView),
-        child: SvgPicture.asset(AppSvg.addBroken, color: Colors.white),
+        child:
+            SvgPicture.asset(AppSvg.addBroken, color: AppColors.primaryColor),
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

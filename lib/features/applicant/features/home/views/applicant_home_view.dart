@@ -50,65 +50,9 @@ class _HomeState extends ConsumerState<Home> {
               const SearchBox(),
               const SizedBox(height: 10),
               VerticalBar(title: 'Tips for you'),
-              const SizedBox(height: 10),
-              Container(
-                height: 170,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Stack(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'How to create a\nperfect cv for you',
-                          style: textStyle!
-                              .copyWith(fontSize: 16, color: Colors.grey[50]),
-                        ),
-                        const SizedBox(height: 10),
-                        MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6)),
-                          onPressed: () {},
-                          color: Colors.white,
-                          child: Text(
-                            'Details',
-                            style: textStyle.copyWith(
-                                fontSize: 17,
-                                color: AppColors.primaryColor.withOpacity(0.8)),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: -2,
-                    right: 24,
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primaryColor.withOpacity(0.5),
-                      radius: 70,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -30,
-                    right: 0,
-                    // alignment: Alignment.bottomRight,
-                    child: Image.asset(
-                      'assets/images/image2.png',
-                      width: 180,
-                      height: 200,
-                    ),
-                  ),
-                ]),
-              ),
+              TipsForYouCard(textStyle: textStyle),
               const SizedBox(height: 20),
               VerticalBar(title: 'Category'),
-              const SizedBox(height: 20),
               SizedBox(
                 height: 100,
                 child: ListView.builder(
@@ -131,7 +75,8 @@ class _HomeState extends ConsumerState<Home> {
                         builder: (context) => AllJobsList(
                             jobs: ref.watch(postedJobProvider).value!))),
               ),
-              const SizedBox(height: 5),
+
+              const SizedBox(height: 10),
 
               ref.watch(postedJobProvider).when(
                     data: (data) {
@@ -186,6 +131,74 @@ class _HomeState extends ConsumerState<Home> {
               // ),
               const SizedBox(height: 10),
             ],
+          ),
+        ),
+      ]),
+    );
+  }
+}
+
+class TipsForYouCard extends StatelessWidget {
+  const TipsForYouCard({
+    super.key,
+    required this.textStyle,
+  });
+
+  final TextStyle? textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 170,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Stack(children: [
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'How to create a\nperfect cv for you',
+                style:
+                    textStyle!.copyWith(fontSize: 16, color: Colors.grey[50]),
+              ),
+              const SizedBox(height: 10),
+              MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6)),
+                onPressed: () {},
+                color: Colors.white,
+                child: Text(
+                  'Details',
+                  style: textStyle!.copyWith(
+                      fontSize: 17,
+                      color: AppColors.primaryColor.withOpacity(0.8)),
+                ),
+              )
+            ],
+          ),
+        ),
+        Positioned(
+          top: -2,
+          right: 24,
+          child: CircleAvatar(
+            backgroundColor: AppColors.primaryColor.withOpacity(0.5),
+            radius: 70,
+          ),
+        ),
+        Positioned(
+          bottom: -30,
+          right: 0,
+          // alignment: Alignment.bottomRight,
+          child: Image.asset(
+            'assets/images/image2.png',
+            width: 180,
+            height: 200,
           ),
         ),
       ]),

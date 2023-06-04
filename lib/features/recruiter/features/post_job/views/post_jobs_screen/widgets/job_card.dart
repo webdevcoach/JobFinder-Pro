@@ -7,6 +7,7 @@ import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post
 import 'package:jobhunt_pro/routes/app_route.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../../../../../theme/colors.dart';
 import '../../../../../../applicant/features/job_detail/job_detail_screen.dart';
 import 'photo_pile.dart';
 
@@ -25,17 +26,14 @@ class JobCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textStyle = Theme.of(context).textTheme.displayMedium!;
 
-    // void selectJob(BuildContext context) {
-    //   Navigator.of(context)
-    //       .pushNamed(AppRoute.postedJobDetailsView, arguments: job);
-    // }
-
     return ref.watch(myPostedJobProvider(postedJobsId)).when(
         data: (job) {
           return GestureDetector(
               onTap: () => isApplicant
-                  ? Navigator.of(context).push(
-                      pageRouteTransition(JobDetailScreen(jobsData: job,)))
+                  ? Navigator.of(context)
+                      .push(pageRouteTransition(JobDetailScreen(
+                      jobsData: job,
+                    )))
                   : Navigator.of(context)
                       .pushNamed(AppRoute.postedJobDetailsView, arguments: job),
               child: Container(
@@ -73,9 +71,17 @@ class JobCard extends ConsumerWidget {
                                 ],
                               ),
                               const SizedBox(height: 8),
-                              Text(timeago.format(job.time),
-                                  style: textStyle.copyWith(
-                                      fontSize: 11, color: Colors.grey))
+                              Row(
+                                children: [
+                                  const Icon(Icons.access_time_sharp,
+                                      color: AppColors.secondaryColor,
+                                      size: 20),
+                                  const SizedBox(width: 5),
+                                  Text(timeago.format(job.time),
+                                      style: textStyle.copyWith(
+                                          fontSize: 11, color: Colors.grey)),
+                                ],
+                              )
                             ],
                           ),
                         ),

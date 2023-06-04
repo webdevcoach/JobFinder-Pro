@@ -37,8 +37,11 @@ final postedJobDetailsProvider =
   return res.first;
 });
 
-final applicantsImageProvider = FutureProvider((ref) async {
-  return;
+final applicantsImageProvider =
+    FutureProvider.family((ref, String jobId) async {
+  final job =
+      await ref.watch(postJobControllerProvider.notifier).myJobs(jobId: jobId);
+  return job.applicationReceived;
 });
 
 class PostJobController extends StateNotifier<JobState> {

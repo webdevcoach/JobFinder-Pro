@@ -2,21 +2,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../theme/colors.dart';
+import 'custom_forms_kit.dart';
 
 class LightIconBox extends StatelessWidget {
   final String icon;
-  String title;
-  final double height;
-  final double width;
+  final String title;
+  final String subtitle;
+  final Color color;
+
   final bool showTitle;
-  LightIconBox(
-      {Key? key,
+  const LightIconBox(
+      {super.key,
       required this.icon,
-      this.title = 'a',
-      this.height = 25,
-      this.width = 25,
-      this.showTitle = true});
+      required this.title,
+      this.showTitle = true,
+      required this.subtitle,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +26,22 @@ class LightIconBox extends StatelessWidget {
         Container(
           // height: height,
           // width: width,
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: AppColors.primaryColor.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(10),
-          ),
+              color: color.withOpacity(0.2), shape: BoxShape.circle
+              // borderRadius: BorderRadius.circular(20),
+              ),
           child: SvgPicture.asset(
             icon,
-            color: AppColors.primaryColor,
-            height: height,
-            width: width,
+            color: color,
+            height: 25,
+            width: 25,
           ),
         ),
-        SizedBox(height: showTitle ? 10 : 0),
-        Text(title, style: TextStyle(fontSize: showTitle ? 14 : 0))
+        const SizedBox(height: 7),
+        CustomText(text: title, size: 12),
+        const SizedBox(height: 8),
+        CustomText(text: subtitle, bold: true, size: 16)
       ],
     );
   }

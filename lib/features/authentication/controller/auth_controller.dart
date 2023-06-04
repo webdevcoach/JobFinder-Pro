@@ -181,7 +181,12 @@ class AuthController extends StateNotifier<bool> {
     final loginRes = await _authAPI.signIn(email: email, password: password);
     state = false;
     loginRes.fold((l) {
-      print(l.errorMsg);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l.errorMsg),
+        ),
+      );
+      print({l.errorMsg});
     }, (r) async {
       final accountInfo = await _authAPI.getAccountInfo();
       return switch (accountInfo.name) {

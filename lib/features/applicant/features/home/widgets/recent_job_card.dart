@@ -7,7 +7,6 @@ import 'package:jobhunt_pro/features/applicant/features/apply_job/controller/app
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
 
-import '../../../../../common/company_logo.dart';
 import '../../../../../common/svg_icon_mini.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
@@ -53,9 +52,13 @@ class _RecentJobCardState extends ConsumerState<RecentJobCard> {
                   .watch(recruiterProfileDetailsProvider(widget.job.companyId))
                   .when(
                       data: (recruiter) {
-                        return CompanyLogo(
-                          size: 30,
-                          imageUrl: recruiter.logoUrl,
+                        return ClipOval(
+                          child: Image.network(
+                            recruiter.logoUrl,
+                            fit: BoxFit.cover,
+                            height: 45,
+                            width: 45,
+                          ),
                         );
                       },
                       error: (e, t) => const SizedBox(),

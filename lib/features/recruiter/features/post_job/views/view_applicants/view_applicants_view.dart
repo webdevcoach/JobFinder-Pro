@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/applicant_card.dart';
 
 class ViewApplicantsView extends StatelessWidget {
