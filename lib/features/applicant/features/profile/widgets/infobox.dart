@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../common/custom_forms_kit.dart';
+import '../../../../../theme/colors.dart';
+
 class InfoBox extends StatelessWidget {
   final String text;
   final String subtext;
@@ -11,21 +14,23 @@ class InfoBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.displayMedium;
-
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: BoxDecoration(
-        // color: AppColors.primaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 3, color: Colors.grey[100]!),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey.shade500,
+              blurStyle: BlurStyle.outer,
+              blurRadius: 1)
+        ],
+        // border: Border.all(width: 3, color: Colors.grey[200]!),
       ),
       child: Column(children: [
-        Text(text,
-            style:
-                textStyle!.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+        CustomText(
+            text: text, size: 20, bold: true, color: AppColors.primaryColor),
         const SizedBox(height: 5),
-        Text(subtext, style: textStyle.copyWith(fontSize: 14)),
+        CustomText(text: subtext, size: 14),
       ]),
     );
   }

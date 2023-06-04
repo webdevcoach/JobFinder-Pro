@@ -12,6 +12,7 @@ import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
 
 import '../../../common/route_transition.dart';
+import '../../../core/resuables/ui/snackbar_alert.dart';
 import '../../../routes/app_route.dart';
 
 final authControllerProvider =
@@ -111,6 +112,8 @@ class AuthController extends StateNotifier<bool> {
         await _authAPI.recruiterSignUp(email: email, password: password);
     state = false;
     res.fold((l) {
+      snackBarAlert(context, l.errorMsg);
+
       print(l.errorMsg);
     }, (r) async {
       final databaseRes = await _databaseAPI.saveRecruiterDetails(
@@ -155,11 +158,15 @@ class AuthController extends StateNotifier<bool> {
         await _authAPI.applicantSignUp(email: email, password: password);
     state = false;
     res.fold((l) {
+      snackBarAlert(context, l.errorMsg);
+
       print(l.errorMsg);
     }, (r) async {
       final databaseRes = await _databaseAPI.saveApplicantDetails(
           applicant: applicant, id: r.$id);
       databaseRes.fold((l) {
+        snackBarAlert(context, l.errorMsg);
+
         print(l.errorMsg);
       }, (r) {
         print(r.data);
@@ -181,11 +188,7 @@ class AuthController extends StateNotifier<bool> {
     final loginRes = await _authAPI.signIn(email: email, password: password);
     state = false;
     loginRes.fold((l) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l.errorMsg),
-        ),
-      );
+      snackBarAlert(context, l.errorMsg);
       print({l.errorMsg});
     }, (r) async {
       final accountInfo = await _authAPI.getAccountInfo();
