@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
+import 'package:lottie/lottie.dart';
 
 class ApplyJobDialog extends StatelessWidget {
   const ApplyJobDialog({super.key});
@@ -15,6 +16,8 @@ class ApplyJobDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Lottie.asset('assets/lottie/done-success.zip',
+                  repeat: false, height: 300, width: 300),
               const CustomText(
                   text: 'Job Application Sent', bold: true, size: 25),
               const SizedBox(height: 3),
