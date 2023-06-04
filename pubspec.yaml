@@ -36,6 +36,7 @@ dependencies:
   iconly: ^1.0.1
   image_picker: ^0.8.7+5
   intl: ^0.18.1
+  lottie: ^2.4.0
   path_provider: ^2.0.15
   timeago: ^3.4.0
   uuid: ^3.0.7
@@ -57,7 +58,7 @@ flutter:
   assets:
     - assets/svg/
     - assets/images/
-
+    - assets/lottie/
   fonts:
     - family: Quicksand
       fonts:
