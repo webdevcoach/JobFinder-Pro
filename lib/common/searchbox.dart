@@ -7,16 +7,28 @@ import '../theme/colors.dart';
 class SearchBox extends StatelessWidget {
   final bool showFilterButton;
   final bool isHome;
+  final bool enableInput;
+  final TextEditingController? controller;
+  final Function(String)? onChanged;
+  final Function()? onTap;
   const SearchBox({
     Key? key,
     this.showFilterButton = true,
     this.isHome = true,
+    this.enableInput = true,
+    this.controller,
+    this.onTap,
+    this.onChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.displayMedium!;
     return TextField(
+      controller: controller,
+      onTap: onTap,
+      onChanged: onChanged,
+      enabled: enableInput,
       style: textStyle.copyWith(fontSize: 18),
       decoration: InputDecoration(
         filled: true,

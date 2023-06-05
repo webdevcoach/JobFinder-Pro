@@ -4,25 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/controller/apply_job_conntroller.dart';
+import 'package:jobhunt_pro/features/applicant/features/job_detail/job_detail_screen.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
 
+import '../../../../../common/route_transition.dart';
 import '../../../../../common/svg_icon_mini.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
 import '../../../../../constants/app_svg.dart';
+import '../../bookmarks/controller/bookmark_controller.dart';
 
 class RecentJobCard extends ConsumerStatefulWidget {
   final PostJob job;
   final Color imageBackground;
 
-  final void Function()? onTap;
-
   const RecentJobCard({
     Key? key,
     required this.imageBackground,
     required this.job,
-    this.onTap,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,10 @@ class _RecentJobCardState extends ConsumerState<RecentJobCard> {
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.displayMedium!;
     return InkWell(
-        onTap: widget.onTap,
+        onTap: () =>
+            Navigator.of(context).push(pageRouteTransition(JobDetailScreen(
+              jobsData: widget.job,
+            ))),
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -107,8 +110,8 @@ class _RecentJobCardState extends ConsumerState<RecentJobCard> {
                         return InkWell(
                           onTap: () {
                             ref
-                                .watch(applyJobControllerProvider.notifier)
-                                .saveJob(
+                                .watch(bookmarkControllerProvider.notifier)
+                                .bookmarkJob(
                                     applicant: applicant,
                                     jobId: widget.job.jobId);
                             setState(() {});

@@ -30,11 +30,7 @@ final applicantListProvider = FutureProvider((ref) async {
       await ref.watch(applyJobControllerProvider.notifier).getApplicantsList();
   return applicant;
 });
-final jobSearchProvider = FutureProvider.family((ref, String keyword) async {
-  final jobs =
-      ref.watch(applyJobControllerProvider.notifier).jobQuery(keyword: keyword);
-  return jobs;
-});
+
 
 final appliedJobsFutureProvider = FutureProvider.family((ref, String id) async {
   return await ref
@@ -110,19 +106,7 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     });
   }
 
-  void saveJob({required Applicant applicant, required String jobId}) async {
-    List<String> savedJobsList = applicant.savedJobs;
-    if (!savedJobsList.contains(jobId)) {
-      savedJobsList.add(jobId);
-    } else {
-      savedJobsList.remove(jobId);
-    }
-    final updatedApplicantDetails =
-        applicant.copyWith(savedJobs: savedJobsList);
-    final job = await _databaseAPI.saveJob(applicant: updatedApplicantDetails);
-    job.fold((l) => print(l.errorMsg), (r) => null);
-  }
-
+ 
   Future<List<Applicant>> getApplicantsList() async {
     final applicantList = await _databaseAPI.getApplicants();
     return applicantList
@@ -135,8 +119,4 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     return ApplyJob.fromMap(jobs.data);
   }
 
-  Future<List<PostJob>> jobQuery({required String keyword}) async {
-    final result = await _databaseAPI.searchJobs(keyword: keyword);
-    return result.map((document) => PostJob.fromMap(document.data)).toList();
-  }
 }

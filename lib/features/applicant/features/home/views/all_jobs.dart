@@ -27,10 +27,7 @@ class AllJobsList extends StatelessWidget {
             bool status = job.isOpened;
             return status
                 ? RecentJobCard(
-                    onTap: () => Navigator.of(context)
-                        .push(pageRouteTransition(JobDetailScreen(
-                      jobsData: job,
-                    ))),
+                  
                     job: job,
                     imageBackground: Colors.transparent,
                   )

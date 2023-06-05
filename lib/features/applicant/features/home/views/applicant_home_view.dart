@@ -2,10 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
-import 'package:jobhunt_pro/common/route_transition.dart';
 import 'package:jobhunt_pro/features/applicant/features/home/views/all_jobs.dart';
-import 'package:jobhunt_pro/features/applicant/features/job_detail/job_detail_screen.dart';
-import 'package:jobhunt_pro/features/applicant/features/job_search.dart/search_creen.dart';
+import 'package:jobhunt_pro/features/applicant/features/job_search.dart/screen/search_creen.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 
 import '../../../../../common/searchbox.dart';
@@ -51,7 +49,13 @@ class _HomeState extends ConsumerState<Home> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              const SearchBox(),
+              GestureDetector(
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const JobSearch())),
+                child: const SearchBox(
+                  enableInput: false,
+                ),
+              ),
               const SizedBox(height: 10),
               VerticalBar(title: 'Tips for you'),
               TipsForYouCard(textStyle: textStyle),
@@ -91,20 +95,8 @@ class _HomeState extends ConsumerState<Home> {
                         shrinkWrap: true,
                         itemCount: data.length < 6 ? data.length : 5,
                         itemBuilder: (BuildContext context, int index) {
-                          // final companyDetails = ref
-                          //     .watch(recruiterProfileDetailsProvider(
-                          //         data[index].companyId))
-                          //     .value;
-                          // if (companyDetails == null) {
-                          //   return const SizedBox();
-                          // }
-
                           return data[index].isOpened
                               ? RecentJobCard(
-                                  onTap: () => Navigator.of(context)
-                                      .push(pageRouteTransition(JobDetailScreen(
-                                    jobsData: data[index],
-                                  ))),
                                   job: data[index],
                                   imageBackground: Colors.transparent,
                                 )
