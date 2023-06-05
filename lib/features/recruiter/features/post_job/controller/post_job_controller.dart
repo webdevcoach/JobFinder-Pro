@@ -47,10 +47,7 @@ final applicantsImageProvider =
   return job.applicationReceived;
 });
 
-final jobRealTimeProvider = StreamProvider.family((ref, String id) {
-  final job = ref.watch(databaseAPIProvider).myJobsRealTime(docId: id);
-  return job;
-});
+
 
 class PostJobController extends StateNotifier<JobState> {
   final DatabaseAPI _databaseAPI;

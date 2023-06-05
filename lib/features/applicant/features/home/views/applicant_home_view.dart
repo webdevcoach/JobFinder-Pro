@@ -5,6 +5,7 @@ import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/common/route_transition.dart';
 import 'package:jobhunt_pro/features/applicant/features/home/views/all_jobs.dart';
 import 'package:jobhunt_pro/features/applicant/features/job_detail/job_detail_screen.dart';
+import 'package:jobhunt_pro/features/applicant/features/job_search.dart/search_creen.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
 
 import '../../../../../common/searchbox.dart';
@@ -36,7 +37,10 @@ class _HomeState extends ConsumerState<Home> {
             ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const JobSearch()));
+              },
               icon: const Icon(IconlyLight.notification
                   // color: Colors.grey,
                   ))

@@ -14,7 +14,6 @@ import 'appwrite_injects.dart';
 final databaseAPIProvider = Provider((ref) {
   return DatabaseAPI(
     databases: ref.watch(appwriteDatabaseProvider),
-    realtime: ref.watch(appwriteRealTime),
   );
 });
 
@@ -47,7 +46,7 @@ abstract class DataBaseInterface {
   Future<Document> myPostedJobs({required String jobId});
   Future<Document> getAppliedApplicants({required String applicationId});
   Future<Document> getAppliedJobs({required String appliedJobId});
-
+  Future<List<Document>> searchJobs({required String keyword});
   FutureEither<Document> saveJob({
     required Applicant applicant,
   });
@@ -55,17 +54,14 @@ abstract class DataBaseInterface {
   FutureEither<Document> acceptOrRejectApplicant({
     required ApplyJob applyJob,
   });
-
-  Stream<RealtimeMessage> myJobsRealTime({required String docId});
 }
 
 class DatabaseAPI implements DataBaseInterface {
   final Databases _databases;
-  final Realtime _realtime;
 
-  DatabaseAPI({required Databases databases, required Realtime realtime})
-      : _databases = databases,
-        _realtime = realtime;
+  DatabaseAPI({
+    required Databases databases,
+  }) : _databases = databases;
   @override
   FutureEither<Document> applyJob({required ApplyJob applyJob}) async {
     try {
@@ -185,8 +181,10 @@ class DatabaseAPI implements DataBaseInterface {
   }
 
   @override
-  FutureEither<Document> updateJob(
-      {required PostJob job, required Map<String, dynamic> jobUpdate,}) async {
+  FutureEither<Document> updateJob({
+    required PostJob job,
+    required Map<String, dynamic> jobUpdate,
+  }) async {
     try {
       final update = await _databases.updateDocument(
         databaseId: AppWriteConstant.jobDatabaseId,
@@ -304,8 +302,12 @@ class DatabaseAPI implements DataBaseInterface {
   }
 
   @override
-  Stream<RealtimeMessage> myJobsRealTime({required String docId}) {
-    return _realtime
-        .subscribe([AppWriteConstant.realTimeChannel(docId)]).stream;
+  Future<List<Document>> searchJobs({required String keyword}) async{
+      final jobs = await _databases.listDocuments(
+      databaseId: AppWriteConstant.jobDatabaseId,
+      collectionId: AppWriteConstant.postedJobCollectionId,
+      queries: [Query.search('jobTitle', keyword)]
+    );
+    return jobs.documents;
   }
 }
