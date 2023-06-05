@@ -27,6 +27,7 @@ class ClosedJobsView extends ConsumerWidget {
               itemBuilder: (BuildContext context, int index) {
                 final job = profile.postedJobs.reversed.toList()[index];
                 return JobCard(
+                  isActive:  false,
                   isApplicant: false,
                   postedJobsId: job,
                 );

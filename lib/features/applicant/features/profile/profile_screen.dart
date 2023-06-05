@@ -29,7 +29,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     final textStyle = Theme.of(context).textTheme.displayMedium;
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: false,
         title: const Text('Profile'),
@@ -44,9 +43,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        child: ref.watch(currentApplicantDetailsProvider).when(
-            data: (profile) {
-              return Padding(
+        child: 
+               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,18 +61,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           CircleAvatar(
                             radius: 40,
                             backgroundImage:
-                                NetworkImage(profile.profilePicture),
+                                NetworkImage(applicant!.profilePicture),
                           ),
                           const SizedBox(width: 20),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(profile.name,
+                              Text(applicant.name,
                                   style: textStyle!.copyWith(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold)),
                               const SizedBox(height: 5),
-                              Text(profile.title,
+                              Text(applicant.title,
                                   style: textStyle.copyWith(fontSize: 15)),
                             ],
                           ),
@@ -85,7 +83,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InfoBox(
-                              text: profile.appliedJobs.length.toString(),
+                              text: applicant.appliedJobs.length.toString(),
                               subtext: 'Applied'),
                           InfoBox(
                               text: formatDate(DateTime.parse(
@@ -109,7 +107,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 children: [
                                   const SvgIconMini(svg: AppSvg.locationLight),
                                   const SizedBox(width: 5),
-                                  CustomText(text: profile.location, size: 14),
+                                  CustomText(text: applicant.location, size: 14),
                                 ],
                               ),
                               const SizedBox(height: 5),
@@ -117,7 +115,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 children: [
                                   const SvgIconMini(svg: AppSvg.mailLight),
                                   const SizedBox(width: 5),
-                                  CustomText(text: profile.email, size: 14),
+                                  CustomText(text: applicant.email, size: 14),
                                 ],
                               ),
                             ]),
@@ -125,7 +123,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ProfileInfoBox(
                         title: 'Summary',
                         icon: AppSvg.documentTextBold,
-                        children: CustomText(text: profile.about, size: 14),
+                        children: CustomText(text: applicant.about, size: 14),
                       ),
                       ProfileInfoBox(
                         title: 'Skills',
@@ -133,7 +131,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         children: Wrap(
                           spacing: 8.0,
                           runSpacing: 10,
-                          children: profile.skills
+                          children: applicant.skills
                               .map((item) => InfoChip(
                                     title: item,
                                     titleColor: AppColors.primaryColor,
@@ -143,12 +141,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ),
                       const SizedBox(height: 10),
                     ]),
-              );
-            },
-            error: (error, stackTrace) => const Center(
-                  child: SizedBox(),
-                ),
-            loading: () => const SizedBox.shrink()),
+              )
+            
+           
       ),
     );
   }

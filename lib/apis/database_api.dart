@@ -12,7 +12,10 @@ import 'package:jobhunt_pro/model/post_job.dart';
 import 'appwrite_injects.dart';
 
 final databaseAPIProvider = Provider((ref) {
-  return DatabaseAPI(databases: ref.watch(appwriteDatabaseProvider));
+  return DatabaseAPI(
+    databases: ref.watch(appwriteDatabaseProvider),
+    realtime: ref.watch(appwriteRealTime),
+  );
 });
 
 abstract class DataBaseInterface {
@@ -31,7 +34,8 @@ abstract class DataBaseInterface {
   FutureEither<Document> applyJob({required ApplyJob applyJob});
   Future<Document> getApplicantProfile({required String id});
   Future<Document> getRecruiterProfile({required String id});
-  FutureEither<Document> updateJobWithApplicationId({required PostJob job});
+  FutureEither<Document> updateJob(
+      {required PostJob job, required Map<String, dynamic> jobUpdate});
   FutureEither<Document> updateApplicantProfileWithJobId({
     required Applicant applicant,
   });
@@ -51,12 +55,17 @@ abstract class DataBaseInterface {
   FutureEither<Document> acceptOrRejectApplicant({
     required ApplyJob applyJob,
   });
+
+  Stream<RealtimeMessage> myJobsRealTime({required String docId});
 }
 
 class DatabaseAPI implements DataBaseInterface {
   final Databases _databases;
+  final Realtime _realtime;
 
-  DatabaseAPI({required Databases databases}) : _databases = databases;
+  DatabaseAPI({required Databases databases, required Realtime realtime})
+      : _databases = databases,
+        _realtime = realtime;
   @override
   FutureEither<Document> applyJob({required ApplyJob applyJob}) async {
     try {
@@ -176,15 +185,14 @@ class DatabaseAPI implements DataBaseInterface {
   }
 
   @override
-  FutureEither<Document> updateJobWithApplicationId({
-    required PostJob job,
-  }) async {
+  FutureEither<Document> updateJob(
+      {required PostJob job, required Map<String, dynamic> jobUpdate,}) async {
     try {
       final update = await _databases.updateDocument(
         databaseId: AppWriteConstant.jobDatabaseId,
         collectionId: AppWriteConstant.postedJobCollectionId,
         documentId: job.jobId,
-        data: {'applicationReceived': job.applicationReceived},
+        data: jobUpdate,
       );
       return right(update);
     } on AppwriteException catch (e) {
@@ -220,12 +228,12 @@ class DatabaseAPI implements DataBaseInterface {
 
   @override
   Future<Document> getAppliedApplicants({required String applicationId}) async {
-    final myJob = await _databases.getDocument(
+    final candidates = await _databases.getDocument(
       databaseId: AppWriteConstant.jobDatabaseId,
       collectionId: AppWriteConstant.appliedJobCollectionId,
       documentId: applicationId,
     );
-    return myJob;
+    return candidates;
   }
 
   @override
@@ -293,5 +301,11 @@ class DatabaseAPI implements DataBaseInterface {
       documentId: appliedJobId,
     );
     return myJob;
+  }
+
+  @override
+  Stream<RealtimeMessage> myJobsRealTime({required String docId}) {
+    return _realtime
+        .subscribe([AppWriteConstant.realTimeChannel(docId)]).stream;
   }
 }

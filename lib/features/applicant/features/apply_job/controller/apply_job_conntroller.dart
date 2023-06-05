@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/core/enums/application_status.dart';
+import 'package:jobhunt_pro/core/resuables/ui/snackbar_alert.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/widgets/apply_job_dialog.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
@@ -92,8 +93,9 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     }, (r) async {
       await _databaseAPI.updateApplicantProfileWithJobId(
           applicant: updatedApplicantDetails);
-      final res =
-          await _databaseAPI.updateJobWithApplicationId(job: updatedJobDetails);
+      final res = await _databaseAPI.updateJob(job: updatedJobDetails, jobUpdate: {
+        'applicationReceived': updatedJobDetails.applicationReceived
+      });
       res.fold(
         (l) => print(l.errorMsg),
         (r) => nav.pushAndRemoveUntil(
@@ -114,6 +116,8 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     final job = await _databaseAPI.saveJob(applicant: updatedApplicantDetails);
     job.fold((l) => print(l.errorMsg), (r) => null);
   }
+
+
 
   Future<List<Applicant>> getApplicantsList() async {
     final applicantList = await _databaseAPI.getApplicants();

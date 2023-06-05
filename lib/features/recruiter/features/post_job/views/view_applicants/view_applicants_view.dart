@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/applicant_card.dart';
 
 class ViewApplicantsView extends StatelessWidget {
@@ -11,11 +12,18 @@ class ViewApplicantsView extends StatelessWidget {
         appBar: AppBar(title: const Text('View Applicants')),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-              itemCount: applicantId.length,
-              itemBuilder: (context, index) {
-                return ApplicantCard(applicationId: applicantId[index]);
-              }),
+          child: applicantId.isEmpty
+              ? const Center(
+                  child: CustomText(
+                    text: 'No Applications received ',
+                    size: 25,
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: applicantId.length,
+                  itemBuilder: (context, index) {
+                    return ApplicantCard(applicationId: applicantId[index]);
+                  }),
         ));
   }
 }

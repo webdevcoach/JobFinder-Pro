@@ -4,6 +4,9 @@ import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
 import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/routes/app_route.dart';
+
+import '../../../../../core/resuables/ui/snackbar_alert.dart';
 
 enum JobState {
   initialState,
@@ -42,6 +45,11 @@ final applicantsImageProvider =
   final job =
       await ref.watch(postJobControllerProvider.notifier).myJobs(jobId: jobId);
   return job.applicationReceived;
+});
+
+final jobRealTimeProvider = StreamProvider.family((ref, String id) {
+  final job = ref.watch(databaseAPIProvider).myJobsRealTime(docId: id);
+  return job;
 });
 
 class PostJobController extends StateNotifier<JobState> {
@@ -89,19 +97,19 @@ class PostJobController extends StateNotifier<JobState> {
       final job = await _databaseAPI.postJob(jobDetails: jobDetails);
       state = JobState.initialState;
       job.fold((l) {
-        //failure
-        print(l.errorMsg);
+        snackBarAlert(context, l.errorMsg);
       }, (r) async {
         postedJobIds.add(r.$id);
         final recruiterUpdatedDetails =
             recruiter.copyWith(postedJobs: postedJobIds);
         await _databaseAPI.addJobIdToRecruiterProfile(
             recruiter: recruiterUpdatedDetails);
-        print(r.data);
-        nav.pop();
+
+        nav.pushNamedAndRemoveUntil(
+            AppRoute.recruiterPageNavigator, (route) => false);
       });
     } else {
-      print('error occurred');
+      snackBarAlert(context, 'Error Occurred');
     }
   }
 
@@ -129,5 +137,18 @@ class PostJobController extends StateNotifier<JobState> {
         await _databaseAPI.acceptOrRejectApplicant(applyJob: applyJob);
     state = JobState.initialState;
     status.fold((l) => print(l.errorMsg), (r) => print(r.data));
+  }
+
+  void openOrCloseApplication({
+    required PostJob job,
+    required bool status,
+    required BuildContext context,
+  }) async {
+    final jobUpdate =
+        await _databaseAPI.updateJob(job: job, jobUpdate: {'isOpened': status});
+    jobUpdate.fold(
+        (l) => snackBarAlert(context, l.errorMsg),
+        (r) => Navigator.of(context).pushNamedAndRemoveUntil(
+            AppRoute.recruiterPageNavigator, (route) => true,));
   }
 }
