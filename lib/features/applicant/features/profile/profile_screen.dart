@@ -8,7 +8,6 @@ import 'package:jobhunt_pro/constants/app_svg.dart';
 import 'package:jobhunt_pro/core/resuables/date_format.dart';
 import 'package:jobhunt_pro/features/applicant/features/profile/widgets/profile_info_box.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
-import '../../../../apis/auth_api.dart';
 import '../../../../common/info_chip.dart';
 import '../../../../theme/colors.dart';
 import '../../../authentication/controller/auth_controller.dart';
@@ -43,108 +42,99 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        child: 
-               Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          ref.watch(authApiProvider).logout();
-                        },
-                        child: const Text('Logout'),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            radius: 40,
-                            backgroundImage:
-                                NetworkImage(applicant!.profilePicture),
-                          ),
-                          const SizedBox(width: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(applicant.name,
-                                  style: textStyle!.copyWith(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold)),
-                              const SizedBox(height: 5),
-                              Text(applicant.title,
-                                  style: textStyle.copyWith(fontSize: 15)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InfoBox(
-                              text: applicant.appliedJobs.length.toString(),
-                              subtext: 'Applied'),
-                          InfoBox(
-                              text: formatDate(DateTime.parse(
-                                  applicantAccount!.registration)),
-                              subtext: 'Member Since'),
-                          const InfoBox(text: '19', subtext: 'Offers'),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      const Divider(
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 15),
-                      ProfileInfoBox(
-                        title: 'Contact Information',
-                        icon: AppSvg.userBold,
-                        children: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  const SvgIconMini(svg: AppSvg.locationLight),
-                                  const SizedBox(width: 5),
-                                  CustomText(text: applicant.location, size: 14),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  const SvgIconMini(svg: AppSvg.mailLight),
-                                  const SizedBox(width: 5),
-                                  CustomText(text: applicant.email, size: 14),
-                                ],
-                              ),
-                            ]),
-                      ),
-                      ProfileInfoBox(
-                        title: 'Summary',
-                        icon: AppSvg.documentTextBold,
-                        children: CustomText(text: applicant.about, size: 14),
-                      ),
-                      ProfileInfoBox(
-                        title: 'Skills',
-                        icon: AppSvg.awardBold,
-                        children: Wrap(
-                          spacing: 8.0,
-                          runSpacing: 10,
-                          children: applicant.skills
-                              .map((item) => InfoChip(
-                                    title: item,
-                                    titleColor: AppColors.primaryColor,
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                    ]),
-              )
-            
-           
-      ),
+          child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          TextButton(
+            onPressed: () {
+              ref.watch(authControllerProvider.notifier).logout(context);
+            },
+            child: const Text('Logout'),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundImage: NetworkImage(applicant!.profilePicture),
+              ),
+              const SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(applicant.name,
+                      style: textStyle!
+                          .copyWith(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 5),
+                  Text(applicant.title,
+                      style: textStyle.copyWith(fontSize: 15)),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InfoBox(
+                  text: applicant.appliedJobs.length.toString(),
+                  subtext: 'Applied'),
+              InfoBox(
+                  text: formatDate(
+                      DateTime.parse(applicantAccount!.registration)),
+                  subtext: 'Member Since'),
+              const InfoBox(text: '19', subtext: 'Offers'),
+            ],
+          ),
+          const SizedBox(height: 15),
+          const Divider(
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 15),
+          ProfileInfoBox(
+            title: 'Contact Information',
+            icon: AppSvg.userBold,
+            children:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(
+                children: [
+                  const SvgIconMini(svg: AppSvg.locationLight),
+                  const SizedBox(width: 5),
+                  CustomText(text: applicant.location, size: 14),
+                ],
+              ),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  const SvgIconMini(svg: AppSvg.mailLight),
+                  const SizedBox(width: 5),
+                  CustomText(text: applicant.email, size: 14),
+                ],
+              ),
+            ]),
+          ),
+          ProfileInfoBox(
+            title: 'Summary',
+            icon: AppSvg.documentTextBold,
+            children: CustomText(text: applicant.about, size: 14),
+          ),
+          ProfileInfoBox(
+            title: 'Skills',
+            icon: AppSvg.awardBold,
+            children: Wrap(
+              spacing: 8.0,
+              runSpacing: 10,
+              children: applicant.skills
+                  .map((item) => InfoChip(
+                        title: item,
+                        titleColor: AppColors.primaryColor,
+                      ))
+                  .toList(),
+            ),
+          ),
+          const SizedBox(height: 10),
+        ]),
+      )),
     );
   }
 }

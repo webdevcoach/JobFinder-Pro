@@ -5,6 +5,8 @@ class InfoChip extends StatelessWidget {
   final Color titleColor;
   final double fontSize;
   final BorderRadius? borderRadius;
+  final IconData? leading;
+  final bool plain;
   final bool bold;
   const InfoChip(
       {Key? key,
@@ -12,24 +14,18 @@ class InfoChip extends StatelessWidget {
       required this.titleColor,
       this.borderRadius,
       this.bold = true,
-      this.fontSize = 15})
+      this.fontSize = 15,
+      this.plain = false,
+      this.leading})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // return Chip(
-    //   label: Text(
-    //     title,
-    //     style: Theme.of(context).textTheme.displayLarge!.copyWith(
-    //         color: titleColor, fontSize: 16, fontWeight: FontWeight.w500),
-    //   ),
-    //   backgroundColor: titleColor.withOpacity(0.15),
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-    // );
     return Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-            color: titleColor.withOpacity(0.15),
+            color: plain ? Colors.white : titleColor.withOpacity(0.15),
+            border: plain ? Border.all(color: titleColor) : null,
             borderRadius: borderRadius ?? BorderRadius.circular(6)),
         child: Text(
           " $title ",

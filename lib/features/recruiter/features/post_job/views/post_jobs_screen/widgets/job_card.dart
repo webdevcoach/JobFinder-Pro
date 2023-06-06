@@ -30,93 +30,94 @@ class JobCard extends ConsumerWidget {
 
     return ref.watch(myPostedJobProvider(postedJobsId)).when(
         data: (job) {
-          Widget jobWidget =Container(
-                decoration: BoxDecoration(
-                    // color: AppColors.greyColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
-                      width: 2,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                    )),
-                child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                const SizedBox(width: 10),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Widget jobWidget = Container(
+              decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                      color: AppColors.secondaryColor,
+                      blurStyle: BlurStyle.outer,
+                      blurRadius: 1)
+                ],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Flexible(
-                            child: Text(
-                              job.jobTitle,
-                              style: textStyle.copyWith(
-                                  color: Colors.grey.shade800,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  job.jobTitle,
+                                  style: textStyle.copyWith(
+                                      color: Colors.grey.shade800,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              const Icon(Icons.access_time_sharp,
+                                  color: AppColors.secondaryColor, size: 20),
+                              const SizedBox(width: 5),
+                              Text(timeago.format(job.time),
+                                  style: textStyle.copyWith(
+                                      fontSize: 11, color: Colors.grey)),
+                            ],
+                          )
                         ],
                       ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const Icon(Icons.access_time_sharp,
-                              color: AppColors.secondaryColor, size: 20),
-                          const SizedBox(width: 5),
-                          Text(timeago.format(job.time),
-                              style: textStyle.copyWith(
-                                  fontSize: 11, color: Colors.grey)),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.more_vert,
-                      color: Colors.grey[700],
                     ),
-                    const SizedBox(height: 3),
-                    const PhotoPile(
-                      images: [
-                        'https://i.pravatar.cc/300?img=1',
-                        'https://i.pravatar.cc/300?img=2',
-                        'https://i.pravatar.cc/300?img=3',
-                        'https://i.pravatar.cc/300?img=4',
-                        'https://i.pravatar.cc/300?img=5',
-                        'https://i.pravatar.cc/300?img=6',
-                        'https://i.pravatar.cc/300?img=7',
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.more_vert,
+                          color: Colors.grey[700],
+                        ),
+                        const SizedBox(height: 3),
+                        const PhotoPile(
+                          images: [
+                            'https://i.pravatar.cc/300?img=1',
+                            'https://i.pravatar.cc/300?img=2',
+                            'https://i.pravatar.cc/300?img=3',
+                            'https://i.pravatar.cc/300?img=4',
+                            'https://i.pravatar.cc/300?img=5',
+                            'https://i.pravatar.cc/300?img=6',
+                            'https://i.pravatar.cc/300?img=7',
+                          ],
+                        )
                       ],
                     )
                   ],
-                )
-              ],
-            ),
-          ));
+                ),
+              ));
           return GestureDetector(
-              onTap: () => isApplicant
-                  ? Navigator.of(context)
-                      .push(pageRouteTransition(JobDetailScreen(
-                      jobsData: job,
-                    )))
-                  : Navigator.of(context)
-                      .pushNamed(AppRoute.postedJobDetailsView, arguments: job),
-              child:  isActive
-                    ? job.isOpened
-                        ? jobWidget
-                        : const SizedBox()
-                    : !job.isOpened
-                        ? jobWidget
-                        : const SizedBox(),
-              );
+            onTap: () => isApplicant
+                ? Navigator.of(context)
+                    .push(pageRouteTransition(JobDetailScreen(
+                    jobsData: job,
+                  )))
+                : Navigator.of(context)
+                    .pushNamed(AppRoute.postedJobDetailsView, arguments: job),
+            child: isActive
+                ? job.isOpened
+                    ? jobWidget
+                    : const SizedBox()
+                : !job.isOpened
+                    ? jobWidget
+                    : const SizedBox(),
+          );
         },
         error: (error, stackTrace) => const Center(),
         loading: () => const SizedBox());

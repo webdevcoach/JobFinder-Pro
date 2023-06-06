@@ -45,6 +45,7 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
   WorkType _seletectedWorkType = WorkType.fullTime;
   WorkingMode _seletectedWorkMode = WorkingMode.onSite;
   List<String> perksAndBenefits = [];
+
   DateTime deadline = DateTime.now().add(const Duration(days: 1));
 
   void _postJob() {
@@ -73,7 +74,6 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
             perksAndBenefits.remove(chipName);
           } else {
             perksAndBenefits.add(chipName);
-            print(chipName);
           }
         });
       },
@@ -167,7 +167,7 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
                     Wrap(
                       spacing: 8.0,
                       runSpacing: 10,
-                      children: <Widget>[
+                      children: [
                         _perksChips('Medical/Health Insurance'),
                         _perksChips('Paid Sick Leave'),
                         _perksChips('Performance Bonus'),

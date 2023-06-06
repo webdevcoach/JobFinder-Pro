@@ -38,7 +38,7 @@ class PostedJobDetailView extends ConsumerWidget {
                       .watch(postJobControllerProvider.notifier)
                       .openOrCloseApplication(
                         job: job,
-                        status: job.isOpened ==true ? false: true,
+                        status: job.isOpened == true ? false : true,
                         context: context,
                       )),
               icon: const Icon(IconlyBold.edit))
@@ -79,17 +79,6 @@ class PostedJobDetailView extends ConsumerWidget {
                         'https://i.pravatar.cc/300?img=11',
                         'https://i.pravatar.cc/300?img=22',
                         'https://i.pravatar.cc/300?img=33',
-                        'https://i.pravatar.cc/300?img=4',
-                        'https://i.pravatar.cc/300?img=5',
-                        'https://i.pravatar.cc/300?img=6',
-                        'https://i.pravatar.cc/300?img=7',
-                        'https://i.pravatar.cc/300?img=1',
-                        'https://i.pravatar.cc/300?img=2',
-                        'https://i.pravatar.cc/300?img=3',
-                        'https://i.pravatar.cc/300?img=4',
-                        'https://i.pravatar.cc/300?img=5',
-                        'https://i.pravatar.cc/300?img=6',
-                        'https://i.pravatar.cc/300?img=7',
                       ],
                       avatarSize: 30,
                       overlapDistance: 15,

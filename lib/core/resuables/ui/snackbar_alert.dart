@@ -5,6 +5,9 @@ void snackBarAlert(BuildContext context, String content) {
     SnackBar(
       backgroundColor: Colors.red,
       behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       content: Row(
         children: [
           const Icon(Icons.info, color: Colors.white),
