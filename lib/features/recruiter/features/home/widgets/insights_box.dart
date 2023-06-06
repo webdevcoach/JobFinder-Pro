@@ -4,12 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../../common/custom_forms_kit.dart';
 import '../../../../../../../theme/colors.dart';
 
-class ApplicantIconInfoBox extends StatelessWidget {
+class InsightsBox extends StatelessWidget {
   final String title;
   final String subtitle;
   final String icon;
   final Color iconColor;
-  const ApplicantIconInfoBox({
+  const InsightsBox({
     super.key,
     required this.title,
     required this.subtitle,
@@ -41,9 +41,9 @@ class ApplicantIconInfoBox extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomText(text: title, size: 12),
+            CustomText(text: subtitle, bold: true, size: 40),
             const SizedBox(height: 2),
-            CustomText(text: subtitle, bold: true)
+            CustomText(text: title, size: 12),
           ],
         )
       ]),

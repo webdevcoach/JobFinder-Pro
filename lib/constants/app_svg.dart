@@ -24,6 +24,8 @@ class AppSvg {
   static const String userBold = '$_path/user-bold.svg';
   static const String mailLight = '$_path/mail-light.svg';
 
+  static const String filePdfBold = '$_path/file-pdf-bold.svg';
+
   static const String documentTextBold = '$_path/document-text-bold.svg';
 
   static const String arrowDownBroken = '$_path/arrow-down-broken.svg';

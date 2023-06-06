@@ -45,7 +45,7 @@ class ApplicantDetailsSection extends StatelessWidget {
             SvgPicture.asset(AppSvg.verifyBold, color: AppColors.primaryColor),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 15),
         ApplicantIconInfoBox(
             title: 'Email',
             subtitle: applicant.email,
@@ -82,7 +82,7 @@ class ApplicantDetailsSection extends StatelessWidget {
         ]),
         DecoratedBoxContainer(children: [
           const CustomText(text: 'Experience', bold: true, size: 18),
-          BulletedListBuilder(list: applicant.experience, padding: true),
+          BulletedListBuilder(list: applicant.experience),
         ]),
       ],
     );
