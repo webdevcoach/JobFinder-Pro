@@ -41,7 +41,7 @@ final currentRecruiterDetailsProvider = FutureProvider((ref) async {
   return userDetails;
 });
 
-final currentApplicantDetailsProvider = FutureProvider((ref) async {
+final currentApplicantDetailsProvider = FutureProvider.autoDispose((ref) async {
   final userId = ref.watch(currentUserProvider).value!;
   final userDetails = await ref
       .watch(authControllerProvider.notifier)
@@ -220,6 +220,7 @@ class AuthController extends StateNotifier<bool> {
   void updateApplicantProfile({
     required Applicant applicant,
     required File image,
+    required BuildContext context
   }) async {
     state = true;
     String imageId = await _storageAPI.uploadFile(file: image, isCv: false);
@@ -232,7 +233,7 @@ class AuthController extends StateNotifier<bool> {
     update.fold((l) {
       print(l.errorMsg);
     }, (r) {
-      print('success');
+     Navigator.of(context).pop();
     });
   }
 

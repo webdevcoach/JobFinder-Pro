@@ -32,7 +32,7 @@ final applicantListProvider = FutureProvider((ref) async {
 });
 
 
-final appliedJobsFutureProvider = FutureProvider.family((ref, String id) async {
+final appliedJobsFutureProvider = FutureProvider.family.autoDispose((ref, String id) async {
   return await ref
       .watch(applyJobControllerProvider.notifier)
       .getAppliedJob(appliedJobId: id);

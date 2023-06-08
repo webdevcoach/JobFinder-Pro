@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/features/applicant/features/home/views/all_jobs.dart';
-import 'package:jobhunt_pro/features/applicant/features/job_search.dart/screen/search_creen.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/routes/app_route.dart';
 
 import '../../../../../common/searchbox.dart';
 import '../../../../../common/verticalbar_decoration.dart';
@@ -35,10 +35,7 @@ class _HomeState extends ConsumerState<Home> {
             ),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const JobSearch()));
-              },
+              onPressed: () {},
               icon: const Icon(IconlyLight.notification
                   // color: Colors.grey,
                   ))
@@ -50,8 +47,7 @@ class _HomeState extends ConsumerState<Home> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const JobSearch())),
+                onTap: () => Navigator.pushNamed(context, AppRoute.jobSearch),
                 child: const SearchBox(
                   enableInput: false,
                 ),

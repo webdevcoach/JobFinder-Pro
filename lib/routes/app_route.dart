@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jobhunt_pro/features/applicant/features/home/views/page_navigator.dart';
+import 'package:jobhunt_pro/features/applicant/features/job_search.dart/screen/search_creen.dart';
 import 'package:jobhunt_pro/features/recruiter/features/home/views/page_navigator.dart';
 import 'package:jobhunt_pro/features/recruiter/features/home/views/recruiter_home.dart';
 
 import '../common/route_transition.dart';
+import '../features/applicant/features/apply_job/views/application_status_message.dart';
 import '../features/applicant/features/profile/edit_profile.dart';
 import '../features/recruiter/features/post_job/views/post_jobs_screen/post_a_job_view.dart';
 import '../features/recruiter/features/post_job/views/post_jobs_screen/posted_job_detail_view.dart';
@@ -18,6 +20,8 @@ class AppRoute {
   static const String recruiterHomeView = 'recruiter-home-view';
   static const String recruiterPageNavigator = 'recruiter-page-navigator';
   static const String editApplicantProfile = 'edit-applicant-profile';
+  static const String jobSearch = 'job-search';
+   static const String applicationStatusMessage = 'application-status-message';
 
   //recruiter
 
@@ -25,7 +29,6 @@ class AppRoute {
           {bool fade = false,
           TransitionDirection td = TransitionDirection.right}) =>
       pageRouteTransition(page, fade: fade, td: td);
-  // static toPage(Widget page) => MaterialPageRoute(builder: (context) => page);
 
   static Route<dynamic> generatedRoute(RouteSettings routeSettings) {
     dynamic routeObject;
@@ -40,6 +43,8 @@ class AppRoute {
       applicantsHomeView => toPage(const ApplicantPageNavigator()),
       recruiterHomeView => toPage(const RecruiterHomeView()),
       recruiterPageNavigator => toPage(const RecruiterPageNavigator()),
+      jobSearch => toPage(const JobSearch()),
+      applicationStatusMessage => toPage(ApplicationStatusMessage(text: routeObject,)),
       editApplicantProfile => toPage(EditApplicantProfile(
           applicant: routeObject,
         )),

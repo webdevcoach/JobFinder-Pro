@@ -34,10 +34,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(IconlyBold.setting)),
           IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoute.editApplicantProfile,
-                    arguments: applicant);
-              },
+              onPressed: () => Navigator.pushNamed(
+                  context, AppRoute.editApplicantProfile,
+                  arguments: applicant),
               icon: const Icon(IconlyBold.edit))
         ],
       ),

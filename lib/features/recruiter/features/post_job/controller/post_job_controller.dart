@@ -18,7 +18,7 @@ final postJobControllerProvider =
   return PostJobController(databaseAPI: ref.watch(databaseAPIProvider));
 });
 
-final postedJobProvider = FutureProvider((ref) async {
+final postedJobProvider = FutureProvider.autoDispose((ref) async {
   final jobs = ref.watch(postJobControllerProvider.notifier);
   return await jobs.getJobs();
 });
@@ -136,9 +136,6 @@ class PostJobController extends StateNotifier<JobState> {
     state = JobState.initialState;
     status.fold((l) => snackBarAlert(context, l.errorMsg),
         (r){
-          print(r.$id);
-          print(r.data);
-          print(r.$updatedAt);
           Navigator.pop(context);});
   }
 

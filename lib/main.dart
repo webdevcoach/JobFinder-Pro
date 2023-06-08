@@ -22,7 +22,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Jobfinder-Pro',
+      title: 'JobFinder-Pro',
       theme: light,
       home: ref.watch(currentUserAccountProvider).when(
             data: (user) {

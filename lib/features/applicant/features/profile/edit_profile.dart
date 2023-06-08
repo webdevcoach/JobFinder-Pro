@@ -41,6 +41,7 @@ class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
     void updateProfile() {
       ref.watch(authControllerProvider.notifier).updateApplicantProfile(
             image: imageFile,
+            context: context,
             applicant: widget.applicant.copyWith(
               name: nameController.text,
               about: aboutController.text,
