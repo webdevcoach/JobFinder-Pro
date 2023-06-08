@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
+import 'package:jobhunt_pro/core/extensions/to_msp.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/applicant_details_section.dart';
 import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/decorated_box_container.dart';
@@ -23,6 +24,11 @@ class AppliedApplicantDetails extends ConsumerStatefulWidget {
   ConsumerState<AppliedApplicantDetails> createState() =>
       _AppliedApplicantDetailsState();
 }
+
+String acceptMessage =
+    'Congratulations🎉! You have qualified for interview. We shall reach out to you via your email.';
+String rejectMessage =
+    'Better luck next time, your application was rejected. We encourage you to apply other jobs available';
 
 class _AppliedApplicantDetailsState
     extends ConsumerState<AppliedApplicantDetails> {
@@ -119,41 +125,68 @@ class _AppliedApplicantDetailsState
                       child: CircularProgressIndicator(),
                     )),
       ),
-      bottomNavigationBar: Row(children: [
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: MaterialButton(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                      color: AppColors.primaryColor, width: 1.5),
-                  borderRadius: BorderRadius.circular(8)),
-              padding: const EdgeInsets.all(20),
-              onPressed: () {
-                ref.watch(postJobControllerProvider.notifier).acceptOrReject(
-                    applyJob: widget.applyJob
-                        .copyWith(status: ApplicationStatus.rejected));
-              },
-              child: const CustomText(
-                  text: 'Reject', color: AppColors.primaryColor)),
-        )),
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: MaterialButton(
-              color: AppColors.primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              padding: const EdgeInsets.all(20),
-              onPressed: () => ref
-                  .watch(postJobControllerProvider.notifier)
-                  .acceptOrReject(
-                      applyJob: widget.applyJob
-                          .copyWith(status: ApplicationStatus.accepted)),
-              child: const CustomText(text: 'Accept', color: Colors.white)),
-        ))
-      ]),
+      bottomNavigationBar: widget.applyJob.status != ApplicationStatus.review
+          ? Theme(
+              data: Theme.of(context)
+                  .copyWith(splashFactory: NoSplash.splashFactory),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        surfaceTintColor: AppColors.primaryColor.toMSP(),
+                        backgroundColor: Colors.white.toMSP(),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: const BorderSide(
+                                width: 2, color: AppColors.primaryColor)))),
+                    onPressed: () {},
+                    child: CustomText(
+                        text: widget.applyJob.status.text,
+                        color: AppColors.primaryColor)),
+              ),
+            )
+          : Row(children: [
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MaterialButton(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                            color: AppColors.primaryColor, width: 1.5),
+                        borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.all(20),
+                    onPressed: () {
+                      ref
+                          .watch(postJobControllerProvider.notifier)
+                          .acceptOrReject(
+                              context: context,
+                              applyJob: widget.applyJob.copyWith(
+                                  status: ApplicationStatus.rejected,
+                                  acceptanceMessage: rejectMessage));
+                    },
+                    child: const CustomText(
+                        text: 'Reject', color: AppColors.primaryColor)),
+              )),
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MaterialButton(
+                    color: AppColors.primaryColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.all(20),
+                    onPressed: () => ref
+                        .watch(postJobControllerProvider.notifier)
+                        .acceptOrReject(
+                            context: context,
+                            applyJob: widget.applyJob.copyWith(
+                                status: ApplicationStatus.accepted,
+                                acceptanceMessage: acceptMessage)),
+                    child:
+                        const CustomText(text: 'Accept', color: Colors.white)),
+              ))
+            ]),
     );
   }
 }

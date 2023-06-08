@@ -85,6 +85,7 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
       appliedTime: DateTime.now(),
       status: ApplicationStatus.review,
       jobId: selectedJob.jobId,
+      acceptanceMessage: '',
     );
     final apply = await _databaseAPI.applyJob(applyJob: applicantInfo);
     state = ApplyJobState.initialState;

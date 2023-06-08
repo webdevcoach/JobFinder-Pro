@@ -4,9 +4,9 @@ import 'package:jobhunt_pro/core/enums/application_status.dart';
 extension JobType on String {
   ApplicationStatus applicationStatus(){
     return switch(this){
-     'review'=> ApplicationStatus.review,
-     'accepted' => ApplicationStatus.accepted,
-     'rejected'=> ApplicationStatus.rejected,
+     'Review'=> ApplicationStatus.review,
+     'Accepted' => ApplicationStatus.accepted,
+     'Rejected'=> ApplicationStatus.rejected,
       _=> ApplicationStatus.review,
     };
   }

@@ -33,8 +33,10 @@ abstract class DataBaseInterface {
   FutureEither<Document> applyJob({required ApplyJob applyJob});
   Future<Document> getApplicantProfile({required String id});
   Future<Document> getRecruiterProfile({required String id});
-  FutureEither<Document> updateJob(
-      {required PostJob job, required Map<String, dynamic> jobUpdate});
+  FutureEither<Document> updateJob({
+    required PostJob job,
+    required Map<String, dynamic> jobUpdate,
+  });
   FutureEither<Document> updateApplicantProfileWithJobId({
     required Applicant applicant,
   });
@@ -153,10 +155,9 @@ class DatabaseAPI implements DataBaseInterface {
   @override
   Future<List<Document>> getPostedJobs() async {
     final jobs = await _databases.listDocuments(
-      databaseId: AppWriteConstant.jobDatabaseId,
-      collectionId: AppWriteConstant.postedJobCollectionId,
-       queries: [Query.orderDesc('time')]
-    );
+        databaseId: AppWriteConstant.jobDatabaseId,
+        collectionId: AppWriteConstant.postedJobCollectionId,
+        queries: [Query.orderDesc('time')]);
     return jobs.documents;
   }
 
@@ -283,7 +284,10 @@ class DatabaseAPI implements DataBaseInterface {
         databaseId: AppWriteConstant.jobDatabaseId,
         collectionId: AppWriteConstant.appliedJobCollectionId,
         documentId: applyJob.applicationId,
-        data: {'status': applyJob.status.text},
+        data: {
+          'status': applyJob.status.text,
+          'acceptanceMessage': applyJob.acceptanceMessage,
+          },
       );
       return right(post);
     } on AppwriteException catch (e) {
@@ -302,12 +306,11 @@ class DatabaseAPI implements DataBaseInterface {
   }
 
   @override
-  Future<List<Document>> searchJobs({required String keyword}) async{
-      final jobs = await _databases.listDocuments(
-      databaseId: AppWriteConstant.jobDatabaseId,
-      collectionId: AppWriteConstant.postedJobCollectionId,
-      queries: [Query.search('jobTitle', keyword)]
-    );
+  Future<List<Document>> searchJobs({required String keyword}) async {
+    final jobs = await _databases.listDocuments(
+        databaseId: AppWriteConstant.jobDatabaseId,
+        collectionId: AppWriteConstant.postedJobCollectionId,
+        queries: [Query.search('jobTitle', keyword)]);
     return jobs.documents;
   }
 }

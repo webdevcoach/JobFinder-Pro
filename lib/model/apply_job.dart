@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-
 import 'dart:convert';
 
 import 'package:jobhunt_pro/core/extensions/job_status.dart';
@@ -14,6 +13,7 @@ class ApplyJob {
   final String applicationId;
   final String companyId;
   final String jobId;
+  final String acceptanceMessage;
   final DateTime appliedTime;
   final ApplicationStatus status;
   ApplyJob({
@@ -23,6 +23,7 @@ class ApplyJob {
     required this.applicationId,
     required this.companyId,
     required this.jobId,
+    required this.acceptanceMessage,
     required this.appliedTime,
     required this.status,
   });
@@ -34,6 +35,7 @@ class ApplyJob {
     String? applicationId,
     String? companyId,
     String? jobId,
+    String? acceptanceMessage,
     DateTime? appliedTime,
     ApplicationStatus? status,
   }) {
@@ -44,6 +46,7 @@ class ApplyJob {
       applicationId: applicationId ?? this.applicationId,
       companyId: companyId ?? this.companyId,
       jobId: jobId ?? this.jobId,
+      acceptanceMessage: acceptanceMessage ?? this.acceptanceMessage,
       appliedTime: appliedTime ?? this.appliedTime,
       status: status ?? this.status,
     );
@@ -54,9 +57,9 @@ class ApplyJob {
       'applicantId': applicantId,
       'coverLetter': coverLetter,
       'cvId': cvId,
-
       'companyId': companyId,
       'jobId': jobId,
+      'acceptanceMessage': acceptanceMessage,
       'appliedTime': appliedTime.millisecondsSinceEpoch,
       'status': status.text,
     };
@@ -70,41 +73,48 @@ class ApplyJob {
       applicationId: map['\$id'] as String,
       companyId: map['companyId'] as String,
       jobId: map['jobId'] as String,
-      appliedTime: DateTime.fromMillisecondsSinceEpoch(map['appliedTime'] as int),
-      status:(map['status'] as String).applicationStatus(),
+      acceptanceMessage: map['acceptanceMessage'] as String,
+      appliedTime:
+          DateTime.fromMillisecondsSinceEpoch(map['appliedTime'] as int),
+      status: (map['status'] as String).applicationStatus(),
     );
   }
 
   @override
   String toString() {
-    return 'ApplyJob(applicantId: $applicantId, coverLetter: $coverLetter, cvId: $cvId, applicationId: $applicationId, companyId: $companyId, jobId: $jobId, appliedTime: $appliedTime, status: $status)';
+    return 'ApplyJob(applicantId: $applicantId, coverLetter: $coverLetter, cvId: $cvId, applicationId: $applicationId, companyId: $companyId, jobId: $jobId, acceptanceMessage: $acceptanceMessage, appliedTime: $appliedTime, status: $status)';
   }
 
   @override
   bool operator ==(covariant ApplyJob other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.applicantId == applicantId &&
-      other.coverLetter == coverLetter &&
-      other.cvId == cvId &&
-      other.applicationId == applicationId &&
-      other.companyId == companyId &&
-      other.jobId == jobId &&
-      other.appliedTime == appliedTime &&
-      other.status == status;
+
+    return other.applicantId == applicantId &&
+        other.coverLetter == coverLetter &&
+        other.cvId == cvId &&
+        other.applicationId == applicationId &&
+        other.companyId == companyId &&
+        other.jobId == jobId &&
+        other.acceptanceMessage == acceptanceMessage &&
+        other.appliedTime == appliedTime &&
+        other.status == status;
   }
 
   @override
   int get hashCode {
     return applicantId.hashCode ^
-      coverLetter.hashCode ^
-      cvId.hashCode ^
-      applicationId.hashCode ^
-      companyId.hashCode ^
-      jobId.hashCode ^
-      appliedTime.hashCode ^
-      status.hashCode;
+        coverLetter.hashCode ^
+        cvId.hashCode ^
+        applicationId.hashCode ^
+        companyId.hashCode ^
+        jobId.hashCode ^
+        acceptanceMessage.hashCode ^
+        appliedTime.hashCode ^
+        status.hashCode;
   }
 
+  String toJson() => json.encode(toMap());
+
+  factory ApplyJob.fromJson(String source) =>
+      ApplyJob.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -28,7 +28,7 @@ final myPostedJobProvider = FutureProvider.family((ref, String jobId) async {
 });
 
 final appliedApplicantProvider =
-    FutureProvider.family((ref, String applicationId) async {
+    FutureProvider.family.autoDispose((ref, String applicationId) async {
   final jobs = ref.watch(postJobControllerProvider.notifier);
   return await jobs.appliedApplicant(applicationId: applicationId);
 });
@@ -46,8 +46,6 @@ final applicantsImageProvider =
       await ref.watch(postJobControllerProvider.notifier).myJobs(jobId: jobId);
   return job.applicationReceived;
 });
-
-
 
 class PostJobController extends StateNotifier<JobState> {
   final DatabaseAPI _databaseAPI;
@@ -128,12 +126,20 @@ class PostJobController extends StateNotifier<JobState> {
     return postJob;
   }
 
-  void acceptOrReject({required ApplyJob applyJob}) async {
+  void acceptOrReject({
+    required ApplyJob applyJob,
+    required BuildContext context,
+  }) async {
     state = JobState.loading;
     final status =
         await _databaseAPI.acceptOrRejectApplicant(applyJob: applyJob);
     state = JobState.initialState;
-    status.fold((l) => print(l.errorMsg), (r) => print(r.data));
+    status.fold((l) => snackBarAlert(context, l.errorMsg),
+        (r){
+          print(r.$id);
+          print(r.data);
+          print(r.$updatedAt);
+          Navigator.pop(context);});
   }
 
   void openOrCloseApplication({
@@ -141,11 +147,14 @@ class PostJobController extends StateNotifier<JobState> {
     required bool status,
     required BuildContext context,
   }) async {
-    final jobUpdate =
-        await _databaseAPI.updateJob(job: job, jobUpdate: {'isOpened': status});
+    final jobUpdate = await _databaseAPI.updateJob(job: job, jobUpdate: {
+      'isOpened': status,
+    });
     jobUpdate.fold(
         (l) => snackBarAlert(context, l.errorMsg),
         (r) => Navigator.of(context).pushNamedAndRemoveUntil(
-            AppRoute.recruiterPageNavigator, (route) => true,));
+              AppRoute.recruiterPageNavigator,
+              (route) => false,
+            ));
   }
 }

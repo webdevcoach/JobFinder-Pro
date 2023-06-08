@@ -28,7 +28,7 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
   final facebookController = TextEditingController();
 
   late File image;
-
+  bool picked = false;
   @override
   void dispose() {
     super.dispose();
@@ -41,17 +41,11 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
     facebookController.dispose();
   }
 
-  // Future<File?> pickImage() async {
-  //   final ImagePicker picker = ImagePicker();
-  //   final imageFile = await picker.pickImage(source: ImageSource.gallery);
-  //   if (imageFile != null) {
-  //     return File(imageFile.path);
-  //   }
-  //   return null;
-  // }
-
-  Future<void> pickImage2() async {
+  Future<void> pickImage1() async {
     image = await PickFile.pickImage();
+    setState(() {
+      picked = true;
+    });
   }
 
   void onSignUp() {
@@ -78,6 +72,22 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
+            GestureDetector(
+              onTap: () => pickImage1(),
+              child: CircleAvatar(
+                radius: 30,
+                backgroundImage: picked ? FileImage(image) : null,
+                child: !picked
+                    ? const Icon(
+                        Icons.upload,
+                        color: Colors.white,
+                      )
+                    : null,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
             CustomAuthField(
               controller: emailController,
               hintText: 'Email',
@@ -112,12 +122,10 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
               onPressed: onSignUp,
               child: isLoading
                   ? const CircularProgressIndicator(
-                       color: Colors.white,
+                      color: Colors.white,
                     )
                   : const CustomText(text: 'Submit', color: Colors.white),
             ),
-            ElevatedButton(
-                onPressed: pickImage2, child: const Text('pickImage')),
             const SizedBox(height: 40),
           ],
         ),

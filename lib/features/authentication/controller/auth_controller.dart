@@ -51,7 +51,7 @@ final currentApplicantDetailsProvider = FutureProvider((ref) async {
 
 //// Applied  applicant profile
 final applicantProfileDetailsProvider =
-    FutureProvider.family((ref, String id) async {
+    FutureProvider.family.autoDispose((ref, String id) async {
   final userDetails =
       await ref.watch(authControllerProvider.notifier).applicantProfile(id: id);
   return userDetails;
