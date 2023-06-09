@@ -1,16 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/core/extensions/to_msp.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/decorated_box_container.dart';
 import 'package:jobhunt_pro/model/job.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:jobhunt_pro/common/route_transition.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
 
-import '../../../../common/custom_appbar.dart';
 import '../../../../common/custom_forms_kit.dart';
 import '../../../../common/info_chip.dart';
 import '../../../../common/light_icon_box.dart';
@@ -30,10 +29,8 @@ class JobDetailScreen extends ConsumerWidget {
     final textStyle = Theme.of(context).textTheme.displayLarge!;
     final currentApplicant = ref.watch(currentApplicantDetailsProvider).value;
     return Scaffold(
-      appBar: CustomAppBar(
-        onPrefixTap: () => Navigator.pop(context),
-        prefixIcon: IconlyLight.arrow_left_2,
-        title: 'Details',
+      appBar: AppBar(
+        title: const Text('Details'),
         // suffixIcon:
         //     selectedJob.isSaved ? IconlyBold.bookmark : IconlyLight.bookmark,
       ),
@@ -48,150 +45,114 @@ class JobDetailScreen extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.grey,
-                                      blurStyle: BlurStyle.outer,
-                                      blurRadius: 1.5)
-                                ]),
-                            child: Column(children: [
-                              Container(
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          color: Colors.grey,
-                                          blurStyle: BlurStyle.outer,
-                                          blurRadius: 1.5)
-                                    ]),
-                                child: ClipOval(
-                                  child: Image.network(
-                                    recruiter.logoUrl,
-                                    fit: BoxFit.cover,
-                                    height: 80,
-                                    width: 80,
+                          DecoratedBoxContainer(centered: true, children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: Colors.grey,
+                                              blurStyle: BlurStyle.outer,
+                                              blurRadius: 1.5)
+                                        ]),
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        recruiter.logoUrl,
+                                        fit: BoxFit.cover,
+                                        height: 80,
+                                        width: 80,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              CustomText(
-                                text: jobsData.jobTitle,
-                                bold: true,
-                                size: 18,
-                              ),
-                              const SizedBox(height: 10),
-                              CustomText(
-                                text: recruiter.companyName,
-                                color: AppColors.primaryColor,
-                                size: 20,
-                              ),
-
-                              const SizedBox(height: 10),
-                              // CustomText(text: jobsData.location),
-                              // const SizedBox(height: 10),
-                              // CustomText(
-                              //   text: jobsData.salary,
-                              //   color: AppColors.primaryColor,
-                              //   bold: true,
-                              // ),
-                              // const SizedBox(height: 10),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     InfoChip(
-                              //         title: jobsData.jobType,
-                              //         titleColor: Colors.blueGrey),
-                              //     const SizedBox(width: 10),
-                              //     InfoChip(
-                              //         title: jobsData.workingMode,
-                              //         titleColor: Colors.blueGrey)
-                              //   ],
-                              // ),
-                              const SizedBox(height: 10),
-                              CustomText(
-                                text:
-                                    'Posted ${timeago.format(jobsData.time)}, ends in ${formatDate(jobsData.deadline)}',
-                                size: 13,
-                              ),
-                              const SizedBox(height: 5),
-                            ]),
-                          ),
-                          const SizedBox(height: 20),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              LightIconBox(
-                                  icon: AppSvg.dollarBold,
-                                  title: 'Salary',
-                                  color: Colors.orange,
-                                  subtitle: jobsData.salary),
-                              const LightIconBox(
-                                  icon: AppSvg.locationBold,
-                                  title: 'Location',
-                                  color: Colors.teal,
-                                  subtitle: 'Accra'),
-                              LightIconBox(
-                                  icon: AppSvg.briefcaseBold,
-                                  title: 'Type',
-                                  color: Colors.blueGrey,
-                                  subtitle: jobsData.jobType),
-                              LightIconBox(
-                                  icon: AppSvg.flashBold,
-                                  title: 'Mode',
-                                  color: Colors.blue,
-                                  subtitle: jobsData.workingMode),
-                            ],
-                          ),
-
+                                  const SizedBox(height: 15),
+                                  CustomText(
+                                    text: jobsData.jobTitle,
+                                    bold: true,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  CustomText(
+                                    text: recruiter.companyName,
+                                    color: AppColors.primaryColor,
+                                    size: 15,
+                                  ),
+                                  const SizedBox(height: 15),
+                                  InfoChip(
+                                      title: jobsData.location,
+                                      titleColor: AppColors.secondaryColor),
+                                  const SizedBox(height: 15),
+                                  CustomText(
+                                    text:
+                                        'Posted ${timeago.format(jobsData.time)}, ends in ${formatDate(jobsData.deadline)}',
+                                    size: 13,
+                                  ),
+                                  const SizedBox(height: 5),
+                                ]),
+                          ]),
+                          DecoratedBoxContainer(children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                LightIconBox(
+                                    icon: AppSvg.dollarBold,
+                                    title: 'Salary',
+                                    color: Colors.orange,
+                                    subtitle: jobsData.salary),
+                                LightIconBox(
+                                    icon: AppSvg.briefcaseBold,
+                                    title: 'Type',
+                                    color: Colors.green,
+                                    subtitle: jobsData.jobType),
+                                LightIconBox(
+                                    icon: AppSvg.flashBold,
+                                    title: 'Mode',
+                                    color: Colors.blue,
+                                    subtitle: jobsData.workingMode),
+                              ],
+                            )
+                          ]),
                           const SizedBox(height: 10),
-                          Divider(color: Colors.grey.shade400),
-                          const SizedBox(height: 10),
-                          const CustomText(
-                              text: 'Description', bold: true, size: 18),
-                          const SizedBox(height: 10),
-
-                          CustomText(text: jobsData.description),
-
-                          const SizedBox(height: 20),
-                          const CustomText(
-                              text: 'Requirements', bold: true, size: 18),
-                          const SizedBox(height: 10),
-
-                          BulletedListBuilder(
-                              list: jobsData.requirement, padding: true),
-                          const CustomText(
-                              text: 'Responsibilities', bold: true, size: 18),
-                          const SizedBox(height: 10),
-
-                          BulletedListBuilder(
-                              list: jobsData.responsibilities, padding: true),
-                          const SizedBox(height: 10),
-
-                          const CustomText(
-                              text: 'Perks & Benefits', bold: true, size: 18),
-                          const SizedBox(height: 10),
-                          Wrap(
-                            spacing: 8.0,
-                            runSpacing: 10,
-                            children: jobsData.benefits
-                                .map((item) => InfoChip(
-                                      title: item,
-                                      titleColor: AppColors.secondaryColor,
-                                    ))
-                                .toList(),
-                          ),
-
-                          // const SegmentedSlider(),
-                          // const SizedBox(height: 5)
+                          DecoratedBoxContainer(children: [
+                            const CustomText(
+                                text: 'Description', bold: true, size: 18),
+                            const SizedBox(height: 10),
+                            CustomText(text: jobsData.description),
+                          ]),
+                          DecoratedBoxContainer(children: [
+                            const CustomText(
+                                text: 'Requirements', bold: true, size: 18),
+                            const SizedBox(height: 10),
+                            BulletedListBuilder(
+                                list: jobsData.requirement, padding: true),
+                          ]),
+                          DecoratedBoxContainer(children: [
+                            const CustomText(
+                                text: 'Responsibilities', bold: true, size: 18),
+                            const SizedBox(height: 10),
+                            BulletedListBuilder(
+                                list: jobsData.responsibilities, padding: true),
+                          ]),
+                          DecoratedBoxContainer(children: [
+                            const CustomText(
+                                text: 'Perks & Benefits', bold: true, size: 18),
+                            const SizedBox(height: 10),
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 10,
+                              children: jobsData.benefits
+                                  .map((item) => InfoChip(
+                                        title: item,
+                                        titleColor: AppColors.primaryColor,
+                                        plain: true,
+                                      ))
+                                  .toList(),
+                            ),
+                          ]),
                         ],
                       ),
                     ),

@@ -54,7 +54,9 @@ class _JobSearchState extends ConsumerState<JobSearch> {
                         )
                       : ref.watch(jobSearchProvider(controller.text)).when(
                           data: (result) {
-                            return ListView.builder(
+                            return ListView.separated(
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 10),
                                 itemCount: result.length,
                                 itemBuilder: (context, index) {
                                   return RecentJobCard(

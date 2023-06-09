@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../../common/custom_forms_kit.dart';
 import '../../../../../../../theme/colors.dart';
@@ -22,6 +21,7 @@ class InsightsBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
+        color: AppColors.primaryColor.withOpacity(0.12),
         borderRadius: BorderRadius.circular(5),
         boxShadow: const [
           BoxShadow(
@@ -30,23 +30,26 @@ class InsightsBox extends StatelessWidget {
               blurRadius: 1)
         ],
       ),
-      child: Row(children: [
-        Container(
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.3), shape: BoxShape.circle),
-          child: SvgPicture.asset(icon, color: AppColors.secondaryColor),
-        ),
-        const SizedBox(width: 15),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomText(text: subtitle, bold: true, size: 40),
-            const SizedBox(height: 2),
-            CustomText(text: title, size: 12),
-          ],
-        )
-      ]),
+            // Container(
+            //   padding: const EdgeInsets.all(5),
+            //   decoration: BoxDecoration(
+            //       color: iconColor.withOpacity(0.3), shape: BoxShape.circle),
+            //   child: SvgPicture.asset(icon, color: AppColors.secondaryColor),
+            // ),
+            const SizedBox(width: 15),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomText(text: title, bold: true, size: 12),
+                const SizedBox(height: 2),
+                CustomText(text: subtitle, size: 40),
+              ],
+            )
+          ]),
     );
   }
 }

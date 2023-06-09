@@ -27,6 +27,14 @@ class AppSvg {
   static const String filePdfBold = '$_path/file-pdf-bold.svg';
 
   static const String documentTextBold = '$_path/document-text-bold.svg';
+  static const String facebookBold = '$_path/facebook-bold.svg';
+  static const String linkedinBold = '$_path/linkedin-bold.svg';
+  static const String twitterBold = '$_path/twitter-bold.svg';
+  static const String linkCircleBold = '$_path/link-circle-bold.svg';
+  static const String linkCircleLight = '$_path/link-circle-light.svg';
+
+  static const String mainComponentBold = '$_path/main-component-bold.svg';
+  static const String settingBold = '$_path/setting-bold.svg';
 
   static const String arrowDownBroken = '$_path/arrow-down-broken.svg';
   static const String arrowDownLight = '$_path/arrow-down-light.svg';

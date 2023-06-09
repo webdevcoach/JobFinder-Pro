@@ -15,6 +15,7 @@ import '../../../../../../common/custom_forms_kit.dart';
 import '../../../../../../constants/app_svg.dart';
 import '../../../../../../core/enums/application_status.dart';
 import '../../controller/post_job_controller.dart';
+import 'widget/see_more_text.dart';
 
 class AppliedApplicantDetails extends ConsumerStatefulWidget {
   final ApplyJob applyJob;
@@ -74,15 +75,14 @@ class _AppliedApplicantDetailsState
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
-                                      color: AppColors.primaryColor,
+                                      color: Colors.grey.shade800,
                                       blurStyle: BlurStyle.outer,
                                       blurRadius: 1.4)
                                 ],
                                 borderRadius: BorderRadius.circular(8),
-                                color:
-                                    AppColors.primaryColor.withOpacity(0.05)),
+                                color: AppColors.greyColor.withOpacity(0.05)),
                             child: Row(children: [
                               SvgPicture.asset(AppSvg.filePdfBold,
                                   height: 30,
@@ -103,13 +103,14 @@ class _AppliedApplicantDetailsState
                             const CustomText(
                                 text: 'Cover Letter', bold: true, size: 18),
                             const SizedBox(height: 5),
-                            Text(details.coverLetter,
-                                textAlign: TextAlign.start,
-                                style: textStyle!.copyWith(
-                                  fontSize: 14,
-                                  letterSpacing: 0.2,
-                                  wordSpacing: 3,
-                                )),
+                            SeeMoreText(text: details.coverLetter)
+                            // Text(details.coverLetter,
+                            //     textAlign: TextAlign.start,
+                            //     style: textStyle!.copyWith(
+                            //       fontSize: 14,
+                            //       letterSpacing: 0.2,
+                            //       wordSpacing: 3,
+                            //     )),
                           ],
                         ),
 

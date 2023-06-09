@@ -47,6 +47,8 @@ class _ProfileInfoBoxState extends State<ProfileInfoBox> {
               SvgPicture.asset(
                 widget.icon,
                 color: AppColors.primaryColor,
+                height: 26,
+                width: 26,
               ),
               const SizedBox(width: 8),
               CustomText(text: widget.title, bold: true, size: 17),

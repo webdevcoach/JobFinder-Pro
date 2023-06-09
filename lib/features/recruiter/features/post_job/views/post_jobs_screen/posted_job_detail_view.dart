@@ -86,17 +86,17 @@ class PostedJobDetailView extends ConsumerWidget {
                   ],
                 ),
                 const DividerWithSpaces(),
-                const Row(
-                  children: [
-                    IconWithText(
-                      icon: AppSvg.trendUpLight,
-                      text: 'Audience Reached',
-                    ),
-                    Spacer(),
-                    Text('100k')
-                  ],
-                ),
-                const DividerWithSpaces(),
+                // const Row(
+                //   children: [
+                //     IconWithText(
+                //       icon: AppSvg.trendUpLight,
+                //       text: 'Audience Reached',
+                //     ),
+                //     Spacer(),
+                //     Text('100k')
+                //   ],
+                // ),
+                // const DividerWithSpaces(),
                 Row(
                   children: [
                     const IconWithText(

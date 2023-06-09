@@ -87,7 +87,7 @@ class _HomeState extends ConsumerState<Home> {
                       return ListView.separated(
                         physics: const NeverScrollableScrollPhysics(),
                         separatorBuilder: (context, index) =>
-                            const SizedBox(height: 15),
+                            const SizedBox(height: 7),
                         shrinkWrap: true,
                         itemCount: data.length < 6 ? data.length : 5,
                         itemBuilder: (BuildContext context, int index) {

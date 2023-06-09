@@ -28,7 +28,9 @@ class VerticalBar extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(title, style: textStyle!.copyWith(fontSize: 20)),
+              Text(title,
+                  style: textStyle!
+                      .copyWith(fontSize: 17, fontWeight: FontWeight.w500)),
               const SizedBox(
                 width: 6,
               ),

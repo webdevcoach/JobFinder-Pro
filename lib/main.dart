@@ -36,7 +36,8 @@ class MyApp extends ConsumerWidget {
               return const SignupView();
             },
             error: (error, st) => Text(error.toString()),
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const Scaffold(
+                body: Center(child: CircularProgressIndicator())),
           ),
       onGenerateRoute: AppRoute.generatedRoute,
     );
