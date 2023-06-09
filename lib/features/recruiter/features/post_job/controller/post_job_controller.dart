@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
-import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/model/job.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 
 import '../../../../../core/resuables/ui/snackbar_alert.dart';
@@ -73,7 +73,7 @@ class PostJobController extends StateNotifier<JobState> {
     final nav = Navigator.of(context);
     if (recruiter != null) {
       List<String> postedJobIds = recruiter.postedJobs;
-      PostJob jobDetails = PostJob(
+      Job jobDetails = Job(
           jobTitle: jobTitle,
           workingMode: workingMode,
           description: description,
@@ -108,14 +108,14 @@ class PostJobController extends StateNotifier<JobState> {
     }
   }
 
-  Future<List<PostJob>> getJobs() async {
+  Future<List<Job>> getJobs() async {
     final jobs = await _databaseAPI.getPostedJobs();
-    return jobs.map((job) => PostJob.fromMap(job.data)).toList();
+    return jobs.map((job) => Job.fromMap(job.data)).toList();
   }
 
-  Future<PostJob> myJobs({required String jobId}) async {
+  Future<Job> myJobs({required String jobId}) async {
     final job = await _databaseAPI.myPostedJobs(jobId: jobId);
-    final postJob = PostJob.fromMap(job.data);
+    final postJob = Job.fromMap(job.data);
     return postJob;
   }
 
@@ -140,7 +140,7 @@ class PostJobController extends StateNotifier<JobState> {
   }
 
   void openOrCloseApplication({
-    required PostJob job,
+    required Job job,
     required bool status,
     required BuildContext context,
   }) async {

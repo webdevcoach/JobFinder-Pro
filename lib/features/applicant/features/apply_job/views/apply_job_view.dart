@@ -10,13 +10,13 @@ import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 import 'package:jobhunt_pro/constants/app_svg.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/controller/apply_job_conntroller.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
-import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/model/job.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
 
 import '../../../../../core/resuables/pick_file.dart';
 
 class ApplyJobView extends ConsumerStatefulWidget {
-  final PostJob jobDetails;
+  final Job jobDetails;
   final Applicant applicant;
   const ApplyJobView({
     super.key,

@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 
-class PostJob {
+class Job {
   final String jobTitle;
   final String workingMode;
   final String description;
@@ -20,7 +20,7 @@ class PostJob {
   final List<String> requirement;
   final List<String> benefits;
   final DateTime deadline;
-  PostJob({
+  Job({
     required this.jobTitle,
     required this.workingMode,
     required this.description,
@@ -38,7 +38,7 @@ class PostJob {
     required this.deadline,
   });
 
-  PostJob copyWith({
+  Job copyWith({
     String? jobTitle,
     String? workingMode,
     String? description,
@@ -55,7 +55,7 @@ class PostJob {
     List<String>? benefits,
     DateTime? deadline,
   }) {
-    return PostJob(
+    return Job(
       jobTitle: jobTitle ?? this.jobTitle,
       workingMode: workingMode ?? this.workingMode,
       description: description ?? this.description,
@@ -93,8 +93,8 @@ class PostJob {
     };
   }
 
-  factory PostJob.fromMap(Map<String, dynamic> map) {
-    return PostJob(
+  factory Job.fromMap(Map<String, dynamic> map) {
+    return Job(
       jobTitle: map['jobTitle'] as String,
       workingMode: map['workingMode'] as String,
       description: map['description'] as String,
@@ -115,11 +115,11 @@ class PostJob {
 
   @override
   String toString() {
-    return 'PostJob(jobTitle: $jobTitle, workingMode: $workingMode, description: $description, location: $location, jobType: $jobType, time: $time, jobId: $jobId, isOpened: $isOpened, companyId: $companyId, applicationReceived: $applicationReceived, salary: $salary, responsibilities: $responsibilities, requirement: $requirement, benefits: $benefits, deadline: $deadline)';
+    return 'Job(jobTitle: $jobTitle, workingMode: $workingMode, description: $description, location: $location, jobType: $jobType, time: $time, jobId: $jobId, isOpened: $isOpened, companyId: $companyId, applicationReceived: $applicationReceived, salary: $salary, responsibilities: $responsibilities, requirement: $requirement, benefits: $benefits, deadline: $deadline)';
   }
 
   @override
-  bool operator ==(covariant PostJob other) {
+  bool operator ==(covariant Job other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
 

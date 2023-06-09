@@ -8,7 +8,7 @@ import 'package:jobhunt_pro/core/type_def.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
-import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/model/job.dart';
 import 'appwrite_injects.dart';
 
 final databaseAPIProvider = Provider((ref) {
@@ -29,12 +29,12 @@ abstract class DataBaseInterface {
   FutureEither<Document> updateApplicantProfileDetails({
     required Applicant applicant,
   });
-  FutureEither<Document> postJob({required PostJob jobDetails});
+  FutureEither<Document> postJob({required Job jobDetails});
   FutureEither<Document> applyJob({required ApplyJob applyJob});
   Future<Document> getApplicantProfile({required String id});
   Future<Document> getRecruiterProfile({required String id});
   FutureEither<Document> updateJob({
-    required PostJob job,
+    required Job job,
     required Map<String, dynamic> jobUpdate,
   });
   FutureEither<Document> updateApplicantProfileWithJobId({
@@ -80,7 +80,7 @@ class DatabaseAPI implements DataBaseInterface {
   }
 
   @override
-  FutureEither<Document> postJob({required PostJob jobDetails}) async {
+  FutureEither<Document> postJob({required Job jobDetails}) async {
     try {
       final post = await _databases.createDocument(
         databaseId: AppWriteConstant.jobDatabaseId,
@@ -183,7 +183,7 @@ class DatabaseAPI implements DataBaseInterface {
 
   @override
   FutureEither<Document> updateJob({
-    required PostJob job,
+    required Job job,
     required Map<String, dynamic> jobUpdate,
   }) async {
     try {
@@ -277,7 +277,7 @@ class DatabaseAPI implements DataBaseInterface {
 
   @override
   FutureEither<Document> acceptOrRejectApplicant({
-    required ApplyJob applyJob,
+    required ApplyJob applyJob, 
   }) async {
     try {
       final post = await _databases.updateDocument(

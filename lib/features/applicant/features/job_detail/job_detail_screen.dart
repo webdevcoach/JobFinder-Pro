@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/core/extensions/to_msp.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
-import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/model/job.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:jobhunt_pro/common/route_transition.dart';
@@ -19,7 +19,7 @@ import '../../../../core/resuables/date_format.dart';
 import '../apply_job/views/apply_job_view.dart';
 
 class JobDetailScreen extends ConsumerWidget {
-  final PostJob jobsData;
+  final Job jobsData;
   const JobDetailScreen({
     Key? key,
     required this.jobsData,

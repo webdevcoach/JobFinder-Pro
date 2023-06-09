@@ -124,3 +124,4 @@ Color applicationStatusColor(ApplicationStatus status) => switch (status) {
       ApplicationStatus.accepted => Colors.green,
       ApplicationStatus.rejected => Colors.red,
     };
+

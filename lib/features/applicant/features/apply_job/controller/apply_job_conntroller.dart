@@ -8,7 +8,7 @@ import 'package:jobhunt_pro/core/enums/application_status.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/widgets/apply_job_dialog.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
-import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/model/job.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../common/route_transition.dart';
@@ -55,7 +55,7 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     required String jobId,
     required WidgetRef ref,
     required Applicant applicant,
-    required PostJob selectedJob,
+    required Job selectedJob,
   }) async {
     state = ApplyJobState.loading;
     final nav = Navigator.of(context);

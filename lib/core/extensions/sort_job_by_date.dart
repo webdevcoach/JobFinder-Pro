@@ -1,8 +1,8 @@
-import '../../model/post_job.dart';
+import '../../model/job.dart';
 
-extension SortPostJobsByDate on List<PostJob> {
-  List<PostJob> sortByDate() {
-    List<PostJob> sortedList = List.from(this);
+extension SortPostJobsByDate on List<Job> {
+  List<Job> sortByDate() {
+    List<Job> sortedList = List.from(this);
     sortedList.sort((a, b) => b.time.compareTo(a.time));
     return sortedList;
   }

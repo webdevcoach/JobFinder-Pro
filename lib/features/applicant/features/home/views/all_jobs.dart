@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jobhunt_pro/features/applicant/features/job_detail/job_detail_screen.dart';
-import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/model/job.dart';
 
 import '../../../../../common/route_transition.dart';
 import '../widgets/recent_job_card.dart';
 
 class AllJobsList extends StatelessWidget {
-  final List<PostJob> jobs;
+  final List<Job> jobs;
   const AllJobsList({
     super.key,
     required this.jobs,

@@ -6,7 +6,7 @@ import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/controller/apply_job_conntroller.dart';
 import 'package:jobhunt_pro/features/applicant/features/job_detail/job_detail_screen.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
-import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/model/job.dart';
 
 import '../../../../../common/route_transition.dart';
 import '../../../../../common/svg_icon_mini.dart';
@@ -16,7 +16,7 @@ import '../../../../../constants/app_svg.dart';
 import '../../bookmarks/controller/bookmark_controller.dart';
 
 class RecentJobCard extends ConsumerStatefulWidget {
-  final PostJob job;
+  final Job job;
   final Color imageBackground;
 
   const RecentJobCard({

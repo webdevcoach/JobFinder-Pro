@@ -9,7 +9,7 @@ import 'package:jobhunt_pro/routes/app_route.dart';
 import '../../../../../common/searchbox.dart';
 import '../../../../../common/verticalbar_decoration.dart';
 import '../../../../../constants/category_data.dart';
-import '../../../../../model/post_job.dart';
+import '../../../../../model/job.dart';
 import '../../../../../theme/colors.dart';
 import '../widgets/category_icon.dart';
 import '../widgets/recent_job_card.dart';
@@ -22,7 +22,7 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
-  List<PostJob> recentsJobs = [];
+  List<Job> recentsJobs = [];
 
   @override
   Widget build(BuildContext context) {

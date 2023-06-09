@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
-import 'package:jobhunt_pro/model/post_job.dart';
+import 'package:jobhunt_pro/model/job.dart';
 
 final searchControllerProvider = StateNotifierProvider<SearchController, bool>((ref) {
   return SearchController(databaseAPI: ref.watch(databaseAPIProvider));
@@ -18,8 +18,8 @@ class SearchController extends StateNotifier<bool> {
   })  : _databaseAPI = databaseAPI,
         super(false);
 
-  Future<List<PostJob>> jobQuery({required String keyword}) async {
+  Future<List<Job>> jobQuery({required String keyword}) async {
     final result = await _databaseAPI.searchJobs(keyword: keyword);
-    return result.map((document) => PostJob.fromMap(document.data)).toList();
+    return result.map((document) => Job.fromMap(document.data)).toList();
   }
 }
