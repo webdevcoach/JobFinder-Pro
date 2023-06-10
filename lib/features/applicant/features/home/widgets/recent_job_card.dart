@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
-import 'package:jobhunt_pro/features/applicant/features/apply_job/controller/apply_job_conntroller.dart';
 import 'package:jobhunt_pro/features/applicant/features/job_detail/job_detail_screen.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/model/job.dart';
@@ -105,27 +104,28 @@ class _RecentJobCardState extends ConsumerState<RecentJobCard> {
               ),
               Column(
                 children: [
-                  ref.watch(currentApplicantDetailsProvider).when(
-                      data: (applicant) {
-                        return InkWell(
+                  // ref.watch(currentApplicantDetailsProvider).when(
+                  //     data: (applicant) {
+                  //       return
+                         InkWell(
                           onTap: () {
                             ref
                                 .watch(bookmarkControllerProvider.notifier)
                                 .bookmarkJob(
-                                    applicant: applicant,
+                                    applicant: ref.watch(applicantStateProvider)!,
                                     jobId: widget.job.jobId);
                             setState(() {});
                           },
                           child: Icon(
-                            applicant.savedJobs.contains(widget.job.jobId)
+                            ref.watch(applicantStateProvider)!.savedJobs.contains(widget.job.jobId)
                                 ? IconlyBold.bookmark
                                 : IconlyLight.bookmark,
                             color: Colors.grey[700],
                           ),
-                        );
-                      },
-                      error: (error, stack) => const SizedBox(),
-                      loading: () => const SizedBox()),
+                        ),
+                      // },
+                      // error: (error, stack) => const SizedBox(),
+                      // loading: () => const SizedBox()),
                   const SizedBox(height: 10),
                   Text(timeAgo.format(widget.job.time, locale: 'en_short'))
                 ],

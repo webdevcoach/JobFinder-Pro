@@ -72,7 +72,6 @@ class Applicant {
       'about': about,
       'location': location,
       'profilePicture': profilePicture,
-      'id': id,
       'appliedJobs': appliedJobs,
       'savedJobs': savedJobs,
       'applications': applications,

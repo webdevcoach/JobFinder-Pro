@@ -12,24 +12,23 @@ class SavedJobsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final applicant = ref.watch(applicantStateProvider)!;
     return Scaffold(
       appBar: CustomAppBar(title: 'Saved', showSuffixIcon: false),
-      body: ref.watch(currentApplicantDetailsProvider).when(
-          data: (profile) {
-            return ListView.builder(
-                itemCount: profile.savedJobs.length,
+      body: 
+            ListView.builder(
+                itemCount: applicant.savedJobs.length,
                 itemBuilder: (context, index) {
-                  final saved = profile.savedJobs.reversed.toList()[index];
+                  final saved = applicant.savedJobs.reversed.toList()[index];
                   return SavedJobCard(
                     jobId: saved,
                     imageUrl:
                         'https://pbs.twimg.com/profile_images/1658476926590414848/uqMIb2yx_400x400.jpg',
                     isBookmarked: true,
                   );
-                });
-          },
-          error: (error, trace) => const SizedBox(),
-          loading: () => const CircularProgressIndicator()),
+                })
+        
+         
       /* ListView(
         children: const [
           Padding(

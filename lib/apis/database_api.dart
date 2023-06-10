@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +12,7 @@ import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
 import 'package:jobhunt_pro/model/job.dart';
 import 'appwrite_injects.dart';
+import 'package:http/http.dart' as http;
 
 final databaseAPIProvider = Provider((ref) {
   return DatabaseAPI(
@@ -139,7 +142,7 @@ class DatabaseAPI implements DataBaseInterface {
       collectionId: AppWriteConstant.applicantCollectionId,
       documentId: id,
     );
-    return details;
+   return details;
   }
 
   @override

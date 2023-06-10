@@ -5,7 +5,6 @@ import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 import 'package:jobhunt_pro/common/svg_icon_mini.dart';
 import 'package:jobhunt_pro/constants/app_svg.dart';
-import 'package:jobhunt_pro/core/resuables/date_format.dart';
 import 'package:jobhunt_pro/features/applicant/features/profile/widgets/profile_info_box.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 import '../../../../common/info_chip.dart';
@@ -23,7 +22,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final applicant = ref.watch(currentApplicantDetailsProvider).value;
+    final applicant = ref.watch(applicantStateProvider)!;
     final applicantAccount = ref.watch(currentUserAccountProvider).value;
 
     final textStyle = Theme.of(context).textTheme.displayMedium;
@@ -55,7 +54,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundImage: NetworkImage(applicant!.profilePicture),
+                backgroundImage: NetworkImage(applicant.profilePicture),
               ),
               const SizedBox(width: 20),
               Column(
@@ -78,10 +77,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               InfoBox(
                   text: applicant.appliedJobs.length.toString(),
                   subtext: 'Applied'),
-              InfoBox(
-                  text: formatDate(
-                      DateTime.parse(applicantAccount!.registration)),
-                  subtext: 'Member Since'),
+              // InfoBox(
+              //     text: formatDate(
+              //         DateTime.parse(applicantAccount!.registration)),
+              //     subtext: 'Member Since'),
               const InfoBox(text: '19', subtext: 'Offers'),
             ],
           ),

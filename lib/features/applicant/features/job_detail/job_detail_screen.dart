@@ -27,7 +27,8 @@ class JobDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textStyle = Theme.of(context).textTheme.displayLarge!;
-    final currentApplicant = ref.watch(currentApplicantDetailsProvider).value;
+   
+    final applicant = ref.watch(applicantStateProvider)!;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Details'),
@@ -166,9 +167,7 @@ class JobDetailScreen extends ConsumerWidget {
               )),
       bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(14),
-          child: ref.watch(currentApplicantDetailsProvider).when(
-              data: (applicant) {
-                return applicant.appliedJobs.contains(jobsData.jobId)
+          child: applicant.appliedJobs.contains(jobsData.jobId)
                     ? Theme(
                         data: Theme.of(context)
                             .copyWith(splashFactory: NoSplash.splashFactory),
@@ -200,11 +199,10 @@ class JobDetailScreen extends ConsumerWidget {
                           'Apply Now',
                           style: textStyle.copyWith(
                               color: Colors.white, fontSize: 17),
-                        ));
-              },
-              error: (error, stackTrace) => const SizedBox(),
-              loading: () => const SizedBox())),
-    );
+                        )
+              
+              ),
+    ));
   }
 }
 

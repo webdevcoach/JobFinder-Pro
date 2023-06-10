@@ -79,7 +79,7 @@ class ApplyJob {
       status: (map['status'] as String).applicationStatus(),
     );
   }
-
+ 
   @override
   String toString() {
     return 'ApplyJob(applicantId: $applicantId, coverLetter: $coverLetter, cvId: $cvId, applicationId: $applicationId, companyId: $companyId, jobId: $jobId, acceptanceMessage: $acceptanceMessage, appliedTime: $appliedTime, status: $status)';

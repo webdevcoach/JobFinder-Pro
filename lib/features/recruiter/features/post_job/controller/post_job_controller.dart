@@ -22,7 +22,8 @@ final postedJobProvider = FutureProvider.autoDispose((ref) async {
   final jobs = ref.watch(postJobControllerProvider.notifier);
   return await jobs.getJobs();
 });
-final myPostedJobProvider = FutureProvider.family((ref, String jobId) async {
+final myPostedJobProvider =
+    FutureProvider.family.autoDispose((ref, String jobId) async {
   final jobs = ref.watch(postJobControllerProvider.notifier);
   return await jobs.myJobs(jobId: jobId);
 });
@@ -134,9 +135,9 @@ class PostJobController extends StateNotifier<JobState> {
     final status =
         await _databaseAPI.acceptOrRejectApplicant(applyJob: applyJob);
     state = JobState.initialState;
-    status.fold((l) => snackBarAlert(context, l.errorMsg),
-        (r){
-          Navigator.pop(context);});
+    status.fold((l) => snackBarAlert(context, l.errorMsg), (r) {
+      Navigator.pop(context);
+    });
   }
 
   void openOrCloseApplication({

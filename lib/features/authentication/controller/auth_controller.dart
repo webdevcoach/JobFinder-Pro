@@ -22,11 +22,13 @@ final authControllerProvider =
       databaseAPI: ref.watch(databaseAPIProvider),
       storageAPI: ref.watch(storageAPIProvider));
 });
-
-final currentUserProvider = FutureProvider((ref) async {
-  final user = ref.watch(authApiProvider);
-  return await user.getAccountInfo();
+final applicantStateProvider = StateProvider<Applicant?>((ref) {
+  return null;
 });
+// final currentUserProvider = FutureProvider((ref) async {
+//   final user = ref.watch(authApiProvider);
+//   return await user.getAccountInfo();
+// });
 
 final currentUserAccountProvider = FutureProvider((ref) {
   final authController = ref.watch(authControllerProvider.notifier);
@@ -34,7 +36,7 @@ final currentUserAccountProvider = FutureProvider((ref) {
 });
 
 final currentRecruiterDetailsProvider = FutureProvider((ref) async {
-  final userId = ref.watch(currentUserProvider).value!;
+  final userId = ref.watch(currentUserAccountProvider).value!;
   final userDetails = await ref
       .watch(authControllerProvider.notifier)
       .recruiterProfile(id: userId.$id);
@@ -42,7 +44,7 @@ final currentRecruiterDetailsProvider = FutureProvider((ref) async {
 });
 
 final currentApplicantDetailsProvider = FutureProvider.autoDispose((ref) async {
-  final userId = ref.watch(currentUserProvider).value!;
+  final userId = ref.watch(currentUserAccountProvider).value!;
   final userDetails = await ref
       .watch(authControllerProvider.notifier)
       .applicantProfile(id: userId.$id);
@@ -182,6 +184,7 @@ class AuthController extends StateNotifier<bool> {
     required String email,
     required String password,
     required BuildContext context,
+    required WidgetRef ref,
   }) async {
     final nav = Navigator.of(context);
     state = true;
@@ -189,12 +192,15 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     loginRes.fold((l) {
       snackBarAlert(context, l.errorMsg);
-      print({l.errorMsg});
     }, (r) async {
-      final accountInfo = await _authAPI.getAccountInfo();
+      model.User  ? accountInfo = await _authAPI.currentUserAccount();
+      if(accountInfo!.name.contains('applicant')){
+        final applicant = await _databaseAPI.getApplicantProfile(id: accountInfo.$id);
+       ref.watch(applicantStateProvider.notifier).update((state) => Applicant.fromMap(applicant.data));
+      }
       return switch (accountInfo.name) {
         'applicant' => nav.pushNamedAndRemoveUntil(AppRoute.applicantsHomeView,
-            (route) => false), //home page of Applicant
+            (route) => false), //home page of Applicant),
         'recruiter' => nav.pushNamedAndRemoveUntil(
             AppRoute.recruiterPageNavigator,
             (route) => false), //home page of Recruiter
@@ -214,13 +220,13 @@ class AuthController extends StateNotifier<bool> {
 
   Future<Applicant> applicantProfile({required String id}) async {
     final details = await _databaseAPI.getApplicantProfile(id: id);
-    return Applicant.fromMap(details.data);
+    return   Applicant.fromMap(details.data);
   }
 
   void updateApplicantProfile({
     required Applicant applicant,
     required File image,
-    required BuildContext context
+    required BuildContext context,
   }) async {
     state = true;
     String imageId = await _storageAPI.uploadFile(file: image, isCv: false);
@@ -230,10 +236,8 @@ class AuthController extends StateNotifier<bool> {
       applicant: updatedDetails,
     );
     state = false;
-    update.fold((l) {
-      print(l.errorMsg);
-    }, (r) {
-     Navigator.of(context).pop();
+    update.fold((l) {}, (r) {
+      Navigator.of(context).pop();
     });
   }
 

@@ -34,6 +34,7 @@ class RecruiterHomeView extends ConsumerWidget {
                   onPressed: () {},
                   icon: const Badge(
                     label: Text('5'),
+
                     child: Icon(
                       IconlyLight.notification,
                       color: Colors.grey,

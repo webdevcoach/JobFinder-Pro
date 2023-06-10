@@ -8,7 +8,7 @@ class ApplicantDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.displayMedium;
+    
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(

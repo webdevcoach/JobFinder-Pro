@@ -28,6 +28,8 @@ class ApplicantPageNavigatorState extends State<ApplicantPageNavigator> {
       _selectedIndex = index;
     });
   }
+ 
+
 
   @override
   Widget build(BuildContext context) {

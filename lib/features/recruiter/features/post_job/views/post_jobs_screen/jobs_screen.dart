@@ -21,23 +21,18 @@ class JobsScreenState extends State<JobsScreen> {
     const ActiveJobsView(),
     const ClosedJobsView(),
   ];
+    @override
+  void initState() {
+  (context as Element).reassemble();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        // actions: [
-        //   MaterialButton(
-        //       shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(15)),
-        //       onPressed: () =>
-        //           Navigator.of(context).pushNamed(AppRoute.postAJobView),
-        //       child: const Text('Post A Job')),
-        //   const SizedBox(width: 10)
-        // ],
         title: const Text('My Jobs'),
       ),
-
       body: Column(
         children: [
           SizedBox(
@@ -83,40 +78,7 @@ class JobsScreenState extends State<JobsScreen> {
         child:
             SvgPicture.asset(AppSvg.addBroken, color: AppColors.primaryColor),
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton: Stack(
-      //   children: <Widget>[
-      //     SizedBox(
-      //       height: 40,
-      //       width: double.infinity,
-      //       child: ClipRRect(
-      //         child: BackdropFilter(
-      //           filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-      //           child: Container(
-      //             decoration: BoxDecoration(
-      //               boxShadow: [
-      //                 BoxShadow(
-      //                   color: Colors.grey.withOpacity(0.2),
-      //                   spreadRadius: 10,
-      //                   blurRadius: 40,
-      //                   offset:
-      //                       const Offset(0, 3), // changes position of shadow
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //     Container(
-      //       height: 40,
-      //       width: double.infinity,
-      //       alignment: Alignment.center,
-      //       child: InfoChip(title: 'title', titleColor: Colors.green.shade900),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

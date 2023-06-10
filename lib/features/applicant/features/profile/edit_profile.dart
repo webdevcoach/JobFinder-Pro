@@ -31,13 +31,19 @@ class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
   Widget build(BuildContext context) {
     final nameController = TextEditingController(text: widget.applicant.name);
     final aboutController = TextEditingController(text: widget.applicant.about);
-    final experienceController =
-        TextEditingController(text: widget.applicant.experience.toString());
+    final experienceController = TextEditingController(
+        text: widget.applicant.experience
+            .toString()
+            .replaceAll('[', '')
+            .replaceAll(']', ''));
     final locationController =
         TextEditingController(text: widget.applicant.location);
     final titleController = TextEditingController(text: widget.applicant.title);
-    final skillsController =
-        TextEditingController(text: widget.applicant.skills.toString());
+    final skillsController = TextEditingController(
+        text: widget.applicant.skills
+            .toString()
+            .replaceAll('[', '')
+            .replaceAll(']', ''));
     void updateProfile() {
       ref.watch(authControllerProvider.notifier).updateApplicantProfile(
             image: imageFile,

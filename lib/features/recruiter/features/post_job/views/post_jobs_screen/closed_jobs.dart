@@ -27,7 +27,7 @@ class ClosedJobsView extends ConsumerWidget {
               itemBuilder: (BuildContext context, int index) {
                 final job = profile.postedJobs.reversed.toList()[index];
                 return JobCard(
-                  isActive:  false,
+                  isActive: false,
                   isApplicant: false,
                   postedJobsId: job,
                 );
@@ -36,7 +36,7 @@ class ClosedJobsView extends ConsumerWidget {
           },
           error: (error, st) {
             print(error);
-            return Text('Error: $st');
+            return Text('Error: $error');
           },
           loading: () => const CircularProgressIndicator(),
         ),

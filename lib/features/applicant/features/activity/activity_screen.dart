@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/common/searchbox.dart';
-import 'package:jobhunt_pro/common/selectable_buttons.dart';
 import 'package:jobhunt_pro/features/applicant/features/apply_job/views/applied_job_status.dart';
 
 import '../../../authentication/controller/auth_controller.dart';
@@ -11,6 +10,7 @@ class ActivityScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final applicant = ref.watch(applicantStateProvider)!;
     return Scaffold(
       appBar: AppBar(title: const Text('Activity')),
       body: Column(children: [
@@ -30,26 +30,18 @@ class ActivityScreen extends ConsumerWidget {
           ),
         ),
         Expanded(
-          child: ref.watch(currentApplicantDetailsProvider).when(
-              data: (profile) {
-                return ListView.builder(
-                    itemCount: profile.applications.length,
-                    itemBuilder: (context, index) {
-                      final applicationId =
-                          profile.applications.reversed.toList()[index];
-                      return Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: AppliedJobStatus(
-                            applicationId: applicationId,
-                          ));
-                    });
-              },
-              error: (error, trace) => SizedBox(
-                    child: Text(error.toString()),
-                  ),
-              loading: () => const CircularProgressIndicator()),
+          child: ListView.builder(
+              itemCount: applicant.applications.length,
+              itemBuilder: (context, index) {
+                final applicationId =
+                    applicant.applications.reversed.toList()[index];
+                return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: AppliedJobStatus(
+                      applicationId: applicationId,
+                    ));
+              }),
         ),
-        
       ]),
     );
   }

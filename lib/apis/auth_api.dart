@@ -48,7 +48,6 @@ class AuthAPI implements AuthInterface {
     }
   }
 
-  Future<model.User> getAccountInfo() async => await _account.get();
 
   @override
   FutureEither<model.User> recruiterSignUp({

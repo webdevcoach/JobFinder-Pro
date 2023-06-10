@@ -131,7 +131,7 @@ class _AppliedApplicantDetailsState
               data: Theme.of(context)
                   .copyWith(splashFactory: NoSplash.splashFactory),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(15.0),
                 child: ElevatedButton(
                     style: ButtonStyle(
                         surfaceTintColor: AppColors.primaryColor.toMSP(),

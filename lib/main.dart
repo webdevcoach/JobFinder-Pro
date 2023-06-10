@@ -9,7 +9,8 @@ import 'features/applicant/features/home/views/page_navigator.dart';
 import 'features/authentication/controller/auth_controller.dart';
 import 'features/authentication/screens/signup_view.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -27,6 +28,14 @@ class MyApp extends ConsumerWidget {
       home: ref.watch(currentUserAccountProvider).when(
             data: (user) {
               if (user != null) {
+                if (user.name == 'applicant') {
+                  ref
+                      .watch(authControllerProvider.notifier)
+                      .applicantProfile(id: user.$id)
+                      .then((value) => ref
+                          .watch(applicantStateProvider.notifier)
+                          .update((state) => value));
+                }
                 return switch (user.name) {
                   'applicant' => const ApplicantPageNavigator(),
                   'recruiter' => const RecruiterPageNavigator(),
