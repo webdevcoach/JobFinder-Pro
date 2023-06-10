@@ -35,6 +35,13 @@ class MyApp extends ConsumerWidget {
                       .then((value) => ref
                           .watch(applicantStateProvider.notifier)
                           .update((state) => value));
+                } else {
+                  ref
+                      .watch(authControllerProvider.notifier)
+                      .recruiterProfile(id: user.$id)
+                      .then((value) => ref
+                          .watch(recruiterStateProvider.notifier)
+                          .update((state) => value));
                 }
                 return switch (user.name) {
                   'applicant' => const ApplicantPageNavigator(),

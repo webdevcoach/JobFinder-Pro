@@ -14,7 +14,7 @@ class RecruiterProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recruiter = ref.watch(currentRecruiterDetailsProvider).value;
+    final recruiter = ref.watch(recruiterStateProvider)!;
 
     return Scaffold(
         appBar: AppBar(

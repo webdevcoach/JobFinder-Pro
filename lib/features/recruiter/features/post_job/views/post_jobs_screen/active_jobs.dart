@@ -8,7 +8,7 @@ class ActiveJobsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final activeJobs = ref.watch(currentRecruiterDetailsProvider);
+    final activeJobs = ref.watch(recruiterStateProvider)!;
 
     return SingleChildScrollView(
       physics:
@@ -16,28 +16,23 @@ class ActiveJobsView extends ConsumerWidget {
       child: Padding(
         padding:
             const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 30),
-        child: activeJobs.when(
-          data: (profile) {
-            return ListView.separated(
+        child: ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: profile.postedJobs.length,
+              itemCount: activeJobs.postedJobs.length,
               separatorBuilder: (context, index) => const SizedBox(height: 15),
               itemBuilder: (BuildContext context, int index) {
-                final job = profile.postedJobs.reversed.toList()[index];
+                final job = activeJobs.postedJobs.reversed.toList()[index];
                 return JobCard(
                   isActive: true,
                   isApplicant: false,
                   postedJobsId: job,
                 );
               },
-            );
-          },
-          error: (error, st) {
-            return const SizedBox();
-          },
-          loading: () => const CircularProgressIndicator(),
-        ),
+            )
+          
+         
+        
       ),
     );
   }

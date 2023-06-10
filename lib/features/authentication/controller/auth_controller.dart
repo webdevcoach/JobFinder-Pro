@@ -25,6 +25,10 @@ final authControllerProvider =
 final applicantStateProvider = StateProvider<Applicant?>((ref) {
   return null;
 });
+
+final recruiterStateProvider = StateProvider<Recruiter?>((ref) {
+  return null;
+});
 // final currentUserProvider = FutureProvider((ref) async {
 //   final user = ref.watch(authApiProvider);
 //   return await user.getAccountInfo();
@@ -161,17 +165,12 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     res.fold((l) {
       snackBarAlert(context, l.errorMsg);
-
-      print(l.errorMsg);
     }, (r) async {
       final databaseRes = await _databaseAPI.saveApplicantDetails(
           applicant: applicant, id: r.$id);
       databaseRes.fold((l) {
         snackBarAlert(context, l.errorMsg);
-
-        print(l.errorMsg);
       }, (r) {
-        print(r.data);
         nav.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginView()),
           (Route<dynamic> route) => false,
@@ -193,10 +192,16 @@ class AuthController extends StateNotifier<bool> {
     loginRes.fold((l) {
       snackBarAlert(context, l.errorMsg);
     }, (r) async {
-      model.User  ? accountInfo = await _authAPI.currentUserAccount();
-      if(accountInfo!.name.contains('applicant')){
-        final applicant = await _databaseAPI.getApplicantProfile(id: accountInfo.$id);
-       ref.watch(applicantStateProvider.notifier).update((state) => Applicant.fromMap(applicant.data));
+      model.User? accountInfo = await _authAPI.currentUserAccount();
+      if (accountInfo!.name.contains('applicant')) {
+        final applicant =
+            await _databaseAPI.getApplicantProfile(id: accountInfo.$id);
+        ref
+            .watch(applicantStateProvider.notifier)
+            .update((state) => Applicant.fromMap(applicant.data));
+      }else{
+        final recruiter = await _databaseAPI.getRecruiterProfile(id: accountInfo.$id);
+        ref.watch(recruiterStateProvider.notifier).update((state) => Recruiter.fromMap(recruiter.data));
       }
       return switch (accountInfo.name) {
         'applicant' => nav.pushNamedAndRemoveUntil(AppRoute.applicantsHomeView,
@@ -220,7 +225,7 @@ class AuthController extends StateNotifier<bool> {
 
   Future<Applicant> applicantProfile({required String id}) async {
     final details = await _databaseAPI.getApplicantProfile(id: id);
-    return   Applicant.fromMap(details.data);
+    return Applicant.fromMap(details.data);
   }
 
   void updateApplicantProfile({

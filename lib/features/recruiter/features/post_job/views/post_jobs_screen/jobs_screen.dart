@@ -21,11 +21,7 @@ class JobsScreenState extends State<JobsScreen> {
     const ActiveJobsView(),
     const ClosedJobsView(),
   ];
-    @override
-  void initState() {
-  (context as Element).reassemble();
-    super.initState();
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

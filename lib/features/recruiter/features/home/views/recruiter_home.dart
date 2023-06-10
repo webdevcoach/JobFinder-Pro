@@ -15,7 +15,8 @@ class RecruiterHomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final currentUser = ref.watch(currentRecruiterDetailsProvider).value;
+ final  currentUser =  ref.watch(recruiterStateProvider);
+   // final currentUser = ref.watch(currentRecruiterDetailsProvider).value;
 
     if (currentUser == null) {
       return const Center(
@@ -34,7 +35,6 @@ class RecruiterHomeView extends ConsumerWidget {
                   onPressed: () {},
                   icon: const Badge(
                     label: Text('5'),
-
                     child: Icon(
                       IconlyLight.notification,
                       color: Colors.grey,

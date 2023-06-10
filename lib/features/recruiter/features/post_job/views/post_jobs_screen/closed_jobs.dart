@@ -9,7 +9,7 @@ class ClosedJobsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final activeJobs = ref.watch(currentRecruiterDetailsProvider);
+    final closedJobs = ref.watch(recruiterStateProvider)!;
 
     return SingleChildScrollView(
       physics:
@@ -17,29 +17,21 @@ class ClosedJobsView extends ConsumerWidget {
       child: Padding(
         padding:
             const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 30),
-        child: activeJobs.when(
-          data: (profile) {
-            return ListView.separated(
+        child:ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: profile.postedJobs.length,
+              itemCount: closedJobs.postedJobs.length,
               separatorBuilder: (context, index) => const SizedBox(height: 15),
               itemBuilder: (BuildContext context, int index) {
-                final job = profile.postedJobs.reversed.toList()[index];
+                final job = closedJobs.postedJobs.reversed.toList()[index];
                 return JobCard(
                   isActive: false,
                   isApplicant: false,
                   postedJobsId: job,
                 );
-              },
-            );
-          },
-          error: (error, st) {
-            print(error);
-            return Text('Error: $error');
-          },
-          loading: () => const CircularProgressIndicator(),
-        ),
+              },)
+            
+        
       ),
     );
   }
