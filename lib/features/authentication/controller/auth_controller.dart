@@ -119,15 +119,10 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     res.fold((l) {
       snackBarAlert(context, l.errorMsg);
-
-      print(l.errorMsg);
     }, (r) async {
       final databaseRes = await _databaseAPI.saveRecruiterDetails(
           recruiter: recruiter, id: r.$id);
-      databaseRes.fold((l) {
-        print(l.errorMsg);
-      }, (r) {
-        print(r.data);
+      databaseRes.fold((l) {}, (r) {
         nav.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginView()),
           (Route<dynamic> route) => false,
@@ -199,9 +194,12 @@ class AuthController extends StateNotifier<bool> {
         ref
             .watch(applicantStateProvider.notifier)
             .update((state) => Applicant.fromMap(applicant.data));
-      }else{
-        final recruiter = await _databaseAPI.getRecruiterProfile(id: accountInfo.$id);
-        ref.watch(recruiterStateProvider.notifier).update((state) => Recruiter.fromMap(recruiter.data));
+      } else {
+        final recruiter =
+            await _databaseAPI.getRecruiterProfile(id: accountInfo.$id);
+        ref
+            .watch(recruiterStateProvider.notifier)
+            .update((state) => Recruiter.fromMap(recruiter.data));
       }
       return switch (accountInfo.name) {
         'applicant' => nav.pushNamedAndRemoveUntil(AppRoute.applicantsHomeView,
@@ -230,18 +228,25 @@ class AuthController extends StateNotifier<bool> {
 
   void updateApplicantProfile({
     required Applicant applicant,
-    required File image,
+     File ? image,
     required BuildContext context,
+    required WidgetRef ref,
   }) async {
     state = true;
-    String imageId = await _storageAPI.uploadFile(file: image, isCv: false);
+    String imageId =image == null? '': await _storageAPI.uploadFile(file: image, isCv: false);
     String imageUrl = FileUrl.fileUrl(fileId: imageId);
     final updatedDetails = applicant.copyWith(profilePicture: imageUrl);
     final update = await _databaseAPI.updateApplicantProfileDetails(
       applicant: updatedDetails,
     );
     state = false;
-    update.fold((l) {}, (r) {
+    update.fold((l) {
+      snackBarAlert(context, l.errorMsg);
+    }, (r) async {
+      final applicant = await _databaseAPI.getApplicantProfile(id: r.$id);
+      ref
+          .watch(applicantStateProvider.notifier)
+          .update((state) => Applicant.fromMap(applicant.data));
       Navigator.of(context).pop();
     });
   }

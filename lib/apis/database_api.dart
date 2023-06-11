@@ -313,7 +313,7 @@ class DatabaseAPI implements DataBaseInterface {
     final jobs = await _databases.listDocuments(
         databaseId: AppWriteConstant.jobDatabaseId,
         collectionId: AppWriteConstant.postedJobCollectionId,
-        queries: [Query.search('jobTitle', keyword)]);
+        queries: [Query.search('jobTitle', keyword),]);
     return jobs.documents;
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/common/info_chip.dart';
-import 'package:country_picker/country_picker.dart';
 
 import 'package:jobhunt_pro/core/extensions/datetime_formatter.dart';
 import 'package:jobhunt_pro/core/extensions/sentence_splitter.dart';
@@ -93,125 +92,113 @@ class _PostAJobViewState extends ConsumerState<PostAJobView> {
         title: const Text('Post A Job'),
       ),
       body: SingleChildScrollView(
-        child: jobState == JobState.loading
-            ? const Center(
-                child: CircularProgressIndicator.adaptive(),
-              )
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const CustomText(
-                        text: 'Title', bold: true, formSpacing: true),
-                    CustomTextField(controller: jobTitleController),
-                    const CustomText(
-                        text: 'Description', bold: true, formSpacing: true),
-                    CustomTextField(
-                        controller: descriptionController,
-                        enableMaxlines: true),
-                    const CustomText(
-                        text: 'Work Mode', bold: true, formSpacing: true),
-                    for (var mode in WorkingMode.values)
-                      RadioTile<WorkingMode>(
-                        title: mode.text,
-                        value: mode,
-                        groupValue: _seletectedWorkMode,
-                        onChanged: (value) =>
-                            setState(() => _seletectedWorkMode = value!),
-                      ),
-                    const CustomText(
-                        text: 'Work Type', bold: true, formSpacing: true),
-                    for (var type in WorkType.values)
-                      RadioTile<WorkType>(
-                        title: type.text,
-                        value: type,
-                        groupValue: _seletectedWorkType,
-                        onChanged: (value) =>
-                            setState(() => _seletectedWorkType = value!),
-                      ),
-                    TextButton(
-                        onPressed: () => showCountryPicker(
-                              showSearch: false,
-                              context: context,
-                              onSelect: (Country country) {
-                                print('Select country: ${country.name}');
-                              },
-                            ),
-                        child: const Text('cout')),
-                    const CustomText(
-                        text: 'Location', bold: true, formSpacing: true),
-                    CustomTextField(controller: locationController),
-                    const CustomText(
-                        text: 'Salary', bold: true, formSpacing: true),
-                    CustomTextField(
-                        controller: salaryController,
-                        inputType: TextInputType.number,
-                        prefixIcon: Icons.attach_money_sharp),
-                    const CustomText(
-                        text: 'Requirements', bold: true, formSpacing: true),
-                    CustomTextField(
-                        controller: requirementController,
-                        enableMaxlines: true),
-                    const CustomText(
-                        text: 'Responsibilities',
-                        bold: true,
-                        formSpacing: true),
-                    CustomTextField(
-                        controller: responsibilitiesController,
-                        enableMaxlines: true),
-                    const CustomText(
-                        text: 'Perks & Benefits',
-                        bold: true,
-                        formSpacing: true),
-                    Wrap(
-                      spacing: 8.0,
-                      runSpacing: 10,
-                      children: [
-                        _perksChips('Medical/Health Insurance'),
-                        _perksChips('Paid Sick Leave'),
-                        _perksChips('Performance Bonus'),
-                        _perksChips('Transportation Allowance'),
-                        _perksChips('Skill development'),
-                        _perksChips('Equity package'),
-                        _perksChips('Maternity / paternity leave'),
-                        _perksChips('Paid holiday,'),
-                      ],
-                    ),
-                    const CustomText(
-                        text: 'Deadline', bold: true, formSpacing: true),
-                    GestureDetector(
-                      onTap: () async {
-                        final DateTime? date = await showDatePicker(
-                            context: context,
-                            initialDate: deadline,
-                            firstDate:
-                                DateTime.now().add(const Duration(days: 1)),
-                            lastDate: DateTime(2050));
-                        if (date != null) {
-                          setState(() {
-                            deadline = date;
-                            deadlineController.text = deadline.toOrdinalDate();
-                          });
-                        }
-                      },
-                      child: CustomTextField(
-                          controller: deadlineController,
-                          editable: false,
-                          suffixIcon: IconlyLight.calendar),
-                    ),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CustomText(text: 'Title', bold: true, formSpacing: true),
+              CustomTextField(controller: jobTitleController),
+              const CustomText(
+                  text: 'Description', bold: true, formSpacing: true),
+              CustomTextField(
+                  controller: descriptionController, enableMaxlines: true),
+              const CustomText(
+                  text: 'Work Mode', bold: true, formSpacing: true),
+              for (var mode in WorkingMode.values)
+                RadioTile<WorkingMode>(
+                  title: mode.text,
+                  value: mode,
+                  groupValue: _seletectedWorkMode,
+                  onChanged: (value) =>
+                      setState(() => _seletectedWorkMode = value!),
                 ),
+              const CustomText(
+                  text: 'Work Type', bold: true, formSpacing: true),
+              for (var type in WorkType.values)
+                RadioTile<WorkType>(
+                  title: type.text,
+                  value: type,
+                  groupValue: _seletectedWorkType,
+                  onChanged: (value) =>
+                      setState(() => _seletectedWorkType = value!),
+                ),
+              // TextButton(
+              //     onPressed: () => showCountryPicker(
+              //           showSearch: false,
+              //           context: context,
+              //           onSelect: (Country country) {
+              //             print('Select country: ${country.name}');
+              //           },
+              //         ),
+              //     child: const Text('cout')),
+              const CustomText(text: 'Location', bold: true, formSpacing: true),
+              CustomTextField(controller: locationController),
+              const CustomText(text: 'Salary', bold: true, formSpacing: true),
+              CustomTextField(
+                  controller: salaryController,
+                  inputType: TextInputType.number,
+                  prefixIcon: Icons.attach_money_sharp),
+              const CustomText(
+                  text: 'Requirements', bold: true, formSpacing: true),
+              CustomTextField(
+                  controller: requirementController, enableMaxlines: true),
+              const CustomText(
+                  text: 'Responsibilities', bold: true, formSpacing: true),
+              CustomTextField(
+                  controller: responsibilitiesController, enableMaxlines: true),
+              const CustomText(
+                  text: 'Perks & Benefits', bold: true, formSpacing: true),
+              Wrap(
+                spacing: 8.0,
+                runSpacing: 10,
+                children: [
+                  _perksChips('Medical/Health Insurance'),
+                  _perksChips('Paid Sick Leave'),
+                  _perksChips('Performance Bonus'),
+                  _perksChips('Transportation Allowance'),
+                  _perksChips('Skill development'),
+                  _perksChips('Equity package'),
+                  _perksChips('Maternity / paternity leave'),
+                  _perksChips('Paid holiday,'),
+                ],
               ),
+              const CustomText(text: 'Deadline', bold: true, formSpacing: true),
+              GestureDetector(
+                onTap: () async {
+                  final DateTime? date = await showDatePicker(
+                      context: context,
+                      initialDate: deadline,
+                      firstDate: DateTime.now().add(const Duration(days: 1)),
+                      lastDate: DateTime(2050));
+                  if (date != null) {
+                    setState(() {
+                      deadline = date;
+                      deadlineController.text = deadline.toOrdinalDate();
+                    });
+                  }
+                },
+                child: CustomTextField(
+                    controller: deadlineController,
+                    editable: false,
+                    suffixIcon: IconlyLight.calendar),
+              ),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25),
         child: ElevatedButton(
             onPressed: _postJob,
-            child: Text(
-              'Submit',
-              style: txtStyle!.copyWith(color: AppColors.greyColor),
-            )),
+            child: jobState == JobState.loading
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : Text(
+                    'Submit',
+                    style: txtStyle!.copyWith(color: AppColors.greyColor),
+                  )),
       ),
     );
   }

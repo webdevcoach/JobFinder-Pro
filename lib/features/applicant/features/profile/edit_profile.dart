@@ -18,7 +18,7 @@ class EditApplicantProfile extends ConsumerStatefulWidget {
 }
 
 class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
-  late File imageFile;
+  File? imageFile;
   bool imagePicked = false;
   void pickImage() async {
     imageFile = await PickFile.pickImage();
@@ -29,6 +29,7 @@ class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(authControllerProvider);
     final nameController = TextEditingController(text: widget.applicant.name);
     final aboutController = TextEditingController(text: widget.applicant.about);
     final experienceController = TextEditingController(
@@ -57,6 +58,7 @@ class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
               skills: skillsController.text.sentenceToList(),
               title: titleController.text,
             ),
+            ref: ref,
           );
     }
 
@@ -67,10 +69,15 @@ class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
         padding: const EdgeInsets.all(18.0),
         child: ElevatedButton(
             onPressed: updateProfile,
-            child: Text(
-              'Update Profile',
-              style: textStyle.copyWith(color: Colors.white, fontSize: 17),
-            )),
+            child: isLoading
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : Text(
+                    'Update Profile',
+                    style:
+                        textStyle.copyWith(color: Colors.white, fontSize: 17),
+                  )),
       ),
       body: Center(
         child: Padding(
@@ -85,7 +92,7 @@ class _EditApplicantProfileState extends ConsumerState<EditApplicantProfile> {
                   child: CircleAvatar(
                       radius: 35,
                       child: imagePicked
-                          ? ClipOval(child: Image.file(imageFile))
+                          ? ClipOval(child: Image.file(imageFile!))
                           : widget.applicant.profilePicture.isEmpty
                               ? const SizedBox.shrink()
                               : Image.network(widget.applicant.profilePicture)),

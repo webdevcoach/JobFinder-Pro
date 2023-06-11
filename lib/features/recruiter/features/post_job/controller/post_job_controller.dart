@@ -93,6 +93,7 @@ class PostJobController extends StateNotifier<JobState> {
       final job = await _databaseAPI.postJob(jobDetails: jobDetails);
       state = JobState.initialState;
       job.fold((l) {
+        print(l.errorMsg);
         snackBarAlert(context, l.errorMsg);
       }, (r) async {
         postedJobIds.add(r.$id);
