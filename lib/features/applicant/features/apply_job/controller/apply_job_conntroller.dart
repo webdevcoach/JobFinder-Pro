@@ -60,7 +60,7 @@ class ApplyJobController extends StateNotifier<ApplyJobState> {
     state = ApplyJobState.loading;
     final nav = Navigator.of(context);
     String applicationId = const Uuid().v1();
-    final applicant = ref.watch(currentApplicantDetailsProvider).value;
+    final applicant = ref.watch(applicantStateProvider);
     if (applicant == null) {
       return;
     }
