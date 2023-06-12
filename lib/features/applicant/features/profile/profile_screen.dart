@@ -7,7 +7,9 @@ import 'package:jobhunt_pro/common/svg_icon_mini.dart';
 import 'package:jobhunt_pro/constants/app_svg.dart';
 import 'package:jobhunt_pro/features/applicant/features/profile/widgets/profile_info_box.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
+
 import '../../../../common/info_chip.dart';
+import '../../../../core/resuables/date_format.dart';
 import '../../../../theme/colors.dart';
 import '../../../authentication/controller/auth_controller.dart';
 import 'widgets/infobox.dart';
@@ -77,10 +79,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               InfoBox(
                   text: applicant.appliedJobs.length.toString(),
                   subtext: 'Applied'),
-              // InfoBox(
-              //     text: formatDate(
-              //         DateTime.parse(applicantAccount!.registration)),
-              //     subtext: 'Member Since'),
+              InfoBox(
+                  text: formatDate(
+                      DateTime.parse(applicantAccount!.registration)),
+                  subtext: 'Member Since'),
               const InfoBox(text: '19', subtext: 'Offers'),
             ],
           ),

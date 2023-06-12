@@ -69,31 +69,30 @@ class PostJobController extends StateNotifier<JobState> {
     required BuildContext context,
   }) async {
     state = JobState.loading;
-    final recruiter = ref.watch(currentRecruiterDetailsProvider).value;
-
+    final recruiter = ref.watch(recruiterStateProvider);
     final nav = Navigator.of(context);
     if (recruiter != null) {
       List<String> postedJobIds = recruiter.postedJobs;
       Job jobDetails = Job(
-          jobTitle: jobTitle,
-          workingMode: workingMode,
-          description: description,
-          location: location,
-          jobType: jobType,
-          time: DateTime.now(),
-          jobId: '',
-          isOpened: true,
-          companyId: recruiter.id,
-          applicationReceived: [],
-          salary: salary,
-          responsibilities: responsibilities,
-          requirement: requirement,
-          benefits: benefits,
-          deadline: deadline);
+        jobTitle: jobTitle,
+        workingMode: workingMode,
+        description: description,
+        location: location,
+        jobType: jobType,
+        time: DateTime.now(),
+        jobId: '',
+        isOpened: true,
+        companyId: recruiter.id,
+        applicationReceived: [],
+        salary: salary,
+        responsibilities: responsibilities,
+        requirement: requirement,
+        benefits: benefits,
+        deadline: deadline,
+      );
       final job = await _databaseAPI.postJob(jobDetails: jobDetails);
       state = JobState.initialState;
       job.fold((l) {
-        print(l.errorMsg);
         snackBarAlert(context, l.errorMsg);
       }, (r) async {
         postedJobIds.add(r.$id);
@@ -106,6 +105,7 @@ class PostJobController extends StateNotifier<JobState> {
             AppRoute.recruiterPageNavigator, (route) => false);
       });
     } else {
+      state = JobState.initialState;
       snackBarAlert(context, 'Error Occurred');
     }
   }

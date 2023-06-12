@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
@@ -12,7 +12,7 @@ import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
 import 'package:jobhunt_pro/model/job.dart';
 import 'appwrite_injects.dart';
-import 'package:http/http.dart' as http;
+
 
 final databaseAPIProvider = Provider((ref) {
   return DatabaseAPI(
