@@ -93,8 +93,6 @@ class JobCard extends ConsumerWidget {
                             'https://i.pravatar.cc/300?img=3',
                             'https://i.pravatar.cc/300?img=4',
                             'https://i.pravatar.cc/300?img=5',
-                            'https://i.pravatar.cc/300?img=6',
-                            'https://i.pravatar.cc/300?img=7',
                           ],
                         )
                       ],

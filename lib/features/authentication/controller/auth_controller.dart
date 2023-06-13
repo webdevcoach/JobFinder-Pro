@@ -228,12 +228,14 @@ class AuthController extends StateNotifier<bool> {
 
   void updateApplicantProfile({
     required Applicant applicant,
-     File ? image,
+    File? image,
     required BuildContext context,
     required WidgetRef ref,
   }) async {
     state = true;
-    String imageId =image == null? '': await _storageAPI.uploadFile(file: image, isCv: false);
+    String imageId = image == null
+        ? ''
+        : await _storageAPI.uploadFile(file: image, isCv: false);
     String imageUrl = FileUrl.fileUrl(fileId: imageId);
     final updatedDetails = applicant.copyWith(profilePicture: imageUrl);
     final update = await _databaseAPI.updateApplicantProfileDetails(
@@ -253,7 +255,7 @@ class AuthController extends StateNotifier<bool> {
 
   void logout(BuildContext context) async {
     final res = await _authAPI.logout();
-    res.fold((l) => null, (r) {
+    res.fold((l) => print(l.errorMsg), (r) {
       Navigator.of(context).pushAndRemoveUntil(
         pageRouteTransition(
           const LoginView(),

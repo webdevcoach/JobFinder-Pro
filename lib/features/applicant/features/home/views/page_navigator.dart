@@ -41,8 +41,8 @@ class ApplicantPageNavigatorState extends State<ApplicantPageNavigator> {
           topRight: Radius.circular(10.0),
         ),
         child: BottomNavigationBar(
-          showUnselectedLabels: false,
-          showSelectedLabels: false,
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
           selectedItemColor:
               Theme.of(context).textSelectionTheme.selectionColor,
           currentIndex: _selectedIndex,

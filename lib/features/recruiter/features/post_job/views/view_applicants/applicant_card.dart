@@ -7,7 +7,7 @@ import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_appl
 
 class ApplicantCard extends ConsumerWidget {
   final String applicationId;
-  const ApplicantCard({super.key, required this.applicationId});
+  const ApplicantCard({super.key, required this.applicationId,});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,8 +20,7 @@ class ApplicantCard extends ConsumerWidget {
                     return ListTile(
                       leading: CircleAvatar(
                         backgroundImage: NetworkImage(
-                          profile.profilePicture ??
-                              'https://i.pravatar.cc/300?img=60',
+                          profile.profilePicture,
                         ),
                       ),
                       title: Text(profile.name),

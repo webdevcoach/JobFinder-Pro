@@ -38,7 +38,8 @@ class _RecentJobCardState extends ConsumerState<RecentJobCard> {
               jobsData: widget.job,
             ))),
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
@@ -107,25 +108,28 @@ class _RecentJobCardState extends ConsumerState<RecentJobCard> {
                   // ref.watch(currentApplicantDetailsProvider).when(
                   //     data: (applicant) {
                   //       return
-                         InkWell(
-                          onTap: () {
-                            ref
-                                .watch(bookmarkControllerProvider.notifier)
-                                .bookmarkJob(
-                                    applicant: ref.watch(applicantStateProvider)!,
-                                    jobId: widget.job.jobId);
-                            setState(() {});
-                          },
-                          child: Icon(
-                            ref.watch(applicantStateProvider)!.savedJobs.contains(widget.job.jobId)
-                                ? IconlyBold.bookmark
-                                : IconlyLight.bookmark,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      // },
-                      // error: (error, stack) => const SizedBox(),
-                      // loading: () => const SizedBox()),
+                  InkWell(
+                    onTap: () {
+                      ref
+                          .watch(bookmarkControllerProvider.notifier)
+                          .bookmarkJob(
+                              applicant: ref.watch(applicantStateProvider)!,
+                              jobId: widget.job.jobId);
+                      setState(() {});
+                    },
+                    child: Icon(
+                      ref
+                              .watch(applicantStateProvider)!
+                              .savedJobs
+                              .contains(widget.job.jobId)
+                          ? IconlyBold.bookmark
+                          : IconlyLight.bookmark,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                  // },
+                  // error: (error, stack) => const SizedBox(),
+                  // loading: () => const SizedBox()),
                   const SizedBox(height: 10),
                   Text(timeAgo.format(widget.job.time, locale: 'en_short'))
                 ],

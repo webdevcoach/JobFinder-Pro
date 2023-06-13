@@ -9,6 +9,4 @@ class AppWriteConstant {
   static String appliedJobCollectionId = '646d508f4480e56c99e3';
   static String profileBucketId = '646d4249e341cea8de82';
   static String cVBucketId = '646d41f0d12ecbc86c43';
-   static  String realTimeChannel(String docId) =>  'databases.${AppWriteConstant.jobDatabaseId}.collections.${AppWriteConstant.postedJobCollectionId}.documents.$docId';
-    static  String realTimeChannelEventsCreate =  'databases.*.collections.${AppWriteConstant.postedJobCollectionId}.documents.*.create';
 }
