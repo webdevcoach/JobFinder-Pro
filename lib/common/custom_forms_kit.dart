@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme/colors.dart';
 
@@ -41,7 +42,7 @@ class CustomTextField extends StatelessWidget {
   final bool enableMaxlines;
   final bool editable;
   final IconData? suffixIcon;
-  final IconData? prefixIcon;
+  final String? prefixIconSvg;
 
   final TextInputType? inputType;
   final bool? showHintText;
@@ -51,7 +52,7 @@ class CustomTextField extends StatelessWidget {
       required this.controller,
       this.enableMaxlines = false,
       this.suffixIcon,
-      this.prefixIcon,
+      this.prefixIconSvg,
       this.editable = true,
       this.inputType,
       this.showHintText = false,
@@ -70,9 +71,15 @@ class CustomTextField extends StatelessWidget {
         suffixIcon: suffixIcon == null
             ? null
             : Icon(suffixIcon, color: AppColors.secondaryColor),
-        prefixIcon: prefixIcon == null
+        prefixIcon: prefixIconSvg == null
             ? null
-            : Icon(prefixIcon, color: AppColors.secondaryColor),
+            : Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: SvgPicture.asset(prefixIconSvg!,
+                    width: 24, // Adjust width
+                    height: 24,
+                    color: AppColors.secondaryColor),
+              ),
         filled: true,
         fillColor: editable ? Colors.grey.shade100 : Colors.grey.shade100,
         disabledBorder: OutlineInputBorder(

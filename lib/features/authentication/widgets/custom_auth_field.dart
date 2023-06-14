@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
-import 'package:email_validator/email_validator.dart';
 
 import '../../../constants/app_svg.dart';
 
@@ -31,23 +30,6 @@ class _CustomAuthFieldState extends State<CustomAuthField> {
     });
   }
 
-  String? _validator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'This field cannot be empty';
-    }
-
-    if (widget.isPasswordField) {
-      if (value.length < 8) {
-        return 'Password must be at least 8 characters';
-      }
-    } else {
-      if (!EmailValidator.validate(value)) {
-        return 'Please enter a valid email';
-      }
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -55,7 +37,6 @@ class _CustomAuthFieldState extends State<CustomAuthField> {
       child: TextFormField(
         obscureText: widget.isPasswordField ? showObscureText : false,
         controller: widget.controller,
-        validator: _validator,
         decoration: InputDecoration(
           prefixIcon: Padding(
             padding: const EdgeInsets.all(

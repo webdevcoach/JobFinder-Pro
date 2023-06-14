@@ -1,5 +1,3 @@
-
-
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +10,6 @@ import 'package:jobhunt_pro/model/applicant.dart';
 import 'package:jobhunt_pro/model/recruiter.dart';
 import 'package:jobhunt_pro/model/job.dart';
 import 'appwrite_injects.dart';
-
 
 final databaseAPIProvider = Provider((ref) {
   return DatabaseAPI(
@@ -142,7 +139,7 @@ class DatabaseAPI implements DataBaseInterface {
       collectionId: AppWriteConstant.applicantCollectionId,
       documentId: id,
     );
-   return details;
+    return details;
   }
 
   @override
@@ -280,7 +277,7 @@ class DatabaseAPI implements DataBaseInterface {
 
   @override
   FutureEither<Document> acceptOrRejectApplicant({
-    required ApplyJob applyJob, 
+    required ApplyJob applyJob,
   }) async {
     try {
       final post = await _databases.updateDocument(
@@ -290,7 +287,7 @@ class DatabaseAPI implements DataBaseInterface {
         data: {
           'status': applyJob.status.text,
           'acceptanceMessage': applyJob.acceptanceMessage,
-          },
+        },
       );
       return right(post);
     } on AppwriteException catch (e) {
@@ -313,7 +310,9 @@ class DatabaseAPI implements DataBaseInterface {
     final jobs = await _databases.listDocuments(
         databaseId: AppWriteConstant.jobDatabaseId,
         collectionId: AppWriteConstant.postedJobCollectionId,
-        queries: [Query.search('jobTitle', keyword),]);
+        queries: [
+          Query.search('jobTitle', keyword),
+        ]);
     return jobs.documents;
   }
 }

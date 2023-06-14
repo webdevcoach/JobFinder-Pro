@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/core/resuables/pick_file.dart';
 
 import '../../../common/custom_forms_kit.dart';
+import '../../../constants/app_svg.dart';
 import '../controller/auth_controller.dart';
 import '../widgets/custom_auth_field.dart';
 
@@ -97,27 +98,41 @@ class _SignUpViewState extends ConsumerState<RecruiterSignupSection> {
               hintText: 'Password',
               isPasswordField: true,
             ),
-            CustomAuthField(
+            CustomTextField(
               controller: companyNameController,
               hintText: 'Company Name',
+              prefixIconSvg: AppSvg.briefcaseBold,
+              showHintText: true,
             ),
-            CustomAuthField(
+            const SizedBox(height: 20),
+            CustomTextField(
               controller: websiteLinkController,
               hintText: 'Website',
+              prefixIconSvg: AppSvg.linkCircleBold,
+              showHintText: true,
             ),
-            CustomAuthField(
+            const SizedBox(height: 20),
+            CustomTextField(
               controller: twitterController,
               hintText: 'Twitter',
+              prefixIconSvg: AppSvg.twitterBold,
+              showHintText: true,
             ),
-            CustomAuthField(
+            const SizedBox(height: 20),
+            CustomTextField(
               controller: linkedinController,
               hintText: 'Linkedin',
+              prefixIconSvg: AppSvg.linkedinBold,
+              showHintText: true,
             ),
-            CustomAuthField(
+            const SizedBox(height: 20),
+            CustomTextField(
               controller: facebookController,
               hintText: 'Facebook',
+              prefixIconSvg: AppSvg.facebookBold,
+              showHintText: true,
             ),
-            // const SizedBox(height: 40),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: onSignUp,
               child: isLoading

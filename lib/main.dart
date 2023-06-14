@@ -4,14 +4,15 @@ import 'package:jobhunt_pro/features/authentication/screens/login_view.dart';
 import 'package:jobhunt_pro/features/recruiter/features/home/views/page_navigator.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 import 'package:jobhunt_pro/theme/themes.dart';
-
 import 'features/applicant/features/home/views/page_navigator.dart';
 import 'features/authentication/controller/auth_controller.dart';
 import 'features/authentication/screens/signup_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends ConsumerWidget {
