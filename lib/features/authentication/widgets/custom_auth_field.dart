@@ -22,7 +22,6 @@ class CustomAuthField extends StatefulWidget {
 
 class _CustomAuthFieldState extends State<CustomAuthField> {
   bool showObscureText = true;
-  String? _errorMessage;
 
   void showHidePassword() {
     setState(() {
@@ -83,7 +82,6 @@ class _CustomAuthFieldState extends State<CustomAuthField> {
           hintStyle: const TextStyle(
             fontSize: 15,
           ),
-          errorText: _errorMessage,
         ),
       ),
     );

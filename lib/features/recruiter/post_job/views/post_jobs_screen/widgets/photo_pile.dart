@@ -83,7 +83,7 @@ class PhotoPile extends StatelessWidget {
 
     return SizedBox(
       width: _avatarSize + (min(3, images.length) * _overlapDistance),
-      height: avatarSize,
+      height: _avatarSize,
       child: Stack(
         children: widgets,
       ),
