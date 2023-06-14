@@ -3,13 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/common/route_transition.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/applicant/job_detail/job_detail_screen.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/post_jobs_screen/widgets/photo_pile.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
+import 'package:jobhunt_pro/theme/colors.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
-import '../../../../../../../theme/colors.dart';
-import '../../../../../../applicant/features/job_detail/job_detail_screen.dart';
-import 'photo_pile.dart';
 
 class JobCard extends ConsumerWidget {
   final bool isApplicant;

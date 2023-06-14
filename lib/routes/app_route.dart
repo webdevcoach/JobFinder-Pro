@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:jobhunt_pro/features/applicant/features/home/views/page_navigator.dart';
-import 'package:jobhunt_pro/features/applicant/features/job_search/screen/search_creen.dart';
-import 'package:jobhunt_pro/features/recruiter/features/home/views/page_navigator.dart';
-import 'package:jobhunt_pro/features/recruiter/features/home/views/recruiter_home.dart';
+import 'package:jobhunt_pro/common/route_transition.dart';
+import 'package:jobhunt_pro/features/applicant/apply_job/views/application_status_message.dart';
+import 'package:jobhunt_pro/features/applicant/home/views/page_navigator.dart';
+import 'package:jobhunt_pro/features/applicant/job_search/screen/search_creen.dart';
+import 'package:jobhunt_pro/features/applicant/profile/edit_profile.dart';
 
-import '../common/route_transition.dart';
-import '../features/applicant/features/apply_job/views/application_status_message.dart';
-import '../features/applicant/features/profile/edit_profile.dart';
-import '../features/recruiter/features/post_job/views/post_jobs_screen/post_a_job_view.dart';
-import '../features/recruiter/features/post_job/views/post_jobs_screen/posted_job_detail_view.dart';
-import '../features/recruiter/features/post_job/views/view_applicants/view_applicants_view.dart';
+import 'package:jobhunt_pro/features/recruiter/home/views/page_navigator.dart';
+import 'package:jobhunt_pro/features/recruiter/home/views/recruiter_home.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/post_jobs_screen/post_a_job_view.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/post_jobs_screen/posted_job_detail_view.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/view_applicants_view.dart';
 
 class AppRoute {
   static const String postedJobDetailsView = 'posted-job-detail-view';

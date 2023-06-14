@@ -2,17 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/common/searchbox.dart';
+import 'package:jobhunt_pro/common/verticalbar_decoration.dart';
+import 'package:jobhunt_pro/constants/category_data.dart';
 import 'package:jobhunt_pro/features/applicant/home/views/all_jobs.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/applicant/home/widgets/category_icon.dart';
+import 'package:jobhunt_pro/features/applicant/home/widgets/recent_job_card.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/model/job.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
-
-import '../../../../../common/searchbox.dart';
-import '../../../../../common/verticalbar_decoration.dart';
-import '../../../../../constants/category_data.dart';
-import '../../../../../model/job.dart';
-import '../../../../../theme/colors.dart';
-import '../widgets/category_icon.dart';
-import '../widgets/recent_job_card.dart';
+import 'package:jobhunt_pro/theme/colors.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({super.key});

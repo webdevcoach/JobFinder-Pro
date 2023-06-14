@@ -5,7 +5,7 @@ import 'package:iconly/iconly.dart';
 import '../../../../../constants/app_svg.dart';
 import '../../../../../theme/colors.dart';
 import '../../post_job/views/post_jobs_screen/jobs_screen.dart';
-import '../../post_job/views/recruiter_profile/recruiter_profile_screen.dart';
+import '../../recruiter_profile/recruiter_profile_screen.dart';
 import 'recruiter_home.dart';
 
 class RecruiterPageNavigator extends StatefulWidget {

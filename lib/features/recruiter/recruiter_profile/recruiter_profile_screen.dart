@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/features/applicant/profile/widgets/profile_info_box.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 import 'package:jobhunt_pro/common/svg_icon_mini.dart';
 import 'package:jobhunt_pro/constants/app_svg.dart';
-import 'package:jobhunt_pro/features/applicant/features/profile/widgets/profile_info_box.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
 
 class RecruiterProfileScreen extends ConsumerWidget {

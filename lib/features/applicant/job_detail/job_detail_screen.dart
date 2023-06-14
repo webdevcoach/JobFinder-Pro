@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/core/extensions/to_msp.dart';
 import 'package:jobhunt_pro/core/resuables/ui/snackbar_alert.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/decorated_box_container.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/widget/decorated_box_container.dart';
 import 'package:jobhunt_pro/model/job.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

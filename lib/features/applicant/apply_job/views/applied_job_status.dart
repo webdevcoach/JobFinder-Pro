@@ -6,7 +6,7 @@ import 'package:jobhunt_pro/common/info_chip.dart';
 import 'package:jobhunt_pro/core/enums/application_status.dart';
 import 'package:jobhunt_pro/core/resuables/ui/error_and_loading.dart';
 import 'package:jobhunt_pro/features/applicant/apply_job/controller/apply_job_conntroller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/controller/post_job_controller.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
 import 'package:timeago/timeago.dart' as timeago;

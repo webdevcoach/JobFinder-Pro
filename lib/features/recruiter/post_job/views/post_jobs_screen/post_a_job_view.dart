@@ -2,15 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
+import 'package:jobhunt_pro/common/custom_forms_kit.dart';
 import 'package:jobhunt_pro/common/info_chip.dart';
+import 'package:jobhunt_pro/core/enums/work_type.dart';
+import 'package:jobhunt_pro/core/enums/working_mode.dart';
 
 import 'package:jobhunt_pro/core/extensions/datetime_formatter.dart';
 import 'package:jobhunt_pro/core/extensions/sentence_splitter.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
-
-import '../../../../../../common/custom_forms_kit.dart';
-import '../../../../../../core/enums/enums.dart';
-import '../../../../../../theme/colors.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/theme/colors.dart';
 
 class PostAJobView extends ConsumerStatefulWidget {
   const PostAJobView({super.key});

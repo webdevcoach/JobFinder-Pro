@@ -3,19 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/apis/cloud_storage_api.dart';
+import 'package:jobhunt_pro/common/custom_forms_kit.dart';
+import 'package:jobhunt_pro/constants/app_svg.dart';
+import 'package:jobhunt_pro/core/enums/application_status.dart';
 import 'package:jobhunt_pro/core/extensions/to_msp.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/applicant_details_section.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/decorated_box_container.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/view_cv.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/widget/applicant_details_section.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/widget/decorated_box_container.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/widget/see_more_text.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/widget/view_cv.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
-
-import '../../../../../../common/custom_forms_kit.dart';
-import '../../../../../../constants/app_svg.dart';
-import '../../../../../../core/enums/application_status.dart';
-import '../../controller/post_job_controller.dart';
-import 'widget/see_more_text.dart';
 
 class AppliedApplicantDetails extends ConsumerStatefulWidget {
   final ApplyJob applyJob;

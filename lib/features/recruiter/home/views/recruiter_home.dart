@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/common/custom_forms_kit.dart';
+import 'package:jobhunt_pro/common/info_chip.dart';
+import 'package:jobhunt_pro/common/verticalbar_decoration.dart';
 import 'package:jobhunt_pro/constants/app_svg.dart';
+import 'package:jobhunt_pro/features/applicant/apply_job/controller/apply_job_conntroller.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/apllicant_details.dart';
+import 'package:jobhunt_pro/features/recruiter/home/widgets/insights_box.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/apllicant_details.dart';
 import 'package:jobhunt_pro/theme/colors.dart';
-
-import '../../../../../common/info_chip.dart';
-import '../../../../../common/verticalbar_decoration.dart';
-import '../../../../applicant/features/apply_job/controller/apply_job_conntroller.dart';
-import '../widgets/insights_box.dart';
 
 class RecruiterHomeView extends ConsumerWidget {
   const RecruiterHomeView({super.key});

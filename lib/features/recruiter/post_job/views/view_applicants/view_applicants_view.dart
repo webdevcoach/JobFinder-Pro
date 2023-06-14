@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jobhunt_pro/common/custom_forms_kit.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/applicant_card.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/applicant_card.dart';
 
 class ViewApplicantsView extends StatelessWidget {
   final List<String> applicantId;

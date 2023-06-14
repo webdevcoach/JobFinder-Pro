@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/applied_applicant_details.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/applied_applicant_details.dart';
 
 class ApplicantCard extends ConsumerWidget {
   final String applicationId;
-  const ApplicantCard({super.key, required this.applicationId,});
+  const ApplicantCard({
+    super.key,
+    required this.applicationId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

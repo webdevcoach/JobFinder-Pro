@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../../../../../common/custom_forms_kit.dart';
-import '../../../../../../../common/info_chip.dart';
-import '../../../../../../../constants/app_svg.dart';
-import '../../../../../../../model/applicant.dart';
-import '../../../../../../../theme/colors.dart';
-import '../../../../../../applicant/features/job_detail/job_detail_screen.dart';
-import 'applicant_icon_infobox.dart';
-import 'decorated_box_container.dart';
+import 'package:jobhunt_pro/common/custom_forms_kit.dart';
+import 'package:jobhunt_pro/common/info_chip.dart';
+import 'package:jobhunt_pro/constants/app_svg.dart';
+import 'package:jobhunt_pro/features/applicant/job_detail/job_detail_screen.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/widget/applicant_icon_infobox.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/widget/decorated_box_container.dart';
+import 'package:jobhunt_pro/model/applicant.dart';
+import 'package:jobhunt_pro/theme/colors.dart';
 
 class ApplicantDetailsSection extends StatelessWidget {
   final Applicant applicant;

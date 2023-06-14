@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconly/iconly.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/controller/post_job_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../../../../common/info_chip.dart';
 import '../../../../../common/svg_icon_mini.dart';

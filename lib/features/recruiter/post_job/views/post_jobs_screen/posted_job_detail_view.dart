@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconly/iconly.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/controller/post_job_controller.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/post_jobs_screen/widgets/close_open_application.dart';
+import 'package:jobhunt_pro/constants/app_svg.dart';
+import 'package:jobhunt_pro/core/resuables/date_format.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/controller/post_job_controller.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/post_jobs_screen/widgets/close_open_application.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/post_jobs_screen/widgets/photo_pile.dart';
 import 'package:jobhunt_pro/model/job.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
-
-import '../../../../../../constants/app_svg.dart';
-import '../../../../../../core/resuables/date_format.dart';
-import '../../../../../../theme/colors.dart';
-import 'widgets/photo_pile.dart';
+import 'package:jobhunt_pro/theme/colors.dart';
 
 class PostedJobDetailView extends ConsumerWidget {
   final Job job;

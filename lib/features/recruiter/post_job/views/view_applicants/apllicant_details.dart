@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobhunt_pro/features/recruiter/features/post_job/views/view_applicants/widget/applicant_details_section.dart';
+import 'package:jobhunt_pro/features/recruiter/post_job/views/view_applicants/widget/applicant_details_section.dart';
 import 'package:jobhunt_pro/model/applicant.dart';
 
 class ApplicantDetails extends StatelessWidget {
@@ -8,7 +8,6 @@ class ApplicantDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(

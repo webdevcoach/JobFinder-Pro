@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jobhunt_pro/apis/database_api.dart';
+import 'package:jobhunt_pro/features/applicant/apply_job/controller/apply_job_conntroller.dart';
 import 'package:jobhunt_pro/features/authentication/controller/auth_controller.dart';
 import 'package:jobhunt_pro/model/apply_job.dart';
 import 'package:jobhunt_pro/model/job.dart';
 import 'package:jobhunt_pro/routes/app_route.dart';
 
 import '../../../../../core/resuables/ui/snackbar_alert.dart';
-import '../../../../applicant/features/apply_job/controller/apply_job_conntroller.dart';
 
 enum JobState {
   initialState,
